@@ -35,7 +35,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_UVRect.x
-    path: BG/1PRawImage
+    path: BG/RawImage
     classID: 114
     script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   - curve:
@@ -57,53 +57,9 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_UVRect.y
-    path: BG/1PRawImage
+    path: BG/RawImage
     classID: 114
     script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0.1
-        tangentMode: 69
-      - serializedVersion: 2
-        time: 10
-        value: 1
-        inSlope: 0.1
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_UVRect.x
-    path: BG/2PRawImage
-    classID: 114
-    script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0.1
-        tangentMode: 69
-      - serializedVersion: 2
-        time: 10
-        value: 1
-        inSlope: 0.1
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_UVRect.y
-    path: BG/2PRawImage
-    classID: 114
-    script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -113,30 +69,16 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2556607913
+      path: 716575420
       attribute: 144535996
       script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
       typeID: 114
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2556607913
+      path: 716575420
       attribute: 2140815658
       script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-      typeID: 114
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1934952106
-      attribute: 144535996
-      script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-      typeID: 114
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1934952106
-      attribute: 2140815658
-      script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
       typeID: 114
       customType: 0
       isPPtrCurve: 0
@@ -181,7 +123,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_UVRect.x
-    path: BG/1PRawImage
+    path: BG/RawImage
     classID: 114
     script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   - curve:
@@ -203,53 +145,9 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_UVRect.y
-    path: BG/1PRawImage
+    path: BG/RawImage
     classID: 114
     script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0.1
-        tangentMode: 69
-      - serializedVersion: 2
-        time: 10
-        value: 1
-        inSlope: 0.1
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_UVRect.x
-    path: BG/2PRawImage
-    classID: 114
-    script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0.1
-        tangentMode: 69
-      - serializedVersion: 2
-        time: 10
-        value: 1
-        inSlope: 0.1
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_UVRect.y
-    path: BG/2PRawImage
-    classID: 114
-    script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
