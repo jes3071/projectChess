@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 222870300150149290}
   - component: {fileID: 95617086755485730}
   m_Layer: 5
-  m_Name: UIBattleResult
+  m_Name: UIResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
