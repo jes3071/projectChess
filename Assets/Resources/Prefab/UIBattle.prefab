@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 224864974141893652}
   - component: {fileID: 222914867171445202}
   - component: {fileID: 114217779358472964}
+  - component: {fileID: 114491434560371100}
   m_Layer: 5
   m_Name: BattleBoard
   m_TagString: Untagged
@@ -2069,6 +2070,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114491434560371100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1059604368014950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa7a2c87ee9fc244a2eb0bb501da8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
 --- !u!114 &114507730950456420
 MonoBehaviour:
   m_ObjectHideFlags: 1
