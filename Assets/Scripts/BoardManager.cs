@@ -10,11 +10,18 @@ public class BoardManager : MonoBehaviour {
     private GameObject SquareBlue;
     private GameObject SquareRed;
 
+    public GameObject CurPiece;
+
     private List<GameObject> SquareList = new List<GameObject>();
 
     private List<int[]> BasicMap = new List<int[]>();
     private int[] toHorn = new int[] {0,1,8 };
 
+
+    private void Update()
+    {
+        
+    }
 
     private void Awake()
     {
@@ -33,9 +40,9 @@ public class BoardManager : MonoBehaviour {
 
         for(int i = 0; i < 64; i++)
         {
-            GameObject imageObject = Instantiate(SquareEmpty) as GameObject;           
-           
-            imageObject.transform.parent = transform;
+            GameObject imageObject = Instantiate(SquareEmpty) as GameObject;
+
+            imageObject.transform.SetParent(transform);
             imageObject.transform.localScale = Vector3.one;
             imageObject.transform.position = transform.position;
             imageObject.name = "child" + (i+1);

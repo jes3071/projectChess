@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222615770495739070}
   - component: {fileID: 114415276756436896}
   m_Layer: 5
-  m_Name: ImagePrefab
+  m_Name: SquareBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,8 +47,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 761976a1f0538dc40bdf3d9fd8711621, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 69e823e2e8c525b45bd71ca2100fbe91, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
