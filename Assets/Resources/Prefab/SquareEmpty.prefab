@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114415276756436896}
   - component: {fileID: 114032638337926372}
   - component: {fileID: 114913354087681460}
+  - component: {fileID: 95171319847295986}
   m_Layer: 5
   m_Name: SquareEmpty
   m_TagString: Untagged
@@ -30,6 +31,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95171319847295986
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1113884601226066}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d38f41a019c1e9f42bbfc8aa2909e472, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114032638337926372
 MonoBehaviour:
   m_ObjectHideFlags: 1
