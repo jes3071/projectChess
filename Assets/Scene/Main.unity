@@ -215,6 +215,10 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: acc1e76707935b146a48906681a26a58, type: 2}
+    - target: {fileID: 1836404729463304, guid: 054654ae9a54cb64fa283e58b3efd840, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 054654ae9a54cb64fa283e58b3efd840, type: 2}
   m_IsPrefabParent: 0
@@ -269,7 +273,7 @@ Camera:
   near clip plane: 1
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
