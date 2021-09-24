@@ -368,7 +368,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Exit
+  m_Text: "\uC885\uB8CC"
 --- !u!114 &114265980315353108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,9 +442,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.73
-  m_Text: 'Project
-
-    Chess'
+  m_Text: "\uD504\uB85C\uC81D\uD2B8\n\uCCB4\uC2A4"
 --- !u!114 &114347412388845996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,7 +502,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Battle
+  m_Text: "\uC804\uD22C"
 --- !u!114 &114490767743036606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -738,7 +736,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Stage
+  m_Text: "\uC2A4\uD14C\uC774\uC9C0"
 --- !u!222 &222170076859815404
 CanvasRenderer:
   m_ObjectHideFlags: 1
