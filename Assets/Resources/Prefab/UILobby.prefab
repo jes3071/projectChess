@@ -459,7 +459,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.73
-  m_Text: "\uC655\uC758 \uC120\uD0DD"
+  m_Text: ":: \uC655\uC758 \uC120\uD0DD ::"
 --- !u!114 &114347412388845996
 MonoBehaviour:
   m_ObjectHideFlags: 1
