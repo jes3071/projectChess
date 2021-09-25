@@ -24,35 +24,46 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Board onClick!!");
-        if(boardManager.GetComponent<BoardManager>().CurPiece != null)
+        if(boardManager.GetComponent<BoardManager>().CurPiece != null || !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Empty") || !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Block"))
         {
            
-            if (boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name == "White" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name))
+            if (boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
             {
-                //Debug.Log("Check Color");
-                //boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Used" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
-                //boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().raycastTarget = false;
-                gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                bool pieceFlag = false;
+                for(int i = 0; i < boardManager.GetComponent<BoardManager>().PieceBlueCoord.Count; i++)
+                {
+                    if(RemoveAlpha(gameObject.transform.name) == boardManager.GetComponent<BoardManager>().PieceBlueCoord[i])
+                    {
+                        pieceFlag = true;
+                        break;
+                    }
+                }
+                if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Blue") && !pieceFlag)
+                {
+                    gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
 
-                boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
-
-                //switch (RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name))
-                //{
-                //    case "Pawn":
-                        
-
-                //        break;
-
-                //}
+                    boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
+                }
 
             }
-            else if(boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name == "Black" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name))
+            else if(boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name.Contains("Black"))
             {
-                //boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Used" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
-                //boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().raycastTarget = false;
-                gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                bool pieceFlag = false;
+                for (int i = 0; i < boardManager.GetComponent<BoardManager>().PieceRedCoord.Count; i++)
+                {
+                    if (RemoveAlpha(gameObject.transform.name) == boardManager.GetComponent<BoardManager>().PieceRedCoord[i])
+                    {
+                        pieceFlag = true;
+                        break;
+                    }
+                }
+                if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Red") && !pieceFlag)
+                {
+                    gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
 
-                boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
+                    boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
+                }
+                    
 
             }
 

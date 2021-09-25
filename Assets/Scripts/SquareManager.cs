@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SquareManager : MonoBehaviour {
 
-    public 
-
 	// Use this for initialization
 	void Start () {
 		

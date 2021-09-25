@@ -7,13 +7,28 @@ using System.Text.RegularExpressions;
 public class BoardManager : MonoBehaviour {
     
     private GridLayoutGroup grid;
+    private GameObject parent;
+    private Animator turnAnim;
     private GameObject SquareEmpty;
     private GameObject SquareBlue;
     private GameObject SquareRed;
 
     public GameObject CurPiece;
     public int indexInformation = -1;
-    public List<int> CurIndex;
+    private List<int> CurIndex;
+
+    public int CurAnimation = -1;
+
+    private int Pawn = 1;
+    private int Rook = 2;
+    private int Knight = 3;
+    private int Bishop = 4;
+    private int Queen = 5;
+    private int King = 6;
+    private int Apearance = 10;
+
+    public List<int> PieceBlueCoord = new List<int>();
+    public List<int> PieceRedCoord = new List<int>();
 
     private List<GameObject> SquareList = new List<GameObject>();
     private GameObject[,] SquareTile = new GameObject[8,8];
@@ -27,6 +42,15 @@ public class BoardManager : MonoBehaviour {
         //Debug.Log("undate");
         if(indexInformation != -1)
         {
+            if(turnAnim.GetInteger("AIState") == -1)
+            {
+                turnAnim.SetInteger("AIState",1);
+            }
+            else
+            {
+                turnAnim.SetInteger("AIState", -1);
+            }
+
             if(CurPiece.name.Contains("Pawn"))
             {
                 //Debug.Log("Pawn");
@@ -59,7 +83,8 @@ public class BoardManager : MonoBehaviour {
                         CurIndex.Add(indexInformation + 7);
                     }
                 }
-                    
+                CurAnimation = Pawn;
+
             }
             else if (CurPiece.name.Contains("Knight"))
             {
@@ -97,6 +122,7 @@ public class BoardManager : MonoBehaviour {
                 {
                     CurIndex.Add(indexInformation + 6);
                 }
+                CurAnimation = Knight;
             }
             else if (CurPiece.name.Contains("Rook"))
             {
@@ -125,6 +151,7 @@ public class BoardManager : MonoBehaviour {
                     CurIndex.Add(indexInformation + i);
                     i += 8;
                 }
+                CurAnimation = Rook;
             }
             else if (CurPiece.name.Contains("Bishop"))
             {
@@ -153,6 +180,7 @@ public class BoardManager : MonoBehaviour {
                     CurIndex.Add(indexInformation - i * 7);
                     i++;
                 }
+                CurAnimation = Bishop;
             }
             else if (CurPiece.name.Contains("Queen"))
             {
@@ -205,26 +233,121 @@ public class BoardManager : MonoBehaviour {
                     CurIndex.Add(indexInformation + i);
                     i += 8;
                 }
+                CurAnimation = Queen;
+            }
+            else if (CurPiece.name.Contains("King"))
+            {
+                CurIndex = new List<int>();
+                if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation - 7);
+                }
+                if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation - 8);
+                }
+                if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation - 9);
+                }
+                if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation - 1);
+                }
+                if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation + 1);
+                }
+                if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation + 7);
+                }
+                if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation + 8);
+                }
+                if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                {
+                    CurIndex.Add(indexInformation + 9);
+                }
+                CurAnimation = King;
             }
 
             for (int i = 0; i < CurIndex.Count; i++)
             {
                 if (CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
                 {
-                    SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
-                    SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State",1);
+                    if(i==0)
+                        PieceBlueCoord.Add(indexInformation);
+
+                    for (int j = 0; j < PieceRedCoord.Count; j++)
+                    {
+                        if (CurIndex[i] == PieceRedCoord[j])
+                        {
+                            PieceRedCoord.RemoveAt(j);
+                            break;
+                        }
+                    }
+
+                    bool stateFlag = false;
+                    for(int j = 0; j < PieceBlueCoord.Count; j++)
+                    {
+                        if (CurIndex[i] == PieceBlueCoord[j])
+                        {
+                            stateFlag = true;
+                            break;
+                        }
+                    }
+                    if (!stateFlag)
+                    {
+                        SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
+                        SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                    }
+                    
                     
                        
                 }
                 else if (CurPiece.GetComponent<Image>().sprite.name.Contains("Black"))
                 {
-                    SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
-                    SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", 1);
+                    if (i == 0)
+                        PieceRedCoord.Add(indexInformation);
+
+                    for (int j = 0; j < PieceBlueCoord.Count; j++)
+                    {
+                        if (CurIndex[i] == PieceBlueCoord[j])
+                        {
+                            PieceBlueCoord.RemoveAt(j);
+                            break;
+                        }
+                    }
+
+                    bool stateFlag = false;
+                    for (int j = 0; j < PieceRedCoord.Count; j++)
+                    {
+                        if (CurIndex[i] == PieceRedCoord[j])
+                        {
+                            stateFlag = true;
+                            break;
+                        }
+                    }
+                    if (!stateFlag)
+                    {
+                        SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
+                        SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                    }
+                        
                 }
 
             }
-           
-            CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Used" + RemoveNumber(CurPiece.name));
+            if (CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
+            {
+                CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(CurPiece.name));
+            }
+            else if (CurPiece.GetComponent<Image>().sprite.name.Contains("Black"))
+            {
+                CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
+            }
+                    
             CurPiece.GetComponent<Image>().raycastTarget = false;
             CurPiece = null;
             Invoke("SquareInitialize", 1);
@@ -249,7 +372,8 @@ public class BoardManager : MonoBehaviour {
 
     private void Awake()
     {
-        
+        turnAnim = gameObject.transform.parent.GetComponent<Animator>();
+        parent = gameObject.transform.parent.gameObject;
         grid = gameObject.GetComponent<GridLayoutGroup>();
     }
 
