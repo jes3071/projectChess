@@ -24,7 +24,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Board onClick!!");
-        if(boardManager.GetComponent<BoardManager>().CurPiece != null && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Empty") && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Block"))
+        if (boardManager.GetComponent<BoardManager>().CurPiece != null && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Empty") && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Block"))
         {
            
             if (boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
@@ -41,7 +41,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                 if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Blue") && !pieceFlag)
                 {
                     gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
-
+                    boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
                 }
 
@@ -60,7 +60,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                 if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Red") && !pieceFlag)
                 {
                     gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
-
+                    boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
                 }
                     
