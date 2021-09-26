@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114710453100101804}
   - component: {fileID: 114639133156963366}
   m_Layer: 5
-  m_Name: PreviousBtn
+  m_Name: Previous1PBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 114634927425777816}
   - component: {fileID: 114552115608946878}
   m_Layer: 5
-  m_Name: PreviousBtn
+  m_Name: Previous2PBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1646,7 +1646,7 @@ RectTransform:
   m_GameObject: {fileID: 1617224884902904}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 224733236060286870}
   m_Father: {fileID: 224192139447774866}
