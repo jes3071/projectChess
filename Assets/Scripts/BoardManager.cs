@@ -40,9 +40,13 @@ public class BoardManager : MonoBehaviour {
     private void Update()
     {
         //Debug.Log("undate");
-        if(indexInformation != -1)
+        //if(SquareList.Count == 0)
+        //{
+        //    SetDynamicGrid();
+        //}
+        if (indexInformation != -1)
         {
-            if(turnAnim.GetInteger("AIState") == -1)
+            if (turnAnim.GetInteger("AIState") == -1)
             {
                 turnAnim.SetInteger("AIState",1);
             }
@@ -394,7 +398,7 @@ public class BoardManager : MonoBehaviour {
             imageObject.transform.localScale = Vector3.one;
             imageObject.transform.position = transform.position;
             imageObject.name = "child" + (i);
-            imageObject.GetComponent<Animator>().SetInteger("State", -1);
+            imageObject.GetComponent<Animator>().SetInteger("State", 10);
 
             SquareList.Add(imageObject);
             
@@ -432,7 +436,7 @@ public class BoardManager : MonoBehaviour {
         SquareList[40].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
         SquareList[45].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
 
-
+        Invoke("SquareInitialize", 1);
 
 
 
