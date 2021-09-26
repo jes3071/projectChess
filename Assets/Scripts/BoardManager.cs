@@ -470,6 +470,11 @@ public class BoardManager : MonoBehaviour {
         BasicMap.Add(toHorn);
         BasicMap.Add(tempValue1);
 
+        GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        BlueKingPiece.GetComponent<Image>().raycastTarget = false;
+        GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        RedKingPiece.GetComponent<Image>().raycastTarget = false;
+
 
         SetDynamicGrid();
 	}
