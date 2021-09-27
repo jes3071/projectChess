@@ -13,6 +13,8 @@ public class BoardManager : MonoBehaviour {
     private GameObject SquareBlue;
     private GameObject SquareRed;
 
+    public MapMaker mapMaker;
+
     public GameObject CurPiece;
     public int indexInformation = -1;
     private List<int> CurIndex;
@@ -34,7 +36,6 @@ public class BoardManager : MonoBehaviour {
     private GameObject[,] SquareTile = new GameObject[8,8];
 
     private List<int[]> BasicMap = new List<int[]>();
-    private int[] toHorn = new int[] {0,1,8 };
 
 
     private void Update()
@@ -405,43 +406,34 @@ public class BoardManager : MonoBehaviour {
             
             //imageObject.
         }
-        for(int i = 0; i < 8; i++)
-        {
-            for(int j = 0; j < 8; j++)
-            {
-                SquareTile[i,j] = SquareList[i*8 + j];
-            }
-        }
 
         for(int j = 0; j < BasicMap.Count; j++)
         {
-            if(j % 2 == 1)
+            switch (j % 3)
             {
-                for (int k = 0; k < BasicMap[j].Length; k++)
-                {
-                    SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
-                }
-            }
-            else
-            {
-                for (int k = 0; k < BasicMap[j].Length; k++)
-                {
-                    SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
-                }
+                case 0:
+                    for (int k = 0; k < BasicMap[j].Length; k++)
+                    {
+                        SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
+                    }
+                    break;
+                case 1:
+                    for (int k = 0; k < BasicMap[j].Length; k++)
+                    {
+                        SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
+                    }
+                    break;
+                case 2:
+                    for (int k = 0; k < BasicMap[j].Length; k++)
+                    {
+                        SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+                    }
+                    break;
             }
         }
 
-        SquareList[30].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-        SquareList[35].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-        SquareList[40].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-        SquareList[45].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
         Invoke("SquareInitialize", 1);
-
-
-
-
-
+        
     }
 
     // Use this for initialization
@@ -456,21 +448,28 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("Square SomeThing == null");
         }
 
-        int[] tempValue = new int[3];
-        tempValue[0] = 0;
-        tempValue[1] = 1;
-        tempValue[2] = 8;
+        int[] redTile = mapMaker.RedTile.ToArray();
+        int[] blueTile = mapMaker.BlueTile.ToArray();
+        int[] blockTile = mapMaker.BlockTile.ToArray();
 
-        int[] tempValue1 = new int[3];
-        tempValue1[0] = 55;
-        tempValue1[1] = 62;
-        tempValue1[2] = 63;
+        BasicMap.Add(redTile);
+        BasicMap.Add(blueTile);
+        BasicMap.Add(blockTile);
+        //int[] tempValue = new int[3];
+        //tempValue[0] = 0;
+        //tempValue[1] = 1;
+        //tempValue[2] = 8;
+
+        //int[] tempValue1 = new int[3];
+        //tempValue1[0] = 55;
+        //tempValue1[1] = 62;
+        //tempValue1[2] = 63;
 
         //BasicMap.Add(tempValue);
-        BasicMap.Add(toHorn);
-        BasicMap.Add(tempValue1);
+         //BasicMap.Add(tempValue);
+         //BasicMap.Add(tempValue1);
 
-        GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+         GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         BlueKingPiece.GetComponent<Image>().raycastTarget = false;
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
