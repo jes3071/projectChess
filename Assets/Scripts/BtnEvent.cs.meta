@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 64d5d2353fa554944880243d5933a073
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - UILobby: {instanceID: 0}
+  - UIPreset: {instanceID: 0}
+  - UIBattle: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
