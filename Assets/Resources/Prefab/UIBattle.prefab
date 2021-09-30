@@ -3030,6 +3030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa7a2c87ee9fc244a2eb0bb501da8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapMaker: {fileID: 0}
   CurPiece: {fileID: 0}
   indexInformation: -1
   CurAnimation: -1
