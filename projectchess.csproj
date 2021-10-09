@@ -232,8 +232,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BattleField\Clickable.cs" />
+    <Compile Include="Assets\Scripts\BattleField\BoardClickable.cs" />
+    <Compile Include="Assets\Scripts\BattleField\Dragable.cs" />
+    <Compile Include="Assets\Scripts\BattleField\PieceClickable.cs" />
+    <Compile Include="Assets\Scripts\BlueHpCounting.cs" />
     <Compile Include="Assets\Scripts\BoardManager.cs" />
+    <Compile Include="Assets\Scripts\BtnEvent.cs" />
+    <Compile Include="Assets\Scripts\HpCount.cs" />
+    <Compile Include="Assets\Scripts\HpCounting.cs" />
+    <Compile Include="Assets\Scripts\MapMaker.cs" />
+    <Compile Include="Assets\Scripts\RedHpCounting.cs" />
+    <Compile Include="Assets\Scripts\SquareManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

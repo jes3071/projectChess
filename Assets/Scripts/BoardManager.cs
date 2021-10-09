@@ -20,6 +20,12 @@ public class BoardManager : MonoBehaviour {
     private List<int> CurIndex;
 
     public int CurAnimation = -1;
+    public bool[] whoseTurn;
+    public bool testTurn = true;
+
+    public int RedChange = 0;
+    public int BlueChange = 0;
+    public int turnCount = 0;
 
     private int Pawn = 1;
     private int Rook = 2;
@@ -307,6 +313,12 @@ public class BoardManager : MonoBehaviour {
                     {
                         SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
                         SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                        if (!mapMaker.BlueTile.Contains(CurIndex[i]))
+                        {
+                            mapMaker.BlueTile.Add(CurIndex[i]);
+                            mapMaker.RedTile.Remove(CurIndex[i]);
+                        }
+                            
                     }
                     
                     
@@ -339,6 +351,11 @@ public class BoardManager : MonoBehaviour {
                     {
                         SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
                         SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                        if (!mapMaker.RedTile.Contains(CurIndex[i]))
+                        {
+                            mapMaker.RedTile.Add(CurIndex[i]);
+                            mapMaker.BlueTile.Remove(CurIndex[i]);
+                        }
                     }
                         
                 }
@@ -352,10 +369,24 @@ public class BoardManager : MonoBehaviour {
             {
                 CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
             }
-                    
+
+
+            testTurn = true;
+            whoseTurn[0] = true;
+            whoseTurn[1] = true;
             CurPiece.GetComponent<Image>().raycastTarget = false;
             CurPiece = null;
             Invoke("SquareInitialize", 1);
+
+            turnCount++;
+
+            if (turnCount >= 30)
+            {
+                GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                BlueKingPiece.GetComponent<Image>().raycastTarget = true;
+                GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                RedKingPiece.GetComponent<Image>().raycastTarget = true;
+            }
         }
         indexInformation = -1;
         
@@ -368,6 +399,18 @@ public class BoardManager : MonoBehaviour {
             SquareList[i].GetComponent<Animator>().SetInteger("State", -1);
         }
         
+    }
+
+    public void RedTileCalculate(List<int> index)
+    {
+        RedChange = index.Count;
+        BlueChange = -index.Count;
+    }
+
+    public void BlueTileCalculate(List<int> index)
+    {
+        BlueChange = index.Count;
+        RedChange = -index.Count;
     }
 
     public string RemoveNumber(string str)
@@ -474,6 +517,8 @@ public class BoardManager : MonoBehaviour {
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
 
+
+        whoseTurn = new bool[2] { true, true };
 
         SetDynamicGrid();
 	}

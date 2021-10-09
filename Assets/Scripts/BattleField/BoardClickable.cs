@@ -14,6 +14,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
 	// Use this for initialization
 	void Start () {
         boardManager = GameObject.Find("UIBattle").transform.Find("BattleBoard").gameObject;
+        
     }
 	
 	// Update is called once per frame
@@ -63,7 +64,6 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                     boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
                 }
-                    
 
             }
 
