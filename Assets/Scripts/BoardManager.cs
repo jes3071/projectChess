@@ -16,16 +16,18 @@ public class BoardManager : MonoBehaviour {
     public MapMaker mapMaker;
 
     public GameObject CurPiece;
-    public int indexInformation = -1;
+    public int indexInformation;
     private List<int> CurIndex;
 
-    public int CurAnimation = -1;
-    public bool[] whoseTurn;
-    public bool testTurn = true;
+    private int CurAnimation;
+    private bool[] whoseTurn;
+    public bool testTurn;
 
-    public int RedChange = 0;
-    public int BlueChange = 0;
-    public int turnCount = 0;
+    private int RedChange;
+    private int BlueChange;
+    private int turnCount;
+
+    public BtnEvent ResultOpener;
 
     private int Pawn = 1;
     private int Rook = 2;
@@ -35,22 +37,27 @@ public class BoardManager : MonoBehaviour {
     private int King = 6;
     private int Apearance = 10;
 
-    public List<int> PieceBlueCoord = new List<int>();
-    public List<int> PieceRedCoord = new List<int>();
+    public List<int> PieceBlueCoord;
+    public List<int> PieceRedCoord;
 
     private List<GameObject> SquareList = new List<GameObject>();
-    private GameObject[,] SquareTile = new GameObject[8,8];
+    private GameObject[,] SquareTile;
 
-    private List<int[]> BasicMap = new List<int[]>();
+    private List<int[]> BasicMap;
+
+    public Toggle FirstTurn;
 
 
     private void Update()
     {
-        //Debug.Log("undate");
+        
         //if(SquareList.Count == 0)
         //{
         //    SetDynamicGrid();
         //}
+
+        
+
         if (indexInformation != -1)
         {
             if (turnAnim.GetInteger("AIState") == -1)
@@ -62,7 +69,7 @@ public class BoardManager : MonoBehaviour {
                 turnAnim.SetInteger("AIState", -1);
             }
 
-            if(CurPiece.name.Contains("Pawn"))
+            if (CurPiece.name.Contains("Pawn"))
             {
                 //Debug.Log("Pawn");
                 //Debug.Log("index = "+indexInformation);
@@ -380,13 +387,23 @@ public class BoardManager : MonoBehaviour {
 
             turnCount++;
 
-            if (turnCount >= 30)
+            if (turnCount >= 30) // 막 턴 되면 킹 선택 가능하게
             {
                 GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
                 BlueKingPiece.GetComponent<Image>().raycastTarget = true;
                 GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
                 RedKingPiece.GetComponent<Image>().raycastTarget = true;
             }
+
+            if (turnCount >= 3) // 게임 끝
+            {
+                ResultOpener.BattleResult();
+                Debug.Log("blue Piece = " + PieceBlueCoord.Count);
+                Debug.Log("red Piece = " + PieceRedCoord.Count);
+                Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
+                Debug.Log("red tile = " + mapMaker.RedTile.Count);
+            }
+
         }
         indexInformation = -1;
         
@@ -423,6 +440,10 @@ public class BoardManager : MonoBehaviour {
         turnAnim = gameObject.transform.parent.GetComponent<Animator>();
         parent = gameObject.transform.parent.gameObject;
         grid = gameObject.GetComponent<GridLayoutGroup>();
+
+        SquareEmpty = Resources.Load<GameObject>("Prefab/SquareEmpty");
+        SquareBlue = Resources.Load<GameObject>("Prefab/SquareBlue");
+        SquareRed = Resources.Load<GameObject>("Prefab/SquareRed");
     }
 
     public void SetDynamicGrid()
@@ -433,8 +454,9 @@ public class BoardManager : MonoBehaviour {
         //grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
         //grid.startAxis = GridLayoutGroup.Axis.Horizontal;
         //grid.constraint = GridLayoutGroup.Constraint.Flexible;
+        //DeleteAllChilds();
 
-        for(int i = 0; i < 64; i++)
+        for (int i = 0; i < 64; i++)
         {
             GameObject imageObject = Instantiate(SquareEmpty) as GameObject;
 
@@ -450,7 +472,200 @@ public class BoardManager : MonoBehaviour {
             //imageObject.
         }
 
-        for(int j = 0; j < BasicMap.Count; j++)
+        TileColoring();
+        
+    }
+
+    // Use this for initialization
+    void Start () {
+
+        
+
+        if (SquareEmpty == null || SquareBlue == null || SquareRed == null)
+        {
+            Debug.Log("Square SomeThing == null");
+        }
+
+        whoseTurn = new bool[2] { true, true };
+
+        GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        BlueKingPiece.GetComponent<Image>().raycastTarget = false;
+        GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        RedKingPiece.GetComponent<Image>().raycastTarget = false;
+
+        SetDynamicGrid();
+    }
+
+    private void OnEnable()
+    {
+        Init();
+
+        int[] redTile = mapMaker.RedTile.ToArray();
+        int[] blueTile = mapMaker.BlueTile.ToArray();
+        int[] blockTile = mapMaker.BlockTile.ToArray();
+
+        BasicMap.Add(redTile);
+        BasicMap.Add(blueTile);
+        BasicMap.Add(blockTile);
+        
+
+        if (gameObject.transform.childCount > 0)
+        {
+            TileColoring();
+            PieceReset();
+        }
+        
+
+    }
+
+    public void Init()
+    {
+        Debug.Log("Init");
+        indexInformation = -1;
+        CurAnimation = -1;
+        testTurn = true;
+
+        RedChange = 0;
+        BlueChange = 0;
+        turnCount = 0;
+
+        Pawn = 1;
+        Rook = 2;
+        Knight = 3;
+        Bishop = 4;
+        Queen = 5;
+        King = 6;
+        Apearance = 10;
+
+        PieceBlueCoord = new List<int>();
+        PieceRedCoord = new List<int>();
+
+        //SquareList = new List<GameObject>();
+        SquareTile = new GameObject[8, 8];
+
+        BasicMap = new List<int[]>();
+
+        if (FirstTurn.isOn)
+        {
+            turnAnim.SetInteger("AIState", -1); // 1p
+        }
+        else
+        {
+            turnAnim.SetInteger("AIState", 1); // 2p
+        }
+    }
+
+    public void PieceReset()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            GameObject p1 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Pawn" + i.ToString()).gameObject;
+            p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Pawn");
+            p1.GetComponent<Image>().raycastTarget = true;
+
+            GameObject p2 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Pawn" + i.ToString()).gameObject;
+            p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Pawn");
+            p2.GetComponent<Image>().raycastTarget = true;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject p1 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Pawn" + (i+4).ToString()).gameObject;
+            p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Pawn");
+            p1.GetComponent<Image>().raycastTarget = true;
+
+            GameObject p2 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Pawn" + (i+4).ToString()).gameObject;
+            p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Pawn");
+            p2.GetComponent<Image>().raycastTarget = true;
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            if(i == 0)
+            {
+                GameObject p1 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Rook" + i.ToString()).gameObject;
+                p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Rook");
+
+                GameObject p2 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Knight" + i.ToString()).gameObject;
+                p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Knight");
+
+                GameObject p3 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                p3.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Bishop");
+
+                GameObject p4 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Queen" + i.ToString()).gameObject;
+                p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Queen");
+
+
+
+                GameObject p5 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Rook" + i.ToString()).gameObject;
+                p5.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Rook");
+
+                GameObject p6 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Knight" + i.ToString()).gameObject;
+                p6.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Knight");
+
+                GameObject p7 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                p7.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Bishop");
+
+                GameObject p8 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Queen" + i.ToString()).gameObject;
+                p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Queen");
+
+                p1.GetComponent<Image>().raycastTarget = true;
+                p2.GetComponent<Image>().raycastTarget = true;
+                p3.GetComponent<Image>().raycastTarget = true;
+                p4.GetComponent<Image>().raycastTarget = true;
+                p5.GetComponent<Image>().raycastTarget = true;
+                p6.GetComponent<Image>().raycastTarget = true;
+                p7.GetComponent<Image>().raycastTarget = true;
+                p8.GetComponent<Image>().raycastTarget = true;
+            }
+            else
+            {
+                GameObject p1 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Rook" + i.ToString()).gameObject;
+                p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Rook");
+
+                GameObject p2 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Knight" + i.ToString()).gameObject;
+                p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Knight");
+
+                GameObject p3 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                p3.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Bishop");
+
+                GameObject p4 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "King");
+
+
+
+                GameObject p5 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Rook" + i.ToString()).gameObject;
+                p5.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Rook");
+
+                GameObject p6 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Knight" + i.ToString()).gameObject;
+                p6.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Knight");
+
+                GameObject p7 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                p7.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Bishop");
+
+                GameObject p8 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "King");
+
+                p1.GetComponent<Image>().raycastTarget = true;
+                p2.GetComponent<Image>().raycastTarget = true;
+                p3.GetComponent<Image>().raycastTarget = true;
+                p4.GetComponent<Image>().raycastTarget = false;
+                p5.GetComponent<Image>().raycastTarget = true;
+                p6.GetComponent<Image>().raycastTarget = true;
+                p7.GetComponent<Image>().raycastTarget = true;
+                p8.GetComponent<Image>().raycastTarget = false;
+            }
+            
+            
+        }
+        
+
+        
+    }
+
+    public void TileColoring()
+    {
+        for (int j = 0; j < BasicMap.Count; j++)
         {
             switch (j % 3)
             {
@@ -476,50 +691,5 @@ public class BoardManager : MonoBehaviour {
         }
 
         Invoke("SquareInitialize", 1);
-        
     }
-
-    // Use this for initialization
-    void Start () {
-
-        SquareEmpty = Resources.Load<GameObject>("Prefab/SquareEmpty");
-        SquareBlue = Resources.Load<GameObject>("Prefab/SquareBlue");
-        SquareRed = Resources.Load<GameObject>("Prefab/SquareRed");
-
-        if (SquareEmpty == null || SquareBlue == null || SquareRed == null)
-        {
-            Debug.Log("Square SomeThing == null");
-        }
-
-        int[] redTile = mapMaker.RedTile.ToArray();
-        int[] blueTile = mapMaker.BlueTile.ToArray();
-        int[] blockTile = mapMaker.BlockTile.ToArray();
-
-        BasicMap.Add(redTile);
-        BasicMap.Add(blueTile);
-        BasicMap.Add(blockTile);
-        //int[] tempValue = new int[3];
-        //tempValue[0] = 0;
-        //tempValue[1] = 1;
-        //tempValue[2] = 8;
-
-        //int[] tempValue1 = new int[3];
-        //tempValue1[0] = 55;
-        //tempValue1[1] = 62;
-        //tempValue1[2] = 63;
-
-        //BasicMap.Add(tempValue);
-         //BasicMap.Add(tempValue);
-         //BasicMap.Add(tempValue1);
-
-         GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
-        BlueKingPiece.GetComponent<Image>().raycastTarget = false;
-        GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
-        RedKingPiece.GetComponent<Image>().raycastTarget = false;
-
-
-        whoseTurn = new bool[2] { true, true };
-
-        SetDynamicGrid();
-	}
 }

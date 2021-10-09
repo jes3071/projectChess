@@ -7,6 +7,8 @@ public class BtnEvent : MonoBehaviour {
     public GameObject UILobby;
     public GameObject UIPreset;
     public GameObject UIBattle;
+    public GameObject UIResult;
+    public GameObject UICredit;
 
     // Use this for initialization
     void Start () {
@@ -36,5 +38,35 @@ public class BtnEvent : MonoBehaviour {
         UIBattle.SetActive(true);
     }
 
-    
+    public void BattleResult()
+    {
+        UIResult.SetActive(true);
+    }
+
+    public void BackToLobby()
+    {
+        UILobby.SetActive(true);
+        UIBattle.SetActive(false);
+        UIResult.SetActive(false);
+    }
+
+    public void CreditButton()
+    {
+        UICredit.SetActive(true);
+    }
+
+    public void CreditToLobby()
+    {
+        UICredit.SetActive(false);
+    }
+
+    public void QuitButton()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
 }

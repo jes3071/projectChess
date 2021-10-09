@@ -14,10 +14,21 @@ public class MapMaker : MonoBehaviour {
     public List<int> RedTile;
     public List<int> BlockTile;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
         MapName = new string[] { "우로보로스", "한국", "우주전쟁" };
+    }
+
+    private void OnEnable()
+    {
+        
         MapInitialize();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
+        
 	}
 	
 	// Update is called once per frame
