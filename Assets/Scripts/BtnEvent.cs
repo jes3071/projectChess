@@ -53,10 +53,12 @@ public class BtnEvent : MonoBehaviour {
     public void CreditButton()
     {
         UICredit.SetActive(true);
+        UILobby.SetActive(false);
     }
 
     public void CreditToLobby()
     {
+        UILobby.SetActive(true);
         UICredit.SetActive(false);
     }
 
