@@ -21,11 +21,6 @@ public class PieceClickable : MonoBehaviour , IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Piece onClick!!");
-        if(boardManager.CurPiece != null)
-        {
-            boardManager.CurPiece.transform.GetChild(0).gameObject.SetActive(false);
-        }
         boardManager.CurPiece = gameObject;
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
     }
 }

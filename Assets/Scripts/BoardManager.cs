@@ -13,8 +13,6 @@ public class BoardManager : MonoBehaviour {
     private GameObject parent;
     private Animator turnAnim;
     private GameObject SquareEmpty;
-    private GameObject SquareBlue;
-    private GameObject SquareRed;
 
     public MapMaker mapMaker;
 
@@ -114,8 +112,19 @@ public class BoardManager : MonoBehaviour {
             }
         }
     }
-    
-    private void Update()
+
+    IEnumerator BlueChanger(int i)
+    {
+        yield return new WaitForSeconds(1f);
+
+        SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
+        SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+        SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+
+        
+    }
+
+        private void Update()
     {
         if (indexInformation != -1)
         {
@@ -461,11 +470,12 @@ public class BoardManager : MonoBehaviour {
                 CurAnimation = King;
                 
             }
-
+            
             for (int i = 0; i < CurIndex.Count; i++)
             {
                 if (CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
                 {
+
                     if(i==0)
                         PieceBlueCoord.Add(indexInformation);
 
@@ -489,18 +499,17 @@ public class BoardManager : MonoBehaviour {
                     }
                     if (!stateFlag)
                     {
+                        //StartCoroutine(BlueChanger(i));
                         SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
                         SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                        SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
                         if (!mapMaker.BlueTile.Contains(CurIndex[i]))
                         {
                             mapMaker.BlueTile.Add(CurIndex[i]);
                             mapMaker.RedTile.Remove(CurIndex[i]);
                         }
-                            
+
                     }
-                    
-                    
-                       
                 }
                 else if (CurPiece.GetComponent<Image>().sprite.name.Contains("Black"))
                 {
@@ -529,6 +538,7 @@ public class BoardManager : MonoBehaviour {
                     {
                         SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
                         SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                        SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
                         if (!mapMaker.RedTile.Contains(CurIndex[i]))
                         {
                             mapMaker.RedTile.Add(CurIndex[i]);
@@ -552,11 +562,23 @@ public class BoardManager : MonoBehaviour {
             {
                 Debug.Log("blue");
                 BlueCalcul(BoardClickable.kingBlueCoord);
+                for (int i = 0; i < BlueCoord.Count; i++)
+                {
+                    SquareList[BlueCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
+                    //SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                    
+                }
             }
-            else if(curTurn == RED_TURN && CurAnimation == King)
+            else if (curTurn == RED_TURN && CurAnimation == King)
             {
                 Debug.Log("red");
                 RedCalcul(BoardClickable.kingRedCoord);
+                for (int i = 0; i < RedCoord.Count; i++)
+                {
+                    SquareList[RedCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
+                    //SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                    
+                }
             }
 
 
@@ -567,7 +589,7 @@ public class BoardManager : MonoBehaviour {
 
             turnCount++;
 
-            if (turnCount >= 3) // 막 턴 되면 킹 선택 가능하게
+            if (turnCount >= 3) // 막 턴 되면 킹 선택 가능하게 30
             {
                 GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
                 BlueKingPiece.GetComponent<Image>().raycastTarget = true;
@@ -624,19 +646,20 @@ public class BoardManager : MonoBehaviour {
         {
             Debug.Log("kingPoint = " + kingPoint);
             BlueCoord.Add(kingPoint);
-            if(kingPoint != 0)
+
+            if(kingPoint % 8 != 0 && kingPoint > 0)
             {
                 BlueCalcul(kingPoint - 1); // 왼쪽
             }
-            if (kingPoint != 61)
+            if (kingPoint % 8 != 7 && kingPoint < 61)
             {
                 BlueCalcul(kingPoint + 1); // 오른쪽
             }
-            if (kingPoint / 8 >= 1)
+            if (kingPoint / 8 >= 1 && kingPoint >= 8)
             {
                 BlueCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7)
+            if (kingPoint / 8 <= 7 && kingPoint <= 53)
             {
                 BlueCalcul(kingPoint + 8); // 아래쪽
             }
@@ -656,19 +679,19 @@ public class BoardManager : MonoBehaviour {
         {
             Debug.Log("kingPoint = " + kingPoint);
             RedCoord.Add(kingPoint);
-            if (kingPoint != 0)
+            if (kingPoint % 8 != 0 && kingPoint > 0)
             {
                 RedCalcul(kingPoint - 1); // 왼쪽
             }
-            if (kingPoint != 61)
+            if (kingPoint % 8 != 7 && kingPoint < 61)
             {
                 RedCalcul(kingPoint + 1); // 오른쪽
             }
-            if (kingPoint / 8 >= 1)
+            if (kingPoint / 8 >= 1 && kingPoint >= 8)
             {
                 RedCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7)
+            if (kingPoint / 8 <= 7 && kingPoint <= 53)
             {
                 RedCalcul(kingPoint + 8); // 아래쪽
             }
@@ -708,8 +731,6 @@ public class BoardManager : MonoBehaviour {
         grid = gameObject.GetComponent<GridLayoutGroup>();
 
         SquareEmpty = Resources.Load<GameObject>("Prefab/SquareEmpty");
-        SquareBlue = Resources.Load<GameObject>("Prefab/SquareBlue");
-        SquareRed = Resources.Load<GameObject>("Prefab/SquareRed");
     }
 
     public void SetDynamicGrid()
@@ -744,12 +765,10 @@ public class BoardManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
         
-
-        if (SquareEmpty == null || SquareBlue == null || SquareRed == null)
+        if (SquareEmpty == null)
         {
-            Debug.Log("Square SomeThing == null");
+            Debug.Log("SquareEmpty == null");
         }
 
         GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
