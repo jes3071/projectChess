@@ -18,7 +18,7 @@ public class ResultManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        if(bdManager.mapMaker.BlueTile.Count > bdManager.mapMaker.RedTile.Count)
+        if(bdManager.BlueCoord.Count > bdManager.RedCoord.Count)
         {
             BlueText.GetComponent<Text>().text = "승리";
             RedText.GetComponent<Text>().text = "패배";
@@ -29,7 +29,7 @@ public class ResultManager : MonoBehaviour {
             BlueText.GetComponent<Text>().color = new Color(0/255f, 119/255f, 215/255f);
             RedText.GetComponent<Text>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
         }
-        else if (bdManager.mapMaker.BlueTile.Count < bdManager.mapMaker.RedTile.Count)
+        else if (bdManager.BlueCoord.Count < bdManager.RedCoord.Count)
         {
             BlueText.GetComponent<Text>().text = "패배";
             RedText.GetComponent<Text>().text = "승리";
@@ -54,8 +54,8 @@ public class ResultManager : MonoBehaviour {
         }
 
 
-        BlueNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.mapMaker.BlueTile.Count.ToString();
-        RedNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.mapMaker.RedTile.Count.ToString();
+        BlueNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.BlueCoord.Count.ToString();
+        RedNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.RedCoord.Count.ToString();
 
         BluePiece.GetComponent<Text>().text = "살아남은 기물 : " + bdManager.PieceBlueCoord.Count.ToString();
         RedPiece.GetComponent<Text>().text = "살아남은 기물 : " + bdManager.PieceRedCoord.Count.ToString();

@@ -119,16 +119,7 @@ public class BoardManager : MonoBehaviour {
     {
         if (indexInformation != -1)
         {
-            if (curTurn == BLUE_TURN)
-            {
-                turnAnim.SetInteger("AIState",1);
-                curTurn = RED_TURN;
-            }
-            else if(curTurn == RED_TURN)
-            {
-                turnAnim.SetInteger("AIState", -1);
-                curTurn = BLUE_TURN;
-            }
+            
 
             if (CurPiece.name.Contains("Pawn"))
             {
@@ -317,38 +308,156 @@ public class BoardManager : MonoBehaviour {
             else if (CurPiece.name.Contains("King"))
             {
                 CurIndex = new List<int>();
-                if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+
+                if(FirstTurn.isOn) // 1p first
                 {
-                    CurIndex.Add(indexInformation - 7);
+                    if(curTurn == BLUE_TURN)
+                    {
+                        if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 7);
+                        }
+                        if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 8);
+                        }
+                        if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 9);
+                        }
+                        if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 1);
+                        }
+                        if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 1);
+                        }
+                        if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 7);
+                        }
+                        if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 8);
+                        }
+                        if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 9);
+                        }
+                    }
+                    else if (curTurn == RED_TURN)
+                    {
+                        if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation - 7))
+                        {
+                            CurIndex.Add(indexInformation - 7);
+                        }
+                        if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation - 8))
+                        {
+                            CurIndex.Add(indexInformation - 8);
+                        }
+                        if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation - 9))
+                        {
+                            CurIndex.Add(indexInformation - 9);
+                        }
+                        if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation - 1))
+                        {
+                            CurIndex.Add(indexInformation - 1);
+                        }
+                        if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation + 1))
+                        {
+                            CurIndex.Add(indexInformation + 1);
+                        }
+                        if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation + 7))
+                        {
+                            CurIndex.Add(indexInformation + 7);
+                        }
+                        if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation + 8))
+                        {
+                            CurIndex.Add(indexInformation + 8);
+                        }
+                        if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !BlueCoord.Contains(indexInformation + 9))
+                        {
+                            CurIndex.Add(indexInformation + 9);
+                        }
+                    }
                 }
-                if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                else if (!FirstTurn.isOn) // 2p first
                 {
-                    CurIndex.Add(indexInformation - 8);
+                    if (curTurn == BLUE_TURN)
+                    {
+                        if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation - 7))
+                        {
+                            CurIndex.Add(indexInformation - 7);
+                        }
+                        if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation - 8))
+                        {
+                            CurIndex.Add(indexInformation - 8);
+                        }
+                        if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation - 9))
+                        {
+                            CurIndex.Add(indexInformation - 9);
+                        }
+                        if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation - 1))
+                        {
+                            CurIndex.Add(indexInformation - 1);
+                        }
+                        if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation + 1))
+                        {
+                            CurIndex.Add(indexInformation + 1);
+                        }
+                        if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation + 7))
+                        {
+                            CurIndex.Add(indexInformation + 7);
+                        }
+                        if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation + 8))
+                        {
+                            CurIndex.Add(indexInformation + 8);
+                        }
+                        if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock" && !RedCoord.Contains(indexInformation + 9))
+                        {
+                            CurIndex.Add(indexInformation + 9);
+                        }
+                        
+                    }
+                    else if (curTurn == RED_TURN)
+                    {
+                        if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 7);
+                        }
+                        if (indexInformation >= 8 && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 8);
+                        }
+                        if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 9);
+                        }
+                        if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation - 1);
+                        }
+                        if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 1);
+                        }
+                        if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 7);
+                        }
+                        if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 8);
+                        }
+                        if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                        {
+                            CurIndex.Add(indexInformation + 9);
+                        }
+                    }
                 }
-                if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation - 9);
-                }
-                if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation - 1);
-                }
-                if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8 && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation + 1);
-                }
-                if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation + 7);
-                }
-                if (indexInformation + 8 <= 63 && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation + 8);
-                }
-                if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
-                {
-                    CurIndex.Add(indexInformation + 9);
-                }
+
+                
                 CurAnimation = King;
                 
             }
@@ -439,12 +548,14 @@ public class BoardManager : MonoBehaviour {
                 CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
             }
 
-            if (FirstTurn.isOn && turnCount > 3) // 1p
+            if (curTurn == BLUE_TURN && CurAnimation == King) // 1p
             {
+                Debug.Log("blue");
                 BlueCalcul(BoardClickable.kingBlueCoord);
             }
-            else if(!FirstTurn.isOn && turnCount > 3)
+            else if(curTurn == RED_TURN && CurAnimation == King)
             {
+                Debug.Log("red");
                 RedCalcul(BoardClickable.kingRedCoord);
             }
 
@@ -480,6 +591,17 @@ public class BoardManager : MonoBehaviour {
 
             TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
             TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
+            
+            if (curTurn == BLUE_TURN)
+            {
+                turnAnim.SetInteger("AIState", 1);
+                curTurn = RED_TURN;
+            }
+            else if (curTurn == RED_TURN)
+            {
+                turnAnim.SetInteger("AIState", -1);
+                curTurn = BLUE_TURN;
+            }
 
             StartTimer(turnTime);
 
@@ -492,7 +614,6 @@ public class BoardManager : MonoBehaviour {
 
     public void BlueCalcul(int kingPoint)
     {
-        Debug.Log("test = " + SquareList[kingPoint].GetComponent<Image>().sprite);
         if (!BlueCoord.Contains(kingPoint) && (SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlue")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempKing")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempQueen")
@@ -503,11 +624,11 @@ public class BoardManager : MonoBehaviour {
         {
             Debug.Log("kingPoint = " + kingPoint);
             BlueCoord.Add(kingPoint);
-            if(kingPoint % 8 != 0)
+            if(kingPoint != 0)
             {
                 BlueCalcul(kingPoint - 1); // 왼쪽
             }
-            if (kingPoint % 8 != 7)
+            if (kingPoint != 61)
             {
                 BlueCalcul(kingPoint + 1); // 오른쪽
             }
@@ -525,13 +646,32 @@ public class BoardManager : MonoBehaviour {
 
     public void RedCalcul(int kingPoint)
     {
-        if (!RedCoord.Contains(kingPoint) && SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRed"))
+        if (!RedCoord.Contains(kingPoint) && (SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRed")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempKing")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempQueen")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempBishop")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempRook")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempKnight")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempPawn")))
         {
+            Debug.Log("kingPoint = " + kingPoint);
             RedCoord.Add(kingPoint);
-            RedCalcul(kingPoint - 1); // 왼쪽
-            RedCalcul(kingPoint + 1); // 오른쪽
-            RedCalcul(kingPoint - 8); // 위쪽
-            RedCalcul(kingPoint + 8); // 아래쪽
+            if (kingPoint != 0)
+            {
+                RedCalcul(kingPoint - 1); // 왼쪽
+            }
+            if (kingPoint != 61)
+            {
+                RedCalcul(kingPoint + 1); // 오른쪽
+            }
+            if (kingPoint / 8 >= 1)
+            {
+                RedCalcul(kingPoint - 8); // 위쪽
+            }
+            if (kingPoint / 8 <= 7)
+            {
+                RedCalcul(kingPoint + 8); // 아래쪽
+            }
         }
     }
 
