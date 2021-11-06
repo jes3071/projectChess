@@ -119,15 +119,15 @@ public class BoardManager : MonoBehaviour {
     {
         if (indexInformation != -1)
         {
-            if (curTurn == RED_TURN)
+            if (curTurn == BLUE_TURN)
             {
                 turnAnim.SetInteger("AIState",1);
-                curTurn = BLUE_TURN;
+                curTurn = RED_TURN;
             }
-            else if(curTurn == BLUE_TURN)
+            else if(curTurn == RED_TURN)
             {
                 turnAnim.SetInteger("AIState", -1);
-                curTurn = RED_TURN;
+                curTurn = BLUE_TURN;
             }
 
             if (CurPiece.name.Contains("Pawn"))
