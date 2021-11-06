@@ -61,6 +61,8 @@ public class BoardManager : MonoBehaviour {
     public List<int> BlueCoord;
     public List<int> RedCoord;
 
+    public AuidioManager auidioManager;
+
     IEnumerator timerCoroutine;
 
     void StartTimer(float turnTime)
@@ -128,7 +130,7 @@ public class BoardManager : MonoBehaviour {
     {
         if (indexInformation != -1)
         {
-            
+            auidioManager.baseSound();
 
             if (CurPiece.name.Contains("Pawn"))
             {
@@ -611,18 +613,22 @@ public class BoardManager : MonoBehaviour {
 
             StopTimer();
 
-            TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
-            TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
+            
+            
             
             if (curTurn == BLUE_TURN)
             {
                 turnAnim.SetInteger("AIState", 1);
                 curTurn = RED_TURN;
+                TimerOne.gameObject.GetComponent<Image>().fillAmount = 0f;
+                TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
             }
             else if (curTurn == RED_TURN)
             {
                 turnAnim.SetInteger("AIState", -1);
                 curTurn = BLUE_TURN;
+                TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
+                TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
             }
 
             StartTimer(turnTime);
@@ -651,7 +657,7 @@ public class BoardManager : MonoBehaviour {
             {
                 BlueCalcul(kingPoint - 1); // 왼쪽
             }
-            if (kingPoint % 8 != 7 && kingPoint < 61)
+            if (kingPoint % 8 != 7 && kingPoint < 63)
             {
                 BlueCalcul(kingPoint + 1); // 오른쪽
             }
@@ -659,7 +665,7 @@ public class BoardManager : MonoBehaviour {
             {
                 BlueCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7 && kingPoint <= 53)
+            if (kingPoint / 8 <= 7 && kingPoint <= 56)
             {
                 BlueCalcul(kingPoint + 8); // 아래쪽
             }
@@ -683,7 +689,7 @@ public class BoardManager : MonoBehaviour {
             {
                 RedCalcul(kingPoint - 1); // 왼쪽
             }
-            if (kingPoint % 8 != 7 && kingPoint < 61)
+            if (kingPoint % 8 != 7 && kingPoint < 63)
             {
                 RedCalcul(kingPoint + 1); // 오른쪽
             }
@@ -691,7 +697,7 @@ public class BoardManager : MonoBehaviour {
             {
                 RedCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7 && kingPoint <= 53)
+            if (kingPoint / 8 <= 7 && kingPoint <= 56)
             {
                 RedCalcul(kingPoint + 8); // 아래쪽
             }
@@ -838,11 +844,15 @@ public class BoardManager : MonoBehaviour {
         {
             curTurn = BLUE_TURN;
             turnAnim.SetInteger("AIState", -1); // 1p
+            TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
+            TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         }
         else
         {
             turnAnim.SetInteger("AIState", 1); // 2p
             curTurn = RED_TURN;
+            TimerOne.gameObject.GetComponent<Image>().fillAmount = 0f;
+            TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
         }
 
         if (TurnTimeToggle.isOn)
