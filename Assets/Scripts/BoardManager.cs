@@ -665,7 +665,7 @@ public class BoardManager : MonoBehaviour {
             {
                 BlueCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7 && kingPoint <= 56)
+            if (kingPoint / 8 <= 7 && kingPoint <= 55)
             {
                 BlueCalcul(kingPoint + 8); // 아래쪽
             }
@@ -697,7 +697,7 @@ public class BoardManager : MonoBehaviour {
             {
                 RedCalcul(kingPoint - 8); // 위쪽
             }
-            if (kingPoint / 8 <= 7 && kingPoint <= 56)
+            if (kingPoint / 8 <= 7 && kingPoint <= 55)
             {
                 RedCalcul(kingPoint + 8); // 아래쪽
             }
