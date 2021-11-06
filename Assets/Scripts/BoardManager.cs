@@ -5,6 +5,9 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 
 public class BoardManager : MonoBehaviour {
+
+    private int BLUE_TURN = 0;
+    private int RED_TURN = 1;
     
     private GridLayoutGroup grid;
     private GameObject parent;
@@ -20,8 +23,7 @@ public class BoardManager : MonoBehaviour {
     private List<int> CurIndex;
 
     private int CurAnimation;
-    private bool[] whoseTurn;
-    public bool testTurn;
+    public bool turnChange;
 
     private int RedChange;
     private int BlueChange;
@@ -46,27 +48,86 @@ public class BoardManager : MonoBehaviour {
     private List<int[]> BasicMap;
 
     public Toggle FirstTurn;
+    public Toggle TurnTimeToggle;
+
+    private int curTurn;
+    private int turnTime;
+
+    public GameObject TimerOne;
+    public GameObject TimerTwo;
 
 
+    public int kingBluePoint;
+    public int kingRedPoint;
+
+    public List<int> BlueCoord;
+    public List<int> RedCoord;
+
+    IEnumerator timerCoroutine;
+
+    void StartTimer(float turnTime)
+    {
+        timerCoroutine = Timer(turnTime);
+        StartCoroutine(timerCoroutine);
+    }
+
+    void StopTimer()
+    {
+        if(timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+        }
+    }
+
+
+    IEnumerator Timer(float turnTime)
+    {
+
+        float duration = turnTime; // 카운팅에 걸리는 시간 설정. 
+        float target = 0;
+        float current = 1f;
+
+        float offset = (target - current) / duration;
+
+        if(curTurn == BLUE_TURN)
+        {
+            while (current > target)
+            {
+                float time = Time.deltaTime;
+                current += offset * time;
+                
+                TimerOne.gameObject.GetComponent<Image>().fillAmount = current;
+
+                yield return null;
+            }
+        }
+        else if(curTurn == RED_TURN)
+        {
+            while (current > target)
+            {
+                float time = Time.deltaTime;
+                current += offset * time;
+                
+                TimerTwo.gameObject.GetComponent<Image>().fillAmount = current;
+
+                yield return null;
+            }
+        }
+    }
+    
     private void Update()
     {
-        
-        //if(SquareList.Count == 0)
-        //{
-        //    SetDynamicGrid();
-        //}
-
-        
-
         if (indexInformation != -1)
         {
-            if (turnAnim.GetInteger("AIState") == -1)
+            if (curTurn == RED_TURN)
             {
                 turnAnim.SetInteger("AIState",1);
+                curTurn = BLUE_TURN;
             }
-            else
+            else if(curTurn == BLUE_TURN)
             {
                 turnAnim.SetInteger("AIState", -1);
+                curTurn = RED_TURN;
             }
 
             if (CurPiece.name.Contains("Pawn"))
@@ -289,6 +350,7 @@ public class BoardManager : MonoBehaviour {
                     CurIndex.Add(indexInformation + 9);
                 }
                 CurAnimation = King;
+                
             }
 
             for (int i = 0; i < CurIndex.Count; i++)
@@ -377,17 +439,24 @@ public class BoardManager : MonoBehaviour {
                 CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
             }
 
+            if (FirstTurn.isOn && turnCount > 3) // 1p
+            {
+                BlueCalcul(BoardClickable.kingBlueCoord);
+            }
+            else if(!FirstTurn.isOn && turnCount > 3)
+            {
+                RedCalcul(BoardClickable.kingRedCoord);
+            }
 
-            testTurn = true;
-            whoseTurn[0] = true;
-            whoseTurn[1] = true;
+
+            turnChange = true;
             CurPiece.GetComponent<Image>().raycastTarget = false;
             CurPiece = null;
             Invoke("SquareInitialize", 1);
 
             turnCount++;
 
-            if (turnCount >= 30) // 막 턴 되면 킹 선택 가능하게
+            if (turnCount >= 3) // 막 턴 되면 킹 선택 가능하게
             {
                 GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
                 BlueKingPiece.GetComponent<Image>().raycastTarget = true;
@@ -395,18 +464,75 @@ public class BoardManager : MonoBehaviour {
                 RedKingPiece.GetComponent<Image>().raycastTarget = true;
             }
 
-            if (turnCount >= 3) // 게임 끝
+            if (turnCount >= 32) // 게임 끝
             {
-                ResultOpener.BattleResult();
-                Debug.Log("blue Piece = " + PieceBlueCoord.Count);
-                Debug.Log("red Piece = " + PieceRedCoord.Count);
-                Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
-                Debug.Log("red tile = " + mapMaker.RedTile.Count);
+                ResultOpener.Invoke("BattleResult", 2);
+                //ResultOpener.BattleResult();
+                Debug.Log("blue king = " + BlueCoord.Count);
+                Debug.Log("red king = " + RedCoord.Count);
+                //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
+                //Debug.Log("red Piece = " + PieceRedCoord.Count);
+                //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
+                //Debug.Log("red tile = " + mapMaker.RedTile.Count);
             }
+
+            StopTimer();
+
+            TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
+            TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
+
+            StartTimer(turnTime);
 
         }
         indexInformation = -1;
+
         
+
+    }
+
+    public void BlueCalcul(int kingPoint)
+    {
+        Debug.Log("test = " + SquareList[kingPoint].GetComponent<Image>().sprite);
+        if (!BlueCoord.Contains(kingPoint) && (SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlue")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempKing")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempQueen")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempBishop")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempRook")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempKnight")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempPawn")))
+        {
+            Debug.Log("kingPoint = " + kingPoint);
+            BlueCoord.Add(kingPoint);
+            if(kingPoint % 8 != 0)
+            {
+                BlueCalcul(kingPoint - 1); // 왼쪽
+            }
+            if (kingPoint % 8 != 7)
+            {
+                BlueCalcul(kingPoint + 1); // 오른쪽
+            }
+            if (kingPoint / 8 >= 1)
+            {
+                BlueCalcul(kingPoint - 8); // 위쪽
+            }
+            if (kingPoint / 8 <= 7)
+            {
+                BlueCalcul(kingPoint + 8); // 아래쪽
+            }
+            
+        }
+    }
+
+    public void RedCalcul(int kingPoint)
+    {
+        if (!RedCoord.Contains(kingPoint) && SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRed"))
+        {
+            RedCoord.Add(kingPoint);
+            RedCalcul(kingPoint - 1); // 왼쪽
+            RedCalcul(kingPoint + 1); // 오른쪽
+            RedCalcul(kingPoint - 8); // 위쪽
+            RedCalcul(kingPoint + 8); // 아래쪽
+        }
     }
 
     public void SquareInitialize()
@@ -486,8 +612,6 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("Square SomeThing == null");
         }
 
-        whoseTurn = new bool[2] { true, true };
-
         GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         BlueKingPiece.GetComponent<Image>().raycastTarget = false;
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
@@ -507,15 +631,21 @@ public class BoardManager : MonoBehaviour {
         BasicMap.Add(redTile);
         BasicMap.Add(blueTile);
         BasicMap.Add(blockTile);
-        
+
+        kingBluePoint = 0;
+        kingRedPoint = 0;
+
+        BlueCoord = new List<int>();
+        RedCoord = new List<int>();
+
 
         if (gameObject.transform.childCount > 0)
         {
             TileColoring();
             PieceReset();
         }
-        
 
+        StartTimer(turnTime);
     }
 
     public void Init()
@@ -523,7 +653,7 @@ public class BoardManager : MonoBehaviour {
         Debug.Log("Init");
         indexInformation = -1;
         CurAnimation = -1;
-        testTurn = true;
+        turnChange = true;
 
         RedChange = 0;
         BlueChange = 0;
@@ -547,12 +677,24 @@ public class BoardManager : MonoBehaviour {
 
         if (FirstTurn.isOn)
         {
+            curTurn = BLUE_TURN;
             turnAnim.SetInteger("AIState", -1); // 1p
         }
         else
         {
             turnAnim.SetInteger("AIState", 1); // 2p
+            curTurn = RED_TURN;
         }
+
+        if (TurnTimeToggle.isOn)
+        {
+            turnTime = 15;
+        }
+        else
+        {
+            turnTime = 30;
+        }
+        
     }
 
     public void PieceReset()

@@ -11,8 +11,11 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
     
     private GameObject boardManager;
 
-	// Use this for initialization
-	void Start () {
+    public static int kingBlueCoord;
+    public static int kingRedCoord;
+
+    // Use this for initialization
+    void Start () {
         boardManager = GameObject.Find("UIBattle").transform.Find("BattleBoard").gameObject;
         
     }
@@ -44,6 +47,8 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                     gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
                     boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
+                    
+                    kingBlueCoord = RemoveAlpha(gameObject.name);
                 }
 
             }
@@ -63,6 +68,8 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                     gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
                     boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
+
+                    kingRedCoord = RemoveAlpha(gameObject.name);
                 }
 
             }
@@ -79,5 +86,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
     public int RemoveAlpha(string str)
     {
         return int.Parse( Regex.Replace(str, @"\D", ""));
+        //Regex.Replace(_body, @"[^0-9]", "");
+
     }
 }

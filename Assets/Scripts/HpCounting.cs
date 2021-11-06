@@ -4,10 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HpCounting : MonoBehaviour {
-
-    //public string redCount;
-    //public string blueCount;
-
+    
     public GameObject RedTarget;
     public GameObject BlueTarget;
 
@@ -15,58 +12,74 @@ public class HpCounting : MonoBehaviour {
 	
     // Use this for initialization
 	void Start () {
-        //redCount = RedTarget.GetComponent<Text>().text;
-        //blueCount = BlueTarget.GetComponent<Text>().text;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (bdManager.testTurn)
+        if (bdManager.turnChange)
         {
 
             StartCoroutine(Count(bdManager.mapMaker.RedTile.Count, int.Parse(RedTarget.GetComponent<Text>().text), RedTarget,
                 bdManager.mapMaker.BlueTile.Count, int.Parse(BlueTarget.GetComponent<Text>().text), BlueTarget));
 
-            bdManager.testTurn = false;
-            Debug.Log("coroutine");
-            //redCount = RedTarget.GetComponent<Text>().text;
-            //blueCount = BlueTarget.GetComponent<Text>().text;
+            bdManager.turnChange = false;
         }
 
         
     }
     
-
-
     IEnumerator Count(float target, float current, GameObject HpNumber, float target2, float current2, GameObject HpNumber2)
 
     {
 
         float duration = 0.5f; // 카운팅에 걸리는 시간 설정. 
 
-        float offset = (target - current) / duration;
+        float offset = Mathf.Abs(target - current) / duration;
 
-        float offset2 = (target2 - current2) / duration;
+        float offset2 = Mathf.Abs(target2 - current2) / duration;
 
 
 
-        while (current < target)
-
+        if(current > target)
         {
-            float time = Time.deltaTime;
-            current += offset * time;
-            current2 += offset2 * time;
+            //offset *= -1;
+            while (current > target)
+
+            {
+                float time = Time.deltaTime;
+                current -= offset * time;
+                current2 += offset2 * time;
 
 
 
-            HpNumber.GetComponent<Text>().text = ((int)current).ToString();
+                HpNumber.GetComponent<Text>().text = ((int)current).ToString();
 
-            HpNumber2.GetComponent<Text>().text = ((int)current2).ToString();
+                HpNumber2.GetComponent<Text>().text = ((int)current2).ToString();
 
-            yield return null;
+                yield return null;
 
+            }
         }
+        else
+        {
+            //offset2 *= -1;
+            while (current < target)
 
+            {
+                float time = Time.deltaTime;
+                current += offset * time;
+                current2 -= offset2 * time;
+
+
+
+                HpNumber.GetComponent<Text>().text = ((int)current).ToString();
+
+                HpNumber2.GetComponent<Text>().text = ((int)current2).ToString();
+
+                yield return null;
+
+            }
+        }
 
 
         current = target;

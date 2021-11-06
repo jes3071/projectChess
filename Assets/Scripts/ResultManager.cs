@@ -61,6 +61,18 @@ public class ResultManager : MonoBehaviour {
         RedPiece.GetComponent<Text>().text = "살아남은 기물 : " + bdManager.PieceRedCoord.Count.ToString();
     }
 
+    public void RedKingLand()
+    {
+
+    }
+
+    public void BlueKingLand()
+    {
+
+    }
+
+
+
     // Use this for initialization
     void Start () {
 		
