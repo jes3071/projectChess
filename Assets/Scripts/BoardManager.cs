@@ -622,10 +622,7 @@ public class BoardManager : MonoBehaviour {
         }
 
         StopTimer();
-
-
-
-
+        
         if (curTurn == BLUE_TURN)
         {
             turnAnim.SetInteger("AIState", 1);
@@ -744,6 +741,29 @@ public class BoardManager : MonoBehaviour {
         
     }
 
+    IEnumerator SetTile()
+    {
+
+
+        for (int i = 0; i < 64; i++)
+        {
+            GameObject imageObject = Instantiate(SquareEmpty) as GameObject;
+
+            imageObject.transform.SetParent(transform);
+            imageObject.transform.localScale = Vector3.one;
+            imageObject.transform.position = transform.position;
+            imageObject.name = "child" + (i);
+            imageObject.GetComponent<Animator>().SetInteger("State", 10);
+
+            SquareList.Add(imageObject);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        TileColoring();
+
+    }
+
     public void SetDynamicGrid()
     {
         //grid.cellSize = new Vector2(75, 75);
@@ -787,7 +807,8 @@ public class BoardManager : MonoBehaviour {
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
 
-        SetDynamicGrid();
+        //SetDynamicGrid();
+        StartCoroutine("SetTile");
     }
 
     private void OnEnable()
