@@ -65,7 +65,7 @@ public class BoardManager : MonoBehaviour {
 
     IEnumerator timerCoroutine;
 
-    void StartTimer(float turnTime)
+    void StartTimer()
     {
         timerCoroutine = Timer(turnTime);
         StartCoroutine(timerCoroutine);
@@ -117,25 +117,23 @@ public class BoardManager : MonoBehaviour {
 
     IEnumerator BlueChanger(int i)
     {
-        yield return new WaitForSeconds(1f);
-
         SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
         SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
         SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
 
-        
+        yield return new WaitForFixedUpdate();
     }
 
         private void Update()
     {
         if (indexInformation != -1)
         {
-            updateChessBoard();
+            StartCoroutine(UpdateChessBoard());
         }
         indexInformation = -1;
     }
 
-    private void updateChessBoard()
+    IEnumerator UpdateChessBoard()
     {
         AudioManager.instance.BaseSound();
 
@@ -511,10 +509,10 @@ public class BoardManager : MonoBehaviour {
                 }
                 if (!stateFlag)
                 {
-                    //StartCoroutine(BlueChanger(i));
                     SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
                     SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                     SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+                    yield return null;
                     if (!mapMaker.BlueTile.Contains(CurIndex[i]))
                     {
                         mapMaker.BlueTile.Add(CurIndex[i]);
@@ -551,6 +549,7 @@ public class BoardManager : MonoBehaviour {
                     SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
                     SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                     SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+                    yield return null;
                     if (!mapMaker.RedTile.Contains(CurIndex[i]))
                     {
                         mapMaker.RedTile.Add(CurIndex[i]);
@@ -577,6 +576,9 @@ public class BoardManager : MonoBehaviour {
             for (int i = 0; i < BlueCoord.Count; i++)
             {
                 SquareList[BlueCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
+                SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[BlueCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+                yield return null;
                 //SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
 
             }
@@ -588,6 +590,9 @@ public class BoardManager : MonoBehaviour {
             for (int i = 0; i < RedCoord.Count; i++)
             {
                 SquareList[RedCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
+                SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[RedCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+                yield return null;
                 //SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
 
             }
@@ -638,7 +643,7 @@ public class BoardManager : MonoBehaviour {
             TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         }
 
-        StartTimer(turnTime);
+        StartTimer();
     }
 
     public void BlueCalcul(int kingPoint)
@@ -741,38 +746,23 @@ public class BoardManager : MonoBehaviour {
         
     }
 
-    IEnumerator SetTile()
+    IEnumerator SetTile(List<GameObject> tempList)
     {
-
 
         for (int i = 0; i < 64; i++)
         {
-            GameObject imageObject = Instantiate(SquareEmpty) as GameObject;
-
-            imageObject.transform.SetParent(transform);
-            imageObject.transform.localScale = Vector3.one;
-            imageObject.transform.position = transform.position;
-            imageObject.name = "child" + (i);
-            imageObject.GetComponent<Animator>().SetInteger("State", 10);
-
-            SquareList.Add(imageObject);
-
-            yield return new WaitForFixedUpdate();
+            tempList[i].GetComponent<Animator>().SetInteger("State", 10); // appear state
+            
+            yield return null;
         }
 
-        TileColoring();
+        Invoke("SquareInitialize", 1);
 
     }
 
     public void SetDynamicGrid()
     {
-        //grid.cellSize = new Vector2(75, 75);
 
-        //grid.spacing = new Vector2(10, 10);
-        //grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
-        //grid.startAxis = GridLayoutGroup.Axis.Horizontal;
-        //grid.constraint = GridLayoutGroup.Constraint.Flexible;
-        //DeleteAllChilds();
 
         for (int i = 0; i < 64; i++)
         {
@@ -782,16 +772,21 @@ public class BoardManager : MonoBehaviour {
             imageObject.transform.localScale = Vector3.one;
             imageObject.transform.position = transform.position;
             imageObject.name = "child" + (i);
-            imageObject.GetComponent<Animator>().SetInteger("State", 10);
+            //imageObject.GetComponent<Animator>().SetInteger("State", 10);
+            imageObject.GetComponent<Animator>().SetInteger("State", 11); // ready to appear state
 
             SquareList.Add(imageObject);
             
             
             //imageObject.
         }
+        
+        
 
         TileColoring();
-        
+
+        StartCoroutine(SetTile(SquareList));
+
     }
 
     // Use this for initialization
@@ -807,8 +802,8 @@ public class BoardManager : MonoBehaviour {
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
 
-        //SetDynamicGrid();
-        StartCoroutine("SetTile");
+        SetDynamicGrid();
+        //StartCoroutine("SetTile");
     }
 
     private void OnEnable()
@@ -834,9 +829,11 @@ public class BoardManager : MonoBehaviour {
         {
             TileColoring();
             PieceReset();
+            Invoke("SquareInitialize", 1);
         }
 
-        StartTimer(turnTime);
+        Invoke("StartTimer", 2);
+
     }
 
     public void Init()
@@ -1026,7 +1023,7 @@ public class BoardManager : MonoBehaviour {
                     break;
             }
         }
-
-        Invoke("SquareInitialize", 1);
+        
+        //Invoke("SquareInitialize", 2);
     }
 }
