@@ -22,29 +22,34 @@ public class BtnEvent : MonoBehaviour {
 
     public void StageSettingButton()
     {
+        AudioManager.instance.SelectSound();
         UILobby.SetActive(false);
         UIPreset.SetActive(true);
     }
 
     public void PrevToLobby()
     {
+        AudioManager.instance.BackSound();
         UILobby.SetActive(true);
         UIPreset.SetActive(false);
     }
 
     public void BattleStartButton()
     {
+        AudioManager.instance.SelectSound();
         UIPreset.SetActive(false);
         UIBattle.SetActive(true);
     }
 
     public void BattleResult()
     {
+        AudioManager.instance.ResultSound();
         UIResult.SetActive(true);
     }
 
     public void BackToLobby()
     {
+        AudioManager.instance.BackSound();
         UILobby.SetActive(true);
         UIBattle.SetActive(false);
         UIResult.SetActive(false);
@@ -52,12 +57,14 @@ public class BtnEvent : MonoBehaviour {
 
     public void CreditButton()
     {
+        AudioManager.instance.SelectSound();
         UICredit.SetActive(true);
         UILobby.SetActive(false);
     }
 
     public void CreditToLobby()
     {
+        AudioManager.instance.BackSound();
         UILobby.SetActive(true);
         UICredit.SetActive(false);
     }

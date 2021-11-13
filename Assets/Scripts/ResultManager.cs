@@ -53,7 +53,6 @@ public class ResultManager : MonoBehaviour {
             RedText.GetComponent<Text>().color = Color.white;
         }
 
-
         BlueNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.BlueCoord.Count.ToString();
         RedNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.RedCoord.Count.ToString();
 

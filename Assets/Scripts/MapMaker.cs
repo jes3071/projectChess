@@ -21,7 +21,6 @@ public class MapMaker : MonoBehaviour {
 
     private void OnEnable()
     {
-        
         MapInitialize();
     }
 
@@ -47,6 +46,7 @@ public class MapMaker : MonoBehaviour {
             Map.GetComponent<Text>().text = MapName[--MapCount];
         }
 
+        AudioManager.instance.SelectSound();
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Map" + MapCount);
         MapInitialize();
     }
@@ -61,6 +61,8 @@ public class MapMaker : MonoBehaviour {
         {
             Map.GetComponent<Text>().text = MapName[++MapCount];
         }
+
+        AudioManager.instance.SelectSound();
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Map" + MapCount);
         MapInitialize();
     }
@@ -104,5 +106,8 @@ public class MapMaker : MonoBehaviour {
         }
     }
 
-
+    public void ToggleButton()
+    {
+        AudioManager.instance.SelectSound();
+    }
 }
