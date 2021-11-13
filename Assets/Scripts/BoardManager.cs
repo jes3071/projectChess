@@ -813,10 +813,12 @@ public class BoardManager : MonoBehaviour {
         int[] redTile = mapMaker.RedTile.ToArray();
         int[] blueTile = mapMaker.BlueTile.ToArray();
         int[] blockTile = mapMaker.BlockTile.ToArray();
+        int[] whiteTile = mapMaker.WhiteTile.ToArray();
 
         BasicMap.Add(redTile);
         BasicMap.Add(blueTile);
         BasicMap.Add(blockTile);
+        BasicMap.Add(whiteTile);
 
         kingBluePoint = 0;
         kingRedPoint = 0;
@@ -1001,7 +1003,7 @@ public class BoardManager : MonoBehaviour {
     {
         for (int j = 0; j < BasicMap.Count; j++)
         {
-            switch (j % 3)
+            switch (j % 4)
             {
                 case 0:
                     for (int k = 0; k < BasicMap[j].Length; k++)
@@ -1019,6 +1021,12 @@ public class BoardManager : MonoBehaviour {
                     for (int k = 0; k < BasicMap[j].Length; k++)
                     {
                         SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+                    }
+                    break;
+                case 3:
+                    for (int k = 0; k < BasicMap[j].Length; k++)
+                    {
+                        SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
                     }
                     break;
             }
