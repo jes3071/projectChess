@@ -9,6 +9,7 @@ public class BtnEvent : MonoBehaviour {
     public GameObject UIBattle;
     public GameObject UIResult;
     public GameObject UICredit;
+    public GameObject UIPause;
 
     // Use this for initialization
     void Start () {
@@ -76,6 +77,27 @@ public class BtnEvent : MonoBehaviour {
 #else
         Application.Quit();
 #endif
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            UIPause.SetActive(true);
+        }
+        
+    }
+
+    public void ReturnToGameButton()
+    {
+        UIPause.SetActive(false);
+    }
+
+    public void MainMenuButton()
+    {
+        UIPause.SetActive(false);
+        UIBattle.SetActive(false);
+        UILobby.SetActive(true);
     }
 
 }
