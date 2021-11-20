@@ -159,6 +159,12 @@ public class BoardManager : MonoBehaviour {
 
         private void Update()
     {
+        if(mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0)
+        {
+            StopTimer();
+            //ResultOpener.Invoke("BattleResult", 2);
+            ResultOpener.BattleResult();
+        }
         if (indexInformation != -1 && !CR_update)
         {
             CR_update = true;

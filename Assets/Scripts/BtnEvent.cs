@@ -84,17 +84,20 @@ public class BtnEvent : MonoBehaviour {
         if (pause)
         {
             UIPause.SetActive(true);
+            Time.timeScale = 0;
         }
         
     }
 
     public void ReturnToGameButton()
     {
+        Time.timeScale = 1;
         UIPause.SetActive(false);
     }
 
     public void MainMenuButton()
     {
+        Time.timeScale = 1;
         UIPause.SetActive(false);
         UIBattle.SetActive(false);
         UILobby.SetActive(true);
