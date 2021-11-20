@@ -635,6 +635,21 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114943242510673406, guid: 58819bb7da802fd41aa1806f1ed11137,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1428743909}
+    - target: {fileID: 114323891299097122, guid: 58819bb7da802fd41aa1806f1ed11137,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1428743909}
+    - target: {fileID: 114527234567429920, guid: 58819bb7da802fd41aa1806f1ed11137,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1428743909}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 58819bb7da802fd41aa1806f1ed11137, type: 2}
   m_IsPrefabParent: 0
@@ -649,6 +664,11 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224291538619565080, guid: 054654ae9a54cb64fa283e58b3efd840,
     type: 2}
   m_PrefabInternal: {fileID: 80060551}
+--- !u!1 &920255315 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1458021118041120, guid: 58819bb7da802fd41aa1806f1ed11137,
+    type: 2}
+  m_PrefabInternal: {fileID: 749948539}
 --- !u!1001 &920963131
 Prefab:
   m_ObjectHideFlags: 0
@@ -1503,7 +1523,7 @@ MonoBehaviour:
   UIBattle: {fileID: 1628598167}
   UIResult: {fileID: 1519229682}
   UICredit: {fileID: 573296100}
-  UIPause: {fileID: 1519229682}
+  UIPause: {fileID: 920255315}
 --- !u!1001 &1519229681
 Prefab:
   m_ObjectHideFlags: 0
