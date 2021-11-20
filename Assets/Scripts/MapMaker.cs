@@ -10,10 +10,11 @@ public class MapMaker : MonoBehaviour {
     public string[] MapName;
     public int MapCount = 0;
 
-    public List<int> BlueTile;
+    // red = 0, blue = 1, white = 2, block = 3
+    public int[] BasicMap;
     public List<int> RedTile;
-    public List<int> BlockTile;
-    public List<int> WhiteTile;
+    public List<int> BlueTile;
+
 
     private void Awake()
     {
@@ -72,56 +73,114 @@ public class MapMaker : MonoBehaviour {
     private void MapInitialize()
     {
         string mapName = Map.GetComponent<Text>().text;
-        BlueTile = new List<int>();
         RedTile = new List<int>();
-        BlockTile = new List<int>();
-        WhiteTile = new List<int>();
+        BlueTile = new List<int>();
+
         switch (mapName)
         {
             case "기본":
-                for (int i = 0; i < 32; i++)
-                {
-                    BlueTile.Add(i + 32);
-                    RedTile.Add(i);
-                }
+
+                BasicMap = new int[]{
+                    0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,
+                    1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1};
+                SetTiles();
                 break;
             case "한국":
-                int[] tiles = new int[8] { 1, 6, 8, 15,
-                                        48, 55, 57, 62 };
-                BlockTile.AddRange(tiles);
-                for (int i = 0; i < 24; i++)
-                {
-                    if (!BlockTile.Contains(i))
-                    {
-                        RedTile.Add(i);
-                    }
-                    if (!BlockTile.Contains(i + 40))
-                    {
-                        BlueTile.Add(i + 40);
-                    }
 
-                }
-                int[] rTiles = new int[] { 24, 25, 26, 27, 28, 31, 33, 34 };
-                int[] bTiles = new int[] { 29, 30, 32, 35, 36, 37, 38, 39 };
-                RedTile.AddRange(rTiles);
-                BlueTile.AddRange(bTiles);
+                BasicMap = new int[]{
+                    0,3,0,0,0,0,3,0,
+                    3,0,0,0,0,0,0,3,
+                    0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,1,1,0,
+                    1,0,0,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,
+                    3,1,1,1,1,1,1,3,
+                    1,3,1,1,1,1,3,1};
+                SetTiles();
                 break;
             case "우로보로스":
-                RedTile.AddRange(new int[] {0,1,8});
-                BlueTile.AddRange(new int[] {55, 62, 63});
-                for(int i = 0; i < 4; i++)
-                {
-                    BlockTile.AddRange(new int[] { 18 + i*8, 19 + i*8, 20 + i*8, 21 + i*8 });
-                }
-                for(int i = 0; i < 64; i++)
-                {
-                    if(!RedTile.Contains(i) && !BlueTile.Contains(i) && !BlockTile.Contains(i))
-                    {
-                        WhiteTile.Add(i);
-                    }
-                }
-                
+
+                BasicMap = new int[]{
+                    0,0,2,2,2,2,2,2,
+                    0,2,2,2,2,2,2,2,
+                    2,2,3,3,3,3,2,2,
+                    2,2,3,3,3,3,2,2,
+                    2,2,3,3,3,3,2,2,
+                    2,2,3,3,3,3,2,2,
+                    2,2,2,2,2,2,2,1,
+                    2,2,2,2,2,2,1,1};
+                SetTiles();
                 break;
+            case "투혼":
+
+                BasicMap = new int[]{
+                    0,0,0,3,2,2,2,2,
+                    0,0,3,2,2,2,2,2,
+                    0,2,2,2,2,2,2,2,
+                    3,2,2,2,2,2,3,2,
+                    2,2,2,2,2,2,2,3,
+                    2,2,2,2,2,2,2,1,
+                    2,2,2,2,2,3,1,1,
+                    2,2,2,2,3,1,1,1};
+                SetTiles();
+                break;
+            case "구역":
+                BasicMap = new int[]{
+                    3,3,0,2,2,2,3,3,
+                    3,0,2,2,2,2,2,3,
+                    0,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,1,
+                    3,2,2,2,2,2,1,3,
+                    3,3,2,2,2,1,3,3};
+                SetTiles();
+                break;
+            case "침입":
+                BasicMap = new int[]{
+                    2,2,2,0,3,2,2,2,
+                    2,2,2,0,3,2,2,2,
+                    2,2,2,2,2,2,2,2,
+                    3,3,2,2,2,2,1,1,
+                    0,0,2,2,2,2,3,3,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,3,1,2,2,2,
+                    2,2,2,3,1,2,2,2};
+                SetTiles();
+                break;
+            case "우주전쟁":
+                BasicMap = new int[]{
+                0,0,2,2,2,2,2,2,
+                0,2,2,2,2,2,3,2,
+                2,2,2,2,2,3,2,2,
+                2,2,2,2,3,2,2,2,
+                2,2,2,3,2,2,2,2,
+                2,2,3,2,2,2,2,2,
+                2,3,2,2,2,2,2,1,
+                2,2,2,2,2,2,1,1};
+                SetTiles();
+                break;
+        }
+    }
+
+    public void SetTiles()
+    {
+        for (int i = 0; i < 64; i++)
+        {
+            if (BasicMap[i] == 0)
+            {
+                RedTile.Add(i);
+            }
+            else if (BasicMap[i] == 1)
+            {
+                BlueTile.Add(i);
+            }
         }
     }
 
