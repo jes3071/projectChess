@@ -83,13 +83,12 @@ public class MapMaker : MonoBehaviour {
                 BasicMap = new int[]{
                     0,0,0,0,0,0,0,0,
                     0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,
-                    1,1,1,1,1,1,1,1,
-                    1,1,1,1,1,1,1,1,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,
                     1,1,1,1,1,1,1,1,
                     1,1,1,1,1,1,1,1};
-                SetTiles();
                 break;
             case "한국":
 
@@ -102,7 +101,6 @@ public class MapMaker : MonoBehaviour {
                     1,1,1,1,1,1,1,1,
                     3,1,1,1,1,1,1,3,
                     1,3,1,1,1,1,3,1};
-                SetTiles();
                 break;
             case "우로보로스":
 
@@ -115,7 +113,6 @@ public class MapMaker : MonoBehaviour {
                     2,2,3,3,3,3,2,2,
                     2,2,2,2,2,2,2,1,
                     2,2,2,2,2,2,1,1};
-                SetTiles();
                 break;
             case "투혼":
 
@@ -128,7 +125,6 @@ public class MapMaker : MonoBehaviour {
                     2,2,2,2,2,2,2,1,
                     2,2,2,2,2,3,1,1,
                     2,2,2,2,3,1,1,1};
-                SetTiles();
                 break;
             case "구역":
                 BasicMap = new int[]{
@@ -140,7 +136,6 @@ public class MapMaker : MonoBehaviour {
                     2,2,2,2,2,2,2,1,
                     3,2,2,2,2,2,1,3,
                     3,3,2,2,2,1,3,3};
-                SetTiles();
                 break;
             case "침입":
                 BasicMap = new int[]{
@@ -152,7 +147,6 @@ public class MapMaker : MonoBehaviour {
                     2,2,2,2,2,2,2,2,
                     2,2,2,3,1,2,2,2,
                     2,2,2,3,1,2,2,2};
-                SetTiles();
                 break;
             case "우주전쟁":
                 BasicMap = new int[]{
@@ -164,9 +158,9 @@ public class MapMaker : MonoBehaviour {
                 2,2,3,2,2,2,2,2,
                 2,3,2,2,2,2,2,1,
                 2,2,2,2,2,2,1,1};
-                SetTiles();
                 break;
         }
+        SetTiles();
     }
 
     public void SetTiles()
