@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 114546344986835480}
   - component: {fileID: 95623239092694126}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: TurnFirstToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 114904879638636914}
   - component: {fileID: 95363459266354522}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: TurnTimeToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -885,9 +885,9 @@ MonoBehaviour:
   Map: {fileID: 1558644984619192}
   MapName: []
   MapCount: 0
-  BlueTile: 
+  BasicMap: 
   RedTile: 
-  BlockTile: 
+  BlueTile: 
 --- !u!114 &114346603915665896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1657,7 +1657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.73
-  m_Text: "\uC6B0\uB85C\uBCF4\uB85C\uC2A4"
+  m_Text: "\uAE30\uBCF8"
 --- !u!114 &114995101996893910
 MonoBehaviour:
   m_ObjectHideFlags: 1
