@@ -657,9 +657,9 @@ public class BoardManager : MonoBehaviour {
 
         if (turnCount >= 3) // 막 턴 되면 킹 선택 가능하게 30
         {
-            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
             BlueKingPiece.GetComponent<Image>().raycastTarget = true;
-            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
             RedKingPiece.GetComponent<Image>().raycastTarget = true;
         }
 
@@ -847,9 +847,9 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("SquareEmpty == null");
         }
 
-        GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
         BlueKingPiece.GetComponent<Image>().raycastTarget = false;
-        GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+        GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
 
         SetDynamicGrid();
@@ -947,22 +947,22 @@ public class BoardManager : MonoBehaviour {
     {
         for(int i = 0; i < 4; i++)
         {
-            GameObject p1 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Pawn" + i.ToString()).gameObject;
+            GameObject p1 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Pawn" + i.ToString()).gameObject;
             p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Pawn");
             p1.GetComponent<Image>().raycastTarget = true;
 
-            GameObject p2 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Pawn" + i.ToString()).gameObject;
+            GameObject p2 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Pawn" + i.ToString()).gameObject;
             p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Pawn");
             p2.GetComponent<Image>().raycastTarget = true;
         }
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject p1 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Pawn" + (i+4).ToString()).gameObject;
+            GameObject p1 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Pawn" + (i+4).ToString()).gameObject;
             p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Pawn");
             p1.GetComponent<Image>().raycastTarget = true;
 
-            GameObject p2 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Pawn" + (i+4).ToString()).gameObject;
+            GameObject p2 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Pawn" + (i+4).ToString()).gameObject;
             p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Pawn");
             p2.GetComponent<Image>().raycastTarget = true;
         }
@@ -971,30 +971,30 @@ public class BoardManager : MonoBehaviour {
         {
             if(i == 0)
             {
-                GameObject p1 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Rook" + i.ToString()).gameObject;
+                GameObject p1 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject;
                 p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Rook");
 
-                GameObject p2 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Knight" + i.ToString()).gameObject;
+                GameObject p2 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject;
                 p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Knight");
 
-                GameObject p3 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                GameObject p3 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p3.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Bishop");
 
-                GameObject p4 = GameObject.Find("PlayerStateBoard/Pawn").transform.Find("Queen" + i.ToString()).gameObject;
+                GameObject p4 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Queen" + i.ToString()).gameObject;
                 p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Queen");
 
 
 
-                GameObject p5 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Rook" + i.ToString()).gameObject;
+                GameObject p5 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject;
                 p5.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Rook");
 
-                GameObject p6 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Knight" + i.ToString()).gameObject;
+                GameObject p6 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject;
                 p6.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Knight");
 
-                GameObject p7 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                GameObject p7 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p7.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Bishop");
 
-                GameObject p8 = GameObject.Find("EnemyStateBoard/Pawn").transform.Find("Queen" + i.ToString()).gameObject;
+                GameObject p8 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Queen" + i.ToString()).gameObject;
                 p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Queen");
 
                 p1.GetComponent<Image>().raycastTarget = true;
@@ -1008,30 +1008,30 @@ public class BoardManager : MonoBehaviour {
             }
             else
             {
-                GameObject p1 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Rook" + i.ToString()).gameObject;
+                GameObject p1 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject;
                 p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Rook");
 
-                GameObject p2 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Knight" + i.ToString()).gameObject;
+                GameObject p2 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject;
                 p2.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Knight");
 
-                GameObject p3 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                GameObject p3 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p3.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Bishop");
 
-                GameObject p4 = GameObject.Find("PlayerStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                GameObject p4 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
                 p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "King");
 
 
 
-                GameObject p5 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Rook" + i.ToString()).gameObject;
+                GameObject p5 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject;
                 p5.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Rook");
 
-                GameObject p6 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Knight" + i.ToString()).gameObject;
+                GameObject p6 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject;
                 p6.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Knight");
 
-                GameObject p7 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("Bishop" + i.ToString()).gameObject;
+                GameObject p7 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p7.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Bishop");
 
-                GameObject p8 = GameObject.Find("EnemyStateBoard/WithoutPawn").transform.Find("King0").gameObject;
+                GameObject p8 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
                 p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "King");
 
                 p1.GetComponent<Image>().raycastTarget = true;
