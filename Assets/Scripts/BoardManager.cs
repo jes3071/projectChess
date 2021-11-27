@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public class BoardManager : MonoBehaviour {
@@ -43,7 +44,7 @@ public class BoardManager : MonoBehaviour {
     private List<GameObject> SquareList = new List<GameObject>();
     private GameObject[,] SquareTile;
 
-    private List<int[]> BasicMap;
+    public List<int> BasicMap;
 
     public Toggle FirstTurn;
     public Toggle TurnTimeToggle;
@@ -70,7 +71,10 @@ public class BoardManager : MonoBehaviour {
     void StartTimer()
     {
         timerCoroutine = Timer(turnTime);
-        StartCoroutine(timerCoroutine);
+        if(isActiveAndEnabled)
+        {
+            StartCoroutine(timerCoroutine);
+        }
     }
 
     void StopTimer()
@@ -522,6 +526,21 @@ public class BoardManager : MonoBehaviour {
 
         }
 
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼"))
+        {
+            if (CurIndex.Contains(7) && SquareList[7].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 5, 6, 7, 13, 14, 15, 21, 22, 23 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+            if (CurIndex.Contains(56) && SquareList[56].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 40, 41, 42, 48, 49, 50, 56, 57, 58 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+        }
+            
+
         for (int i = 0; i < CurIndex.Count; i++)
         {
             if (CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
@@ -676,7 +695,33 @@ public class BoardManager : MonoBehaviour {
         }
 
         StopTimer();
+
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
+        {
+            if(turnCount == 5)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 3; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosOutMap();
+                }
+            }
+
+            if(turnCount == 10)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 5; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosInMap();
+                }
+            }
+            
+            
+        }
         
+
         if (curTurn == BLUE_TURN)
         {
             turnAnim.SetInteger("AIState", 1);
@@ -692,7 +737,8 @@ public class BoardManager : MonoBehaviour {
             TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         }
 
-        StartTimer();
+        if(turnCount < 32)// 게임끝 전까지만
+            StartTimer();
         CR_update = false;
     }
 
@@ -852,7 +898,7 @@ public class BoardManager : MonoBehaviour {
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
 
-        SetDynamicGrid();
+        //SetDynamicGrid();
         //StartCoroutine("SetTile");
     }
 
@@ -888,6 +934,8 @@ public class BoardManager : MonoBehaviour {
 
         Invoke("StartTimer", 2);
 
+        SetDynamicGrid();
+
     }
 
     public void Init()
@@ -912,10 +960,18 @@ public class BoardManager : MonoBehaviour {
         PieceBlueCoord = new List<int>();
         PieceRedCoord = new List<int>();
 
-        //SquareList = new List<GameObject>();
+        SquareList = new List<GameObject>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+        transform.DetachChildren();
+        
+
+
         SquareTile = new GameObject[8, 8];
 
-        BasicMap = new List<int[]>();
+        BasicMap = new List<int>();
 
         if (FirstTurn.isOn)
         {
@@ -1069,40 +1125,211 @@ public class BoardManager : MonoBehaviour {
                 case 3:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
                     break;
+                case 4:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareMulti");
+                    break;
             }
             
         }
-        //for (int j = 0; j < BasicMap.Count; j++)
-        //{
-        //    switch (j % 4)
-        //    {
-        //        case 0:
-        //            for (int k = 0; k < BasicMap[j].Length; k++)
-        //            {
-        //                SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
-        //            }
-        //            break;
-        //        case 1:
-        //            for (int k = 0; k < BasicMap[j].Length; k++)
-        //            {
-        //                SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
-        //            }
-        //            break;
-        //        case 2:
-        //            for (int k = 0; k < BasicMap[j].Length; k++)
-        //            {
-        //                SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-        //            }
-        //            break;
-        //        case 3:
-        //            for (int k = 0; k < BasicMap[j].Length; k++)
-        //            {
-        //                SquareList[BasicMap[j][k]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-        //            }
-        //            break;
-        //    }
-        //}
-        
-        //Invoke("SquareInitialize", 2);
+    }
+
+    public void SetMap()
+    {
+        BasicMap = new List<int>();
+
+        for (int k = 0; k < 64; k++)
+        {
+            BasicMap.Add(-1);
+            Debug.Log("string = " + SquareList[k].GetComponent<Image>().sprite.ToString());
+            switch (SquareList[k].GetComponent<Image>().sprite.name)
+            {
+                case "BattleSquareRed":
+                    BasicMap[k] = 0;
+                    break;
+                case "BattleSquareBlue":
+                    BasicMap[k] = 1;
+                    break;
+                case "BattleSquareWhite":
+                    BasicMap[k] = 2;
+                    break;
+                case "BattleSquareBlock":
+                    BasicMap[k] = 3;
+                    break;
+                case "BattleSquareRedStempPawn":
+                    BasicMap[k] = 4;
+                    break;
+                case "BattleSquareRedStempKnight":
+                    BasicMap[k] = 5;
+                    break;
+                case "BattleSquareRedStempBishop":
+                    BasicMap[k] = 6;
+                    break;
+                case "BattleSquareRedStempRook":
+                    BasicMap[k] = 7;
+                    break;
+                case "BattleSquareRedStempQueen":
+                    BasicMap[k] = 8;
+                    break;
+                case "BattleSquareRedStempKing":
+                    BasicMap[k] = 9;
+                    break;
+                case "BattleSquareBlueStempPawn":
+                    BasicMap[k] = 10;
+                    break;
+                case "BattleSquareBlueStempKnight":
+                    BasicMap[k] = 11;
+                    break;
+                case "BattleSquareBlueStempBishop":
+                    BasicMap[k] = 12;
+                    break;
+                case "BattleSquareBlueStempRook":
+                    BasicMap[k] = 13;
+                    break;
+                case "BattleSquareBlueStempQueen":
+                    BasicMap[k] = 14;
+                    break;
+                case "BattleSquareBlueStempKing":
+                    BasicMap[k] = 15;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void AfterSetMap()
+    {
+        for (int k = 0; k < 64; k++)
+        {
+            switch (BasicMap[k])
+            {
+                case 0:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
+                    break;
+                case 1:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
+                    break;
+                case 2:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+                    break;
+                case 3:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+                    break;
+                case 4:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempPawn");
+                    break;
+                case 5:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempKnight");
+                    break;
+                case 6:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempBishop");
+                    break;
+                case 7:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempRook");
+                    break;
+                case 8:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempQueen");
+                    break;
+                case 9:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempKing");
+                    break;
+                case 10:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempPawn");
+                    break;
+                case 11:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempKnight");
+                    break;
+                case 12:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempBishop");
+                    break;
+                case 13:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempRook");
+                    break;
+                case 14:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempQueen");
+                    break;
+                case 15:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempKing");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void UroborosOutMap() // 시계방향 최외각
+    {
+        //0123456 -> right
+        //8 배수 -> up
+        //8 배수 - 1 -> down
+        //57 58 59 60 61 62 63 -> left
+
+        SetMap();
+
+        List<int> tempList = new List<int>();
+        tempList.AddRange(BasicMap);
+
+        for (int i = 0; i < 64; i++)
+        {
+            if(i >= 0 && i < 7) // right
+            {
+                BasicMap[i + 1] = tempList[i];
+            }
+            else if(i % 8 == 0 && i != 0) // up
+            {
+                BasicMap[i - 8] = tempList[i];
+            }
+            else if(i > 56 && i <= 63) // left
+            {
+                BasicMap[i - 1] = tempList[i];
+            }
+            else if (i % 8 == 7 && i != 63) // down
+            {
+                BasicMap[i + 8] = tempList[i];
+            }
+        }
+
+        AfterSetMap();
+
+    }
+
+    public void UroborosInMap() // 반시계방향
+    {
+        //9 10 11 12 13 14
+        //17            22
+        //25            30
+
+
+        //49 50 51 52 53 54
+
+        SetMap();
+
+        List<int> tempList = new List<int>();
+        tempList.AddRange(BasicMap);
+
+        for (int i = 0; i < 64; i++)
+        {
+            if (i >= 49 && i < 54) // right
+            {
+                BasicMap[i + 1] = tempList[i];
+            }
+            else if (i % 8 == 6 && i != 6 && i != 14 && i != 62) // up
+            {
+                BasicMap[i - 8] = tempList[i];
+            }
+            else if (i > 9 && i <= 14) // left
+            {
+                BasicMap[i - 1] = tempList[i];
+            }
+            else if (i % 8 == 1 && i != 49 && i != 57 && i != 1) // down
+            {
+                BasicMap[i + 8] = tempList[i];
+            }
+        }
+
+        AfterSetMap();
+
     }
 }

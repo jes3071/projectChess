@@ -10,7 +10,7 @@ public class MapMaker : MonoBehaviour {
     public string[] MapName;
     public int MapCount = 0;
 
-    // red = 0, blue = 1, white = 2, block = 3
+    // red = 0, blue = 1, white = 2, block = 3, boom = 4
     public int[] BasicMap;
     public List<int> RedTile;
     public List<int> BlueTile;
@@ -23,15 +23,15 @@ public class MapMaker : MonoBehaviour {
 
     private void OnEnable()
     {
-        Map.GetComponent<Text>().text = "기본";
+        
         MapInitialize();
     }
 
     // Use this for initialization
     void Start () {
-        
-        
-	}
+        Map.GetComponent<Text>().text = "기본";
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -117,14 +117,14 @@ public class MapMaker : MonoBehaviour {
             case "투혼":
 
                 BasicMap = new int[]{
-                    0,0,0,3,2,2,2,2,
+                    0,0,0,3,2,2,2,4,
                     0,0,3,2,2,2,2,2,
                     0,2,2,2,2,2,2,2,
                     3,2,2,2,2,2,3,2,
-                    2,2,2,2,2,2,2,3,
+                    2,3,2,2,2,2,2,3,
                     2,2,2,2,2,2,2,1,
                     2,2,2,2,2,3,1,1,
-                    2,2,2,2,3,1,1,1};
+                    4,2,2,2,3,1,1,1};
                 break;
             case "구역":
                 BasicMap = new int[]{
