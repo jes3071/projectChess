@@ -810,7 +810,10 @@ public class BoardManager : MonoBehaviour {
     {
         for(int i = 0; i < SquareList.Count; i++)
         {
-            SquareList[i].GetComponent<Animator>().SetInteger("State", -1);
+            if (isActiveAndEnabled)
+            {
+                SquareList[i].GetComponent<Animator>().SetInteger("State", -1);
+            }
         }
         
     }
