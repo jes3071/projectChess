@@ -793,6 +793,8 @@ public class BoardManager : MonoBehaviour {
         grid = gameObject.GetComponent<GridLayoutGroup>();
 
         SquareEmpty = Resources.Load<GameObject>("Prefab/SquareEmpty");
+
+        Application.targetFrameRate = 60;
         
     }
 
