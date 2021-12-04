@@ -4163,6 +4163,7 @@ MonoBehaviour:
   ResultOpener: {fileID: 0}
   PieceBlueCoord: 
   PieceRedCoord: 
+  BasicMap: 
   FirstTurn: {fileID: 0}
   TurnTimeToggle: {fileID: 0}
   TimerOne: {fileID: 1207145877030954}
@@ -10563,7 +10564,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 126.3}
-  m_SizeDelta: {x: 160, y: 160}
+  m_SizeDelta: {x: 160, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224294760095897642
 RectTransform:
