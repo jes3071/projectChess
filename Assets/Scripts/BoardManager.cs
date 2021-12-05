@@ -74,6 +74,8 @@ public class BoardManager : MonoBehaviour {
     public bool RedPieceCut = false;
     public bool BluePieceCut = false;
 
+    public GameObject GimmickObjcet;
+
     void StartTimer()
     {
         timerCoroutine = Timer(turnTime);
@@ -157,17 +159,8 @@ public class BoardManager : MonoBehaviour {
         StartTimer();
         CR_update = false;
     }
-
-    IEnumerator BlueChanger(int i)
-    {
-        SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
-        SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
-        SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
-
-        yield return new WaitForFixedUpdate();
-    }
-
-        private void Update()
+    
+    private void Update()
     {
         
         if (indexInformation != -1 && !CR_update)
@@ -183,12 +176,7 @@ public class BoardManager : MonoBehaviour {
             }
             //StartCoroutine(UpdateChessBoard());
         }
-        if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
-        {
-            StopTimer();
-            //ResultOpener.Invoke("BattleResult", 2);
-            ResultOpener.BattleResult();
-        }
+        
         indexInformation = -1;
     }
 
@@ -643,17 +631,22 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 5)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 2);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 3; i++)
                     {
                         yield return new WaitForSeconds(0.3f);
                         UroborosOutMap();
                     }
+                    
                 }
 
                 if (turnCount == 10)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 2);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 5; i++)
                     {
                         yield return new WaitForSeconds(0.3f);
@@ -667,7 +660,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 2 || turnCount == 5 || turnCount == 8)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 4);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     AreaMapEvent();
                 }
             }
@@ -675,7 +670,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 5);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     RaidMapEvent();
                 }
             }
@@ -683,7 +680,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 6);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     SpaceMapEvent();
                 }
             }
@@ -699,6 +698,13 @@ public class BoardManager : MonoBehaviour {
         if (turnCount < 30)// 게임끝 전까지만
             StartTimer();
         CR_update = false;
+
+        if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
+        {
+            StopTimer();
+            //ResultOpener.Invoke("BattleResult", 2);
+            ResultOpener.BattleResult();
+        }
     }
     IEnumerator UpdateChessBoardBlue()
     {
@@ -1157,7 +1163,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 5)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 2);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 3; i++)
                     {
                         yield return new WaitForSeconds(0.3f);
@@ -1167,7 +1175,9 @@ public class BoardManager : MonoBehaviour {
 
                 if (turnCount == 10)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 2);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 5; i++)
                     {
                         yield return new WaitForSeconds(0.3f);
@@ -1181,7 +1191,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 2 || turnCount == 5 || turnCount == 8)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 4);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     AreaMapEvent();
                 }
 
@@ -1190,7 +1202,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 5);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     RaidMapEvent();
                 }
             }
@@ -1198,7 +1212,9 @@ public class BoardManager : MonoBehaviour {
             {
                 if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    turnAnim.SetInteger("MapGimmickState", 6);
+                    yield return new WaitForSeconds(2f);
+                    turnAnim.SetInteger("MapGimmickState", -1);
                     SpaceMapEvent();
                 }
             }
@@ -1214,6 +1230,13 @@ public class BoardManager : MonoBehaviour {
         if (turnCount < 30)// 게임끝 전까지만
             StartTimer();
         CR_update = false;
+
+        if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
+        {
+            StopTimer();
+            //ResultOpener.Invoke("BattleResult", 2);
+            ResultOpener.BattleResult();
+        }
     }
 
     public void AreaMapEvent()

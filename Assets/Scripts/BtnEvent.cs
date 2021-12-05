@@ -105,6 +105,9 @@ public class BtnEvent : MonoBehaviour {
         Time.timeScale = 1;
         UIPause.SetActive(false);
         UIBattle.SetActive(false);
+        UIResult.SetActive(false);
+        UICredit.SetActive(false);
+        UIPreset.SetActive(false);
         UILobby.SetActive(true);
     }
 
