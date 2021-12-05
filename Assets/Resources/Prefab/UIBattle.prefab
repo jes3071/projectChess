@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 222373217993236706}
   - component: {fileID: 114156269999156538}
   m_Layer: 5
-  m_Name: GetPiecePoint
+  m_Name: GetPiecePointText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1574,7 +1574,7 @@ GameObject:
   - component: {fileID: 222598412856201564}
   - component: {fileID: 114750035230863398}
   m_Layer: 5
-  m_Name: GetPiecePoint
+  m_Name: GetPiecePointText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4166,6 +4166,7 @@ MonoBehaviour:
   BasicMap: 
   FirstTurn: {fileID: 0}
   TurnTimeToggle: {fileID: 0}
+  curTurn: 0
   TimerOne: {fileID: 1207145877030954}
   TimerTwo: {fileID: 1670453783668474}
   kingBluePoint: 0
