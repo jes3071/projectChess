@@ -608,7 +608,7 @@ public class BoardManager : MonoBehaviour {
 
         turnCount++;
 
-        if (turnCount == 4) // 막 턴 되면 킹 선택 가능하게 30
+        if (turnCount == 28) // 막 턴 되면 킹 선택 가능하게 30 4
         {
             GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
             BlueKingPiece.GetComponent<Image>().raycastTarget = true;
@@ -636,7 +636,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 3; i++)
                     {
-                        yield return new WaitForSeconds(0.3f);
+                        AudioManager.instance.GimmickSound();
+                        yield return new WaitForSeconds(0.15f);
                         UroborosOutMap();
                     }
                     
@@ -649,7 +650,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 5; i++)
                     {
-                        yield return new WaitForSeconds(0.3f);
+                        AudioManager.instance.GimmickSound();
+                        yield return new WaitForSeconds(0.15f);
                         UroborosInMap();
                     }
                 }
@@ -1135,7 +1137,7 @@ public class BoardManager : MonoBehaviour {
 
         turnCount++;
 
-        if (turnCount == 4) // 막 턴 되면 킹 선택 가능하게 30
+        if (turnCount == 28) // 막 턴 되면 킹 선택 가능하게 30 4
         {
             GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
             BlueKingPiece.GetComponent<Image>().raycastTarget = true;
@@ -1168,7 +1170,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 3; i++)
                     {
-                        yield return new WaitForSeconds(0.3f);
+                        AudioManager.instance.GimmickSound();
+                        yield return new WaitForSeconds(0.15f);
                         UroborosOutMap();
                     }
                 }
@@ -1180,7 +1183,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", -1);
                     for (int i = 0; i < 5; i++)
                     {
-                        yield return new WaitForSeconds(0.3f);
+                        AudioManager.instance.GimmickSound();
+                        yield return new WaitForSeconds(0.15f);
                         UroborosInMap();
                     }
                 }

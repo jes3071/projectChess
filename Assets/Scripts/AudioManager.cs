@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip Menu_Back;
     public AudioClip Menu_Select;
     public AudioClip Menu_Start;
+    public AudioClip Gimmick;
 
     public AudioSource audioSource;
 
@@ -79,5 +80,10 @@ public class AudioManager : MonoBehaviour {
     public void StartSound()
     {
         audioSource.PlayOneShot(Menu_Start);
+    }
+
+    public void GimmickSound()
+    {
+        audioSource.PlayOneShot(Gimmick);
     }
 }
