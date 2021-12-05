@@ -1303,6 +1303,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224697482784717936}
+  - component: {fileID: 114694540532163822}
   m_Layer: 5
   m_Name: PiecePointCount
   m_TagString: Untagged
@@ -5171,6 +5172,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114694540532163822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1766680076948094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd816ba80176db40857cb1011aa9409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetPiecePointBlue: {fileID: 1877081458907782}
+  GetPiecePointRed: {fileID: 1411478164310682}
+  bdManager: {fileID: 114833938236489600}
+  BluePoint: 0
+  RedPoint: 0
 --- !u!114 &114708402395255858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5693,6 +5710,7 @@ MonoBehaviour:
   BasicMap: 
   FirstTurn: {fileID: 0}
   TurnTimeToggle: {fileID: 0}
+  MapGimmick: {fileID: 0}
   curTurn: 0
   TimerOne: {fileID: 1183839184628620}
   TimerTwo: {fileID: 1299071781980996}

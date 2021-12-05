@@ -48,9 +48,11 @@ public class BoardManager : MonoBehaviour {
 
     public Toggle FirstTurn;
     public Toggle TurnTimeToggle;
+    public Toggle MapGimmick;
 
     public int curTurn;
     private int turnTime;
+    private bool mapEventFlag = false;
 
     public GameObject TimerOne;
     public GameObject TimerTwo;
@@ -534,7 +536,7 @@ public class BoardManager : MonoBehaviour {
             CurAnimation = King;
         }
 
-        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼"))
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼") && mapEventFlag)
         {
             if (CurIndex.Contains(7) && SquareList[7].GetComponent<Image>().sprite.name == "BattleSquareMulti")
             {
@@ -632,54 +634,58 @@ public class BoardManager : MonoBehaviour {
 
         StopTimer();
 
-        if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
+        if (mapEventFlag)
         {
-            if (turnCount == 5)
+            if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
             {
-                yield return new WaitForSeconds(0.5f);
-                for (int i = 0; i < 3; i++)
+                if (turnCount == 5)
                 {
-                    yield return new WaitForSeconds(0.3f);
-                    UroborosOutMap();
+                    yield return new WaitForSeconds(0.5f);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        yield return new WaitForSeconds(0.3f);
+                        UroborosOutMap();
+                    }
+                }
+
+                if (turnCount == 10)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        yield return new WaitForSeconds(0.3f);
+                        UroborosInMap();
+                    }
+                }
+
+
+            }
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
+            {
+                if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    AreaMapEvent();
                 }
             }
-
-            if (turnCount == 10)
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
             {
-                yield return new WaitForSeconds(0.5f);
-                for (int i = 0; i < 5; i++)
+                if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.3f);
-                    UroborosInMap();
+                    yield return new WaitForSeconds(0.5f);
+                    RaidMapEvent();
                 }
             }
-
-
-        }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
-        {
-            if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
             {
-                yield return new WaitForSeconds(0.5f);
-                AreaMapEvent();
+                if (turnCount == 3 || turnCount == 6)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    SpaceMapEvent();
+                }
             }
         }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
-        {
-            if (turnCount == 3 || turnCount == 6)
-            {
-                yield return new WaitForSeconds(0.5f);
-                RaidMapEvent();
-            }
-        }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
-        {
-            if (turnCount == 3 || turnCount == 6)
-            {
-                yield return new WaitForSeconds(0.5f);
-                SpaceMapEvent();
-            }
-        }
+        
 
         turnAnim.SetInteger("AIState", -1);
         curTurn = BLUE_TURN;
@@ -1036,7 +1042,7 @@ public class BoardManager : MonoBehaviour {
             CurAnimation = King;
         }
 
-        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼"))
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼") && mapEventFlag)
         {
             if (CurIndex.Contains(7) && SquareList[7].GetComponent<Image>().sprite.name == "BattleSquareMulti")
             {
@@ -1136,55 +1142,59 @@ public class BoardManager : MonoBehaviour {
 
         StopTimer();
 
-        if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
+        if (mapEventFlag)
         {
-            if (turnCount == 5)
+            if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
             {
-                yield return new WaitForSeconds(0.5f);
-                for (int i = 0; i < 3; i++)
+                if (turnCount == 5)
                 {
-                    yield return new WaitForSeconds(0.3f);
-                    UroborosOutMap();
+                    yield return new WaitForSeconds(0.5f);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        yield return new WaitForSeconds(0.3f);
+                        UroborosOutMap();
+                    }
+                }
+
+                if (turnCount == 10)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        yield return new WaitForSeconds(0.3f);
+                        UroborosInMap();
+                    }
+                }
+
+
+            }
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
+            {
+                if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    AreaMapEvent();
+                }
+
+            }
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
+            {
+                if (turnCount == 3 || turnCount == 6)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    RaidMapEvent();
                 }
             }
-
-            if (turnCount == 10)
+            else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
             {
-                yield return new WaitForSeconds(0.5f);
-                for (int i = 0; i < 5; i++)
+                if (turnCount == 3 || turnCount == 6)
                 {
-                    yield return new WaitForSeconds(0.3f);
-                    UroborosInMap();
+                    yield return new WaitForSeconds(0.5f);
+                    SpaceMapEvent();
                 }
             }
-
-
         }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
-        {
-            if (turnCount == 2 || turnCount == 5 || turnCount == 8)
-            {
-                yield return new WaitForSeconds(0.5f);
-                AreaMapEvent();
-            }
-                
-        }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
-        {
-            if (turnCount == 3 || turnCount == 6)
-            {
-                yield return new WaitForSeconds(0.5f);
-                RaidMapEvent();
-            }
-        }
-        else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
-        {
-            if (turnCount == 3 || turnCount == 6)
-            {
-                yield return new WaitForSeconds(0.5f);
-                SpaceMapEvent();
-            }
-        }
+        
 
         turnAnim.SetInteger("AIState", 1);
         curTurn = RED_TURN;
@@ -2186,6 +2196,14 @@ public class BoardManager : MonoBehaviour {
         {
             turnTime = 30;
         }
+
+        if (MapGimmick.isOn)
+        {
+            mapEventFlag = true;
+        } else
+        {
+            mapEventFlag = false;
+        }
         
     }
 
@@ -2283,11 +2301,11 @@ public class BoardManager : MonoBehaviour {
                 p1.GetComponent<Image>().raycastTarget = true;
                 p2.GetComponent<Image>().raycastTarget = true;
                 p3.GetComponent<Image>().raycastTarget = true;
-                p4.GetComponent<Image>().raycastTarget = false;
+                p4.GetComponent<Image>().raycastTarget = true;
                 p5.GetComponent<Image>().raycastTarget = true;
                 p6.GetComponent<Image>().raycastTarget = true;
                 p7.GetComponent<Image>().raycastTarget = true;
-                p8.GetComponent<Image>().raycastTarget = false;
+                p8.GetComponent<Image>().raycastTarget = true;
             }
             
             
