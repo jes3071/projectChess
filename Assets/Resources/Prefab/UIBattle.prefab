@@ -154,6 +154,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1092520299164486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224698839121534554}
+  - component: {fileID: 114063970539238226}
+  m_Layer: 5
+  m_Name: PiecePointCount
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1097824809851032
 GameObject:
   m_ObjectHideFlags: 1
@@ -2498,6 +2514,22 @@ MonoBehaviour:
     y: 0
     width: 0.5
     height: 0.7
+--- !u!114 &114063970539238226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092520299164486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd816ba80176db40857cb1011aa9409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetPiecePointBlue: {fileID: 1430505320570972}
+  GetPiecePointRed: {fileID: 1943624455195672}
+  bdManager: {fileID: 114491434560371100}
+  BluePoint: 0
+  RedPoint: 0
 --- !u!114 &114068080098136660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4175,6 +4207,8 @@ MonoBehaviour:
   RedCoord: 
   audioManager: {fileID: 0}
   CR_update: 0
+  RedPieceCut: 0
+  BluePieceCut: 0
 --- !u!114 &114509852648453704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10908,6 +10942,7 @@ RectTransform:
   - {fileID: 224893090316092992}
   - {fileID: 224252183675610016}
   - {fileID: 224160846309132972}
+  - {fileID: 224698839121534554}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11268,6 +11303,24 @@ RectTransform:
   m_AnchoredPosition: {x: -126.5, y: -216.29999}
   m_SizeDelta: {x: 62, y: 126}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!224 &224698839121534554
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092520299164486}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224494316732069266}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224710872824657326
 RectTransform:
   m_ObjectHideFlags: 1

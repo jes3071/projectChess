@@ -68,6 +68,9 @@ public class BoardManager : MonoBehaviour {
 
     public bool CR_update = false;
 
+    public bool RedPieceCut = false;
+    public bool BluePieceCut = false;
+
     void StartTimer()
     {
         timerCoroutine = Timer(turnTime);
@@ -555,6 +558,7 @@ public class BoardManager : MonoBehaviour {
             {
                 if (CurIndex[i] == PieceBlueCoord[j] && SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareBlueStempLand"))
                 {
+                    BluePieceCut = true;
                     PieceBlueCoord.RemoveAt(j);
                     break;
                 }
@@ -614,7 +618,7 @@ public class BoardManager : MonoBehaviour {
             RedKingPiece.GetComponent<Image>().raycastTarget = true;
         }
 
-        if (turnCount == 32) // 게임 끝
+        if (turnCount == 30) // 게임 끝 32
         {
             ResultOpener.Invoke("BattleResult", 2);
             //ResultOpener.BattleResult();
@@ -683,7 +687,7 @@ public class BoardManager : MonoBehaviour {
         TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         
 
-        if (turnCount < 32)// 게임끝 전까지만
+        if (turnCount < 30)// 게임끝 전까지만
             StartTimer();
         CR_update = false;
     }
@@ -1056,6 +1060,7 @@ public class BoardManager : MonoBehaviour {
             {
                 if (CurIndex[i] == PieceRedCoord[j] && SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareRedStempLand"))
                 {
+                    RedPieceCut = true;
                     PieceRedCoord.RemoveAt(j);
                     break;
                 }
@@ -1117,7 +1122,7 @@ public class BoardManager : MonoBehaviour {
             RedKingPiece.GetComponent<Image>().raycastTarget = true;
         }
 
-        if (turnCount == 32) // 게임 끝
+        if (turnCount == 30) // 게임 끝
         {
             ResultOpener.Invoke("BattleResult", 2);
             //ResultOpener.BattleResult();
@@ -1187,7 +1192,7 @@ public class BoardManager : MonoBehaviour {
         TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
 
 
-        if (turnCount < 32)// 게임끝 전까지만
+        if (turnCount < 30)// 게임끝 전까지만
             StartTimer();
         CR_update = false;
     }
@@ -2101,21 +2106,24 @@ public class BoardManager : MonoBehaviour {
         kingBluePoint = 0;
         kingRedPoint = 0;
 
+        RedPieceCut = false;
+        BluePieceCut = false;
+
         CR_update = false;
 
         BlueCoord = new List<int>();
         RedCoord = new List<int>();
-
-
-        if (gameObject.transform.childCount > 0)
-        {
-            TileColoring();
-            PieceReset();
-            Invoke("SquareInitialize", 1);
-        }
+        
+        //if (gameObject.transform.childCount > 0)
+        //{
+        //    TileColoring();
+        //    PieceReset();
+        //    Invoke("SquareInitialize", 1);
+        //}
 
         Invoke("StartTimer", 2);
 
+        PieceReset();
         SetDynamicGrid();
 
     }
@@ -2194,7 +2202,7 @@ public class BoardManager : MonoBehaviour {
             p2.GetComponent<Image>().raycastTarget = true;
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             GameObject p1 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Pawn" + (i+4).ToString()).gameObject;
             p1.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Pawn");
@@ -2255,8 +2263,8 @@ public class BoardManager : MonoBehaviour {
                 GameObject p3 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p3.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Bishop");
 
-                GameObject p4 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
-                p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "King");
+                GameObject p4 = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Prince0").gameObject;
+                p4.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/White" + "Prince");
 
 
 
@@ -2269,8 +2277,8 @@ public class BoardManager : MonoBehaviour {
                 GameObject p7 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject;
                 p7.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Bishop");
 
-                GameObject p8 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
-                p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "King");
+                GameObject p8 = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Prince0").gameObject;
+                p8.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/Black" + "Prince");
 
                 p1.GetComponent<Image>().raycastTarget = true;
                 p2.GetComponent<Image>().raycastTarget = true;
@@ -2477,42 +2485,48 @@ public class BoardManager : MonoBehaviour {
             if(i >= 0 && i < 7) // right
             {
                 BasicMap[i + 1] = tempList[i];
-                MovePiece(i, i + 1);
+                MovePiece(i, i + 1, tempBlue, tempRed);
 
             }
             else if(i % 8 == 0 && i != 0) // up
             {
                 BasicMap[i - 8] = tempList[i];
-                MovePiece(i, i - 8);
+                MovePiece(i, i - 8, tempBlue, tempRed);
             }
             else if(i > 56 && i <= 63) // left
             {
                 BasicMap[i - 1] = tempList[i];
-                MovePiece(i, i - 1);
+                MovePiece(i, i - 1, tempBlue, tempRed);
             }
             else if (i % 8 == 7 && i != 63) // down
             {
                 BasicMap[i + 8] = tempList[i];
-                MovePiece(i, i + 8);
+                MovePiece(i, i + 8, tempBlue, tempRed);
             }
         }
 
         AfterSetMap();
+        PieceBlueCoord = tempBlue;
+        PieceRedCoord = tempRed;
 
     }
 
-    public void MovePiece(int from, int to)
+    public void MovePiece(int from, int to, List<int> tempBlue, List<int> tempRed)
     {
         if (PieceBlueCoord.Contains(from))
         {
-            PieceBlueCoord.Remove(from);
-            PieceBlueCoord.Add(to);
+            tempBlue.Remove(from);
+            tempBlue.Add(to);
+            //PieceBlueCoord.Remove(from);
+            //PieceBlueCoord.Add(to);
         }
         else if (PieceRedCoord.Contains(from))
         {
-            Debug.Log("movePi from to ->" + from + ", " + to);
-            PieceRedCoord.Remove(from);
-            PieceRedCoord.Add(to);
+            tempRed.Remove(from);
+            tempRed.Add(to);
+            //Debug.Log("movePi from to ->" + from + ", " + to);
+            //PieceRedCoord.Remove(from);
+            //PieceRedCoord.Add(to);
         }
     }
 
@@ -2530,31 +2544,40 @@ public class BoardManager : MonoBehaviour {
         List<int> tempList = new List<int>();
         tempList.AddRange(BasicMap);
 
+        List<int> tempBlue = new List<int>();
+        tempBlue.AddRange(PieceBlueCoord);
+
+        List<int> tempRed = new List<int>();
+        tempRed.AddRange(PieceRedCoord);
+
+
         for (int i = 0; i < 64; i++)
         {
             if (i >= 49 && i < 54) // right
             {
                 BasicMap[i + 1] = tempList[i];
-                MovePiece(i, i + 1);
+                MovePiece(i, i + 1, tempBlue, tempRed);
             }
             else if (i % 8 == 6 && i != 6 && i != 14 && i != 62) // up
             {
                 BasicMap[i - 8] = tempList[i];
-                MovePiece(i, i - 8);
+                MovePiece(i, i - 8, tempBlue, tempRed);
             }
             else if (i > 9 && i <= 14) // left
             {
                 BasicMap[i - 1] = tempList[i];
-                MovePiece(i, i - 1);
+                MovePiece(i, i - 1, tempBlue, tempRed);
             }
             else if (i % 8 == 1 && i != 49 && i != 57 && i != 1) // down
             {
                 BasicMap[i + 8] = tempList[i];
-                MovePiece(i, i + 8);
+                MovePiece(i, i + 8, tempBlue, tempRed);
             }
         }
 
         AfterSetMap();
+        PieceBlueCoord = tempBlue;
+        PieceRedCoord = tempRed;
 
     }
 }
