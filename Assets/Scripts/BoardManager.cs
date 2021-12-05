@@ -36,6 +36,7 @@ public class BoardManager : MonoBehaviour {
     private int Bishop = 4;
     private int Queen = 5;
     private int King = 6;
+    private int Prince = 7;
     private int Apearance = 10;
 
     public List<int> PieceBlueCoord;
@@ -168,12 +169,7 @@ public class BoardManager : MonoBehaviour {
 
         private void Update()
     {
-        if(mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0)
-        {
-            StopTimer();
-            //ResultOpener.Invoke("BattleResult", 2);
-            ResultOpener.BattleResult();
-        }
+        
         if (indexInformation != -1 && !CR_update)
         {
             CR_update = true;
@@ -186,6 +182,12 @@ public class BoardManager : MonoBehaviour {
                 StartCoroutine(UpdateChessBoardRed());
             }
             //StartCoroutine(UpdateChessBoard());
+        }
+        if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
+        {
+            StopTimer();
+            //ResultOpener.Invoke("BattleResult", 2);
+            ResultOpener.BattleResult();
         }
         indexInformation = -1;
     }
@@ -232,7 +234,7 @@ public class BoardManager : MonoBehaviour {
             {
                 CurIndex.Add(indexInformation - 17);
             }
-            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
+            if (indexInformation > 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
@@ -477,7 +479,7 @@ public class BoardManager : MonoBehaviour {
             AudioManager.instance.PawnSound();
 
             CurIndex = new List<int>();
-            CurAnimation = Pawn;
+            CurAnimation = Prince;
         }
         else if (CurPiece.name.Contains("King"))
         {
@@ -589,6 +591,12 @@ public class BoardManager : MonoBehaviour {
             }
         }
 
+        if (CurAnimation == Prince)
+        {
+            SquareList[indexInformation].GetComponent<Animator>().SetInteger("State", CurAnimation);
+            SquareList[indexInformation].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+        }
+
         CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
         if (CurAnimation == King)
         {
@@ -623,13 +631,8 @@ public class BoardManager : MonoBehaviour {
         if (turnCount == 30) // 게임 끝 32
         {
             ResultOpener.Invoke("BattleResult", 2);
-            //ResultOpener.BattleResult();
             Debug.Log("blue king = " + BlueCoord.Count);
             Debug.Log("red king = " + RedCoord.Count);
-            //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
-            //Debug.Log("red Piece = " + PieceRedCoord.Count);
-            //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
-            //Debug.Log("red tile = " + mapMaker.RedTile.Count);
         }
 
         StopTimer();
@@ -738,7 +741,7 @@ public class BoardManager : MonoBehaviour {
             {
                 CurIndex.Add(indexInformation - 17);
             }
-            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
+            if (indexInformation > 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
                 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
@@ -983,7 +986,7 @@ public class BoardManager : MonoBehaviour {
             AudioManager.instance.PawnSound();
 
             CurIndex = new List<int>();
-            CurAnimation = Pawn;
+            CurAnimation = Prince;
         }
         else if (CurPiece.name.Contains("King"))
         {
@@ -1094,6 +1097,12 @@ public class BoardManager : MonoBehaviour {
                 }
 
             }
+        }
+
+        if (CurAnimation == Prince)
+        {
+            SquareList[indexInformation].GetComponent<Animator>().SetInteger("State", CurAnimation);
+            SquareList[indexInformation].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
         }
 
         CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(CurPiece.name));
@@ -1261,6 +1270,14 @@ public class BoardManager : MonoBehaviour {
         {
             PieceRedCoord.Remove(index);
         }
+        if (mapMaker.BlueTile.Contains(index))
+        {
+            mapMaker.BlueTile.Remove(index);
+        }
+        if (mapMaker.RedTile.Contains(index))
+        {
+            mapMaker.RedTile.Remove(index);
+        }
     }
     public void MakeWhiteTile(int index)
     {
@@ -1274,6 +1291,14 @@ public class BoardManager : MonoBehaviour {
         if (PieceRedCoord.Contains(index))
         {
             PieceRedCoord.Remove(index);
+        }
+        if (mapMaker.BlueTile.Contains(index))
+        {
+            mapMaker.BlueTile.Remove(index);
+        }
+        if (mapMaker.RedTile.Contains(index))
+        {
+            mapMaker.RedTile.Remove(index);
         }
     }
 
@@ -2155,6 +2180,7 @@ public class BoardManager : MonoBehaviour {
         Bishop = 4;
         Queen = 5;
         King = 6;
+        Prince = 7;
         Apearance = 10;
 
         PieceBlueCoord = new List<int>();

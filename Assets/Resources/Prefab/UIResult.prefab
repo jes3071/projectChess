@@ -605,6 +605,8 @@ MonoBehaviour:
   BluePiece: {fileID: 1519648666075764}
   RedPiece: {fileID: 1622622594860324}
   bdManager: {fileID: 0}
+  ppCounting: {fileID: 0}
+  mapMaker: {fileID: 0}
 --- !u!114 &114229775804762726
 MonoBehaviour:
   m_ObjectHideFlags: 1
