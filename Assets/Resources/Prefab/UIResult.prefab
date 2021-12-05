@@ -673,7 +673,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.73
-  m_Text: "\uCD1D \uC810\uC218 : 32 + 7 = <B><size=60>39</size></B>"
+  m_Text: "\uCD1D \uC810\uC218 : 32 + 7 = <B><size=60><color=#9E0000FF>39</color></size></B>"
 --- !u!114 &114229775804762726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -787,7 +787,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.73
-  m_Text: "\uCD1D \uC810\uC218 : 32 + 7 = <B><size=60>39</size></B>"
+  m_Text: "\uCD1D \uC810\uC218 : 32 + 7 = <B><size=60><color=#0077D7FF>39</color></size></B>"
 --- !u!114 &114366213393789628
 MonoBehaviour:
   m_ObjectHideFlags: 1
