@@ -43,7 +43,13 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                 }
                 if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Blue") && !pieceFlag)
                 {
-                    gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                    if (boardManager.GetComponent<BoardManager>().CurPiece.name.Contains("Prince")){
+                        gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
+                    }
+                    else
+                    {
+                        gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                    }
                     boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
                     
@@ -64,7 +70,14 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                 }
                 if (gameObject.transform.GetComponent<Image>().sprite.name.Contains("Red") && !pieceFlag)
                 {
-                    gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                    if (boardManager.GetComponent<BoardManager>().CurPiece.name.Contains("Prince"))
+                    {
+                        gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
+                    }
+                    else
+                    {
+                        gameObject.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(boardManager.GetComponent<BoardManager>().CurPiece.name));
+                    }
                     boardManager.GetComponent<BoardManager>().CurPiece.transform.GetChild(0).gameObject.SetActive(false);
                     boardManager.GetComponent<BoardManager>().indexInformation = RemoveAlpha(gameObject.name);
 

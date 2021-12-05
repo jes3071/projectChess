@@ -49,7 +49,7 @@ public class BoardManager : MonoBehaviour {
     public Toggle FirstTurn;
     public Toggle TurnTimeToggle;
 
-    private int curTurn;
+    public int curTurn;
     private int turnTime;
 
     public GameObject TimerOne;
@@ -172,9 +172,1156 @@ public class BoardManager : MonoBehaviour {
         if (indexInformation != -1 && !CR_update)
         {
             CR_update = true;
-            StartCoroutine(UpdateChessBoard());
+            if(curTurn == BLUE_TURN)
+            {
+                StartCoroutine(UpdateChessBoardBlue());
+            }
+            else
+            {
+                StartCoroutine(UpdateChessBoardRed());
+            }
+            //StartCoroutine(UpdateChessBoard());
         }
         indexInformation = -1;
+    }
+
+    IEnumerator UpdateChessBoardRed()
+    {
+        AudioManager.instance.BaseSound();
+
+        if (CurPiece.name.Contains("Pawn"))
+        {
+            AudioManager.instance.PawnSound();
+            CurIndex = new List<int>();
+            
+            if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 9);
+            }
+
+            if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 7);
+            }
+            CurAnimation = Pawn;
+        }
+        else if (CurPiece.name.Contains("Knight"))
+        {
+            AudioManager.instance.KnightSound();
+            CurIndex = new List<int>();
+            if (indexInformation >= 10 && (indexInformation - 10) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 10);
+            }
+            if (indexInformation >= 17 && (indexInformation - 17) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 17);
+            }
+            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 15);
+            }
+            if (indexInformation >= 8 && (indexInformation - 6) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 6);
+            }
+
+            if (indexInformation + 10 <= 63 && (indexInformation + 10) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 10);
+            }
+            if (indexInformation + 17 <= 63 && (indexInformation + 17) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 17);
+            }
+            if (indexInformation + 15 <= 63 && (indexInformation + 15) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 15);
+            }
+            if (indexInformation + 6 <= 63 && (indexInformation + 6) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 6);
+            }
+            CurAnimation = Knight;
+        }
+        else if (CurPiece.name.Contains("Rook"))
+        {
+            AudioManager.instance.RookSound();
+            CurIndex = new List<int>();
+
+            int i = 1;
+            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if(SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i <= 63 && (indexInformation + i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i++;
+            }
+            i = 8;
+            while (indexInformation >= i && (indexInformation - i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i += 8;
+            }
+            i = 8;
+            while (indexInformation + i <= 63 && (indexInformation + i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i += 8;
+            }
+            CurAnimation = Rook;
+        }
+        else if (CurPiece.name.Contains("Bishop"))
+        {
+            AudioManager.instance.BishopSound();
+            CurIndex = new List<int>();
+            int i = 1;
+            while (indexInformation >= i * 9 && (indexInformation - 9 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌상
+            {
+                if (SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i * 9 <= 63 && (indexInformation + 9 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우하
+            {
+                if (SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + 7 * i <= 63 && (indexInformation + 7 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌하
+            {
+                if (SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= 7 * i && (indexInformation - 7 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우상
+            {
+                if (SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 7);
+                i++;
+            }
+            CurAnimation = Bishop;
+        }
+        else if (CurPiece.name.Contains("Queen"))
+        {
+            AudioManager.instance.QueenSound();
+            CurIndex = new List<int>();
+            int i = 1;
+            while (indexInformation >= i * 9 && (indexInformation - 9 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌상
+            {
+                if (SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i * 9 <= 63 && (indexInformation + 9 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우하
+            {
+                if (SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + 7 * i <= 63 && (indexInformation + 7 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌하
+            {
+                if (SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= 7 * i && (indexInformation - 7 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우상
+            {
+                if (SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i <= 63 && (indexInformation + i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i++;
+            }
+            i = 8;
+            while (indexInformation >= i && (indexInformation - i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i += 8;
+            }
+            i = 8;
+            while (indexInformation + i <= 63 && (indexInformation + i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareBlueStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i += 8;
+            }
+            CurAnimation = Queen;
+        }
+        else if (CurPiece.name.Contains("Prince"))
+        {
+            AudioManager.instance.PawnSound();
+
+            CurIndex = new List<int>();
+            CurAnimation = Pawn;
+        }
+        else if (CurPiece.name.Contains("King"))
+        {
+            AudioManager.instance.KingSound();
+            CurIndex = new List<int>();
+            Debug.Log("king");
+
+            if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 7);
+            }
+            if (indexInformation >= 8
+                && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 8);
+            }
+            if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 9);
+            }
+            if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8
+                && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 1);
+            }
+            if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8
+                && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 1);
+            }
+            if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 7);
+            }
+            if (indexInformation + 8 <= 63
+                && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 8);
+            }
+            if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 9);
+            }
+            CurAnimation = King;
+        }
+
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼"))
+        {
+            if (CurIndex.Contains(7) && SquareList[7].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 5, 6, 7, 13, 14, 15, 21, 22, 23 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+            if (CurIndex.Contains(56) && SquareList[56].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 40, 41, 42, 48, 49, 50, 56, 57, 58 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+        }
+
+
+        for (int i = 0; i < CurIndex.Count; i++)
+        {
+            if (i == 0)
+                PieceRedCoord.Add(indexInformation);
+
+            for (int j = 0; j < PieceBlueCoord.Count; j++)
+            {
+                if (CurIndex[i] == PieceBlueCoord[j] && SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareBlueStempLand"))
+                {
+                    PieceBlueCoord.RemoveAt(j);
+                    break;
+                }
+            }
+
+            bool stateFlag = false;
+            for (int j = 0; j < PieceRedCoord.Count; j++)
+            {
+                if (CurIndex[i] == PieceRedCoord[j] || SquareList[CurIndex[i]].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempLand"))
+                {
+                    stateFlag = true;
+                    break;
+                }
+            }
+            if (!stateFlag)
+            {
+                SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRed");
+                SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+                yield return null;
+                if (!mapMaker.RedTile.Contains(CurIndex[i]))
+                {
+                    mapMaker.RedTile.Add(CurIndex[i]);
+                    mapMaker.BlueTile.Remove(CurIndex[i]);
+                }
+            }
+        }
+
+        CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(CurPiece.name));
+        if (CurAnimation == King)
+        {
+            Debug.Log("red");
+            RedCalcul(BoardClickable.kingRedCoord);
+            for (int i = 1; i < RedCoord.Count; i++)
+            {
+                SquareList[RedCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
+                SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[RedCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+                yield return null;
+            }
+        }
+
+
+
+        turnChange = true;
+        CurPiece.GetComponent<Image>().raycastTarget = false;
+        CurPiece = null;
+        Invoke("SquareInitialize", 1);
+
+        turnCount++;
+
+        if (turnCount == 4) // 막 턴 되면 킹 선택 가능하게 30
+        {
+            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
+            BlueKingPiece.GetComponent<Image>().raycastTarget = true;
+            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
+            RedKingPiece.GetComponent<Image>().raycastTarget = true;
+        }
+
+        if (turnCount == 32) // 게임 끝
+        {
+            ResultOpener.Invoke("BattleResult", 2);
+            //ResultOpener.BattleResult();
+            Debug.Log("blue king = " + BlueCoord.Count);
+            Debug.Log("red king = " + RedCoord.Count);
+            //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
+            //Debug.Log("red Piece = " + PieceRedCoord.Count);
+            //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
+            //Debug.Log("red tile = " + mapMaker.RedTile.Count);
+        }
+
+        StopTimer();
+
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
+        {
+            if (turnCount == 5)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 3; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosOutMap();
+                }
+            }
+
+            if (turnCount == 10)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 5; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosInMap();
+                }
+            }
+
+
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
+        {
+            if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+            {
+                yield return new WaitForSeconds(0.5f);
+                AreaMapEvent();
+            }
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
+        {
+            if (turnCount == 3 || turnCount == 6)
+            {
+                yield return new WaitForSeconds(0.5f);
+                RaidMapEvent();
+            }
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
+        {
+            if (turnCount == 3 || turnCount == 6)
+            {
+                yield return new WaitForSeconds(0.5f);
+                SpaceMapEvent();
+            }
+        }
+
+        turnAnim.SetInteger("AIState", -1);
+        curTurn = BLUE_TURN;
+        TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
+        TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
+        
+
+        if (turnCount < 32)// 게임끝 전까지만
+            StartTimer();
+        CR_update = false;
+    }
+    IEnumerator UpdateChessBoardBlue()
+    {
+        AudioManager.instance.BaseSound();
+
+        if (CurPiece.name.Contains("Pawn"))
+        {
+            AudioManager.instance.PawnSound();
+            CurIndex = new List<int>();
+
+            if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8
+                    && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                    && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 9);
+            }
+            if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 7);
+            }
+            CurAnimation = Pawn;
+        }
+        else if (CurPiece.name.Contains("Knight"))
+        {
+            AudioManager.instance.KnightSound();
+            CurIndex = new List<int>();
+            if (indexInformation >= 10 && (indexInformation - 10) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 10);
+            }
+            if (indexInformation >= 17 && (indexInformation - 17) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 17);
+            }
+            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 15);
+            }
+            if (indexInformation >= 8 && (indexInformation - 6) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation - 6);
+            }
+
+            if (indexInformation + 10 <= 63 && (indexInformation + 10) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 10);
+            }
+            if (indexInformation + 17 <= 63 && (indexInformation + 17) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 17);
+            }
+            if (indexInformation + 15 <= 63 && (indexInformation + 15) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 15);
+            }
+            if (indexInformation + 6 <= 63 && (indexInformation + 6) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
+            {
+                CurIndex.Add(indexInformation + 6);
+            }
+            CurAnimation = Knight;
+        }
+        else if (CurPiece.name.Contains("Rook"))
+        {
+            AudioManager.instance.RookSound();
+            CurIndex = new List<int>();
+
+            int i = 1;
+            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i <= 63 && (indexInformation + i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i++;
+            }
+            i = 8;
+            while (indexInformation >= i && (indexInformation - i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i += 8;
+            }
+            i = 8;
+            while (indexInformation + i <= 63 && (indexInformation + i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i += 8;
+            }
+            CurAnimation = Rook;
+        }
+        else if (CurPiece.name.Contains("Bishop"))
+        {
+            AudioManager.instance.BishopSound();
+            CurIndex = new List<int>();
+            int i = 1;
+            while (indexInformation >= i * 9 && (indexInformation - 9 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌상
+            {
+                if (SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i * 9 <= 63 && (indexInformation + 9 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우하
+            {
+                if (SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + 7 * i <= 63 && (indexInformation + 7 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌하
+            {
+                if (SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= 7 * i && (indexInformation - 7 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우상
+            {
+                if (SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 7);
+                i++;
+            }
+            CurAnimation = Bishop;
+        }
+        else if (CurPiece.name.Contains("Queen"))
+        {
+            AudioManager.instance.QueenSound();
+            CurIndex = new List<int>();
+            int i = 1;
+            while (indexInformation >= i * 9 && (indexInformation - 9 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌상
+            {
+                if (SquareList[indexInformation - 9 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i * 9 <= 63 && (indexInformation + 9 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우하
+            {
+                if (SquareList[indexInformation + 9 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 9);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + 7 * i <= 63 && (indexInformation + 7 * i) / 8 == (indexInformation / 8) + i
+                && SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 좌하
+            {
+                if (SquareList[indexInformation + 7 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= 7 * i && (indexInformation - 7 * i) / 8 == (indexInformation / 8) - i
+                && SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name != "BattleSquareBlock") // 우상
+            {
+                if (SquareList[indexInformation - 7 * i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i * 7);
+                i++;
+            }
+            i = 1;
+            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i++;
+            }
+            i = 1;
+            while (indexInformation + i <= 63 && (indexInformation + i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i++;
+            }
+            i = 8;
+            while (indexInformation >= i && (indexInformation - i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation - i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation - i);
+                i += 8;
+            }
+            i = 8;
+            while (indexInformation + i <= 63 && (indexInformation + i) % 8 == (indexInformation % 8)
+                && SquareList[indexInformation + i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            {
+                if (SquareList[indexInformation + i].GetComponent<Image>().sprite.name == "BattleSquareRedStempLand")
+                {
+                    break;
+                }
+                CurIndex.Add(indexInformation + i);
+                i += 8;
+            }
+            CurAnimation = Queen;
+        }
+        else if (CurPiece.name.Contains("Prince"))
+        {
+            AudioManager.instance.PawnSound();
+
+            CurIndex = new List<int>();
+            CurAnimation = Pawn;
+        }
+        else if (CurPiece.name.Contains("King"))
+        {
+            AudioManager.instance.KingSound();
+            CurIndex = new List<int>();
+            Debug.Log("king");
+
+            if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 7);
+            }
+            if (indexInformation >= 8
+                && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 8].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 8);
+            }
+            if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 9);
+            }
+            if (indexInformation >= 1 && (indexInformation - 1) / 8 == (indexInformation) / 8
+                && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 1].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation - 1);
+            }
+            if (indexInformation + 1 <= 63 && (indexInformation + 1) / 8 == (indexInformation) / 8
+                && SquareList[indexInformation + 1].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation + 1);
+            }
+            if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation + 7);
+            }
+            if (indexInformation + 8 <= 63
+                && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 8].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation + 8);
+            }
+            if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
+            {
+                CurIndex.Add(indexInformation + 9);
+            }
+            CurAnimation = King;
+        }
+
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("투혼"))
+        {
+            if (CurIndex.Contains(7) && SquareList[7].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 5, 6, 7, 13, 14, 15, 21, 22, 23 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+            if (CurIndex.Contains(56) && SquareList[56].GetComponent<Image>().sprite.name == "BattleSquareMulti")
+            {
+                CurIndex.AddRange(new int[9] { 40, 41, 42, 48, 49, 50, 56, 57, 58 });
+                CurIndex = CurIndex.Distinct().ToList();
+            }
+        }
+
+
+        for (int i = 0; i < CurIndex.Count; i++)
+        {
+            if (i == 0)
+                PieceBlueCoord.Add(indexInformation);
+
+            for (int j = 0; j < PieceRedCoord.Count; j++)
+            {
+                if (CurIndex[i] == PieceRedCoord[j] && SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareRedStempLand"))
+                {
+                    PieceRedCoord.RemoveAt(j);
+                    break;
+                }
+            }
+
+            bool stateFlag = false;
+            for (int j = 0; j < PieceBlueCoord.Count; j++)
+            {
+                if (CurIndex[i] == PieceBlueCoord[j] || SquareList[CurIndex[i]].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempLand"))
+                {
+                    stateFlag = true;
+                    break;
+                }
+            }
+            if (!stateFlag)
+            {
+                SquareList[CurIndex[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlue");
+                SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+                yield return null;
+                if (!mapMaker.BlueTile.Contains(CurIndex[i]))
+                {
+                    mapMaker.BlueTile.Add(CurIndex[i]);
+                    mapMaker.RedTile.Remove(CurIndex[i]);
+                }
+
+            }
+        }
+
+        CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(CurPiece.name));
+        if (CurAnimation == King)
+        {
+            Debug.Log("blue");
+            BlueCalcul(BoardClickable.kingBlueCoord);
+            for (int i = 1; i < BlueCoord.Count; i++)
+            {
+                SquareList[BlueCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
+                SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
+                SquareList[BlueCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+                yield return null;
+
+            }
+        }
+
+
+
+        turnChange = true;
+        CurPiece.GetComponent<Image>().raycastTarget = false;
+        CurPiece = null;
+        Invoke("SquareInitialize", 1);
+
+        turnCount++;
+
+        if (turnCount == 4) // 막 턴 되면 킹 선택 가능하게 30
+        {
+            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
+            BlueKingPiece.GetComponent<Image>().raycastTarget = true;
+            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
+            RedKingPiece.GetComponent<Image>().raycastTarget = true;
+        }
+
+        if (turnCount == 32) // 게임 끝
+        {
+            ResultOpener.Invoke("BattleResult", 2);
+            //ResultOpener.BattleResult();
+            Debug.Log("blue king = " + BlueCoord.Count);
+            Debug.Log("red king = " + RedCoord.Count);
+            //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
+            //Debug.Log("red Piece = " + PieceRedCoord.Count);
+            //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
+            //Debug.Log("red tile = " + mapMaker.RedTile.Count);
+        }
+
+        StopTimer();
+
+        if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
+        {
+            if (turnCount == 5)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 3; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosOutMap();
+                }
+            }
+
+            if (turnCount == 10)
+            {
+                yield return new WaitForSeconds(0.5f);
+                for (int i = 0; i < 5; i++)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    UroborosInMap();
+                }
+            }
+
+
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
+        {
+            if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+            {
+                yield return new WaitForSeconds(0.5f);
+                AreaMapEvent();
+            }
+                
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
+        {
+            if (turnCount == 3 || turnCount == 6)
+            {
+                yield return new WaitForSeconds(0.5f);
+                RaidMapEvent();
+            }
+        }
+        else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
+        {
+            if (turnCount == 3 || turnCount == 6)
+            {
+                yield return new WaitForSeconds(0.5f);
+                SpaceMapEvent();
+            }
+        }
+
+        turnAnim.SetInteger("AIState", 1);
+        curTurn = RED_TURN;
+        TimerOne.gameObject.GetComponent<Image>().fillAmount = 0f;
+        TimerTwo.gameObject.GetComponent<Image>().fillAmount = 1f;
+
+
+        if (turnCount < 32)// 게임끝 전까지만
+            StartTimer();
+        CR_update = false;
+    }
+
+    public void AreaMapEvent()
+    {
+        if(turnCount == 2) // 9
+        {
+            // 0 7 56 63
+            MakeBlockTile(0);
+            MakeBlockTile(7);
+            MakeBlockTile(56);
+            MakeBlockTile(63);
+        }
+        else if(turnCount == 5) // 18
+        {
+            // 1 6 8 15 48 55 57 62
+            MakeBlockTile(1);
+            MakeBlockTile(6);
+            MakeBlockTile(8);
+            MakeBlockTile(15);
+            MakeBlockTile(48);
+            MakeBlockTile(55);
+            MakeBlockTile(57);
+            MakeBlockTile(62);
+        }
+        else if(turnCount == 8) // 27
+        {
+            // 2 5 9 14 16 23 40 47 49 54 58 61
+            MakeBlockTile(2);
+            MakeBlockTile(5);
+            MakeBlockTile(9);
+            MakeBlockTile(14);
+            MakeBlockTile(16);
+            MakeBlockTile(23);
+            MakeBlockTile(40);
+            MakeBlockTile(47);
+            MakeBlockTile(49);
+            MakeBlockTile(54);
+            MakeBlockTile(58);
+            MakeBlockTile(61);
+        }
+
+    }
+
+    public void MakeBlockTile(int index)
+    {
+        SquareList[index].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+        SquareList[index].GetComponent<Animator>().SetInteger("State", 0);
+        SquareList[index].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0, 0, 0);
+        if (PieceBlueCoord.Contains(index))
+        {
+            PieceBlueCoord.Remove(index);
+        }
+        if (PieceRedCoord.Contains(index))
+        {
+            PieceRedCoord.Remove(index);
+        }
+    }
+    public void MakeWhiteTile(int index)
+    {
+        SquareList[index].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+        SquareList[index].GetComponent<Animator>().SetInteger("State", 0);
+        SquareList[index].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(255, 255, 255);
+        if (PieceBlueCoord.Contains(index))
+        {
+            PieceBlueCoord.Remove(index);
+        }
+        if (PieceRedCoord.Contains(index))
+        {
+            PieceRedCoord.Remove(index);
+        }
+    }
+
+    public void RaidMapEvent()
+    {
+        if(turnCount == 3) // 12
+        {
+            MakeWhiteTile(4);
+            MakeBlockTile(20);
+            MakeWhiteTile(24);
+            MakeBlockTile(26);
+            MakeWhiteTile(59);
+            MakeBlockTile(43);
+            MakeWhiteTile(39);
+            MakeBlockTile(37);
+            //SquareList[4].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[20].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[24].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[26].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[59].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[43].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[39].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[37].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+        }
+        else if (turnCount == 6) // 24
+        {
+            MakeWhiteTile(12);
+            MakeBlockTile(28);
+            MakeWhiteTile(25);
+            MakeBlockTile(27);
+            MakeWhiteTile(51);
+            MakeBlockTile(35);
+            MakeWhiteTile(38);
+            MakeBlockTile(36);
+            //SquareList[12].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[28].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[25].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[27].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[51].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[35].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+
+            //SquareList[38].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
+            //SquareList[36].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
+        }
+    }
+
+    public void SpaceMapEvent()
+    {
+        while (true)
+        {
+            int rand = Random.Range(0,64);
+            Debug.Log("rand = " + rand);
+            if(SquareList[rand].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareBlock")){
+                SquareList[rand].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlackHole");
+                break;
+            }
+            
+        }
     }
 
     IEnumerator UpdateChessBoard()
@@ -189,25 +1336,31 @@ public class BoardManager : MonoBehaviour {
             CurIndex = new List<int>();
             if (CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
             {
-                if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                if (indexInformation >= 9 && (indexInformation - 9) / 8 == (indexInformation - 8) / 8
+                    && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                    && SquareList[indexInformation - 9].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
                 {
                     CurIndex.Add(indexInformation - 9);
-
                 }
-
-                if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
+                    && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                    && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand")
                 {
                     CurIndex.Add(indexInformation - 7);
                 }
             }
             else
             {
-                if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                if (indexInformation + 9 <= 63 && (indexInformation + 9) / 8 == (indexInformation + 8) / 8
+                    && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                    && SquareList[indexInformation + 9].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
                 {
                     CurIndex.Add(indexInformation + 9);
                 }
 
-                if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+                if (indexInformation + 7 <= 63 && (indexInformation + 7) / 8 == (indexInformation + 8) / 8
+                    && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                    && SquareList[indexInformation + 7].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
                 {
                     CurIndex.Add(indexInformation + 7);
                 }
@@ -219,36 +1372,60 @@ public class BoardManager : MonoBehaviour {
         {
             AudioManager.instance.KnightSound();
             CurIndex = new List<int>();
-            if (indexInformation >= 10 && (indexInformation - 10) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation >= 10 && (indexInformation - 10) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation - 10);
             }
-            if (indexInformation >= 17 && (indexInformation - 17) / 8 == (indexInformation - 16) / 8 && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation >= 17 && (indexInformation - 17) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation - 17);
             }
-            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8 && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation >= 15 && (indexInformation - 15) / 8 == (indexInformation - 16) / 8
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation - 15);
             }
-            if (indexInformation >= 8 && (indexInformation - 6) / 8 == (indexInformation - 8) / 8 && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation >= 8 && (indexInformation - 6) / 8 == (indexInformation - 8) / 8
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation - 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation - 6);
             }
 
-            if (indexInformation + 10 <= 63 && (indexInformation + 10) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation + 10 <= 63 && (indexInformation + 10) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 10].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation + 10);
             }
-            if (indexInformation + 17 <= 63 && (indexInformation + 17) / 8 == (indexInformation + 16) / 8 && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation + 17 <= 63 && (indexInformation + 17) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 17].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation + 17);
             }
-            if (indexInformation + 15 <= 63 && (indexInformation + 15) / 8 == (indexInformation + 16) / 8 && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation + 15 <= 63 && (indexInformation + 15) / 8 == (indexInformation + 16) / 8
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 15].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation + 15);
             }
-            if (indexInformation + 6 <= 63 && (indexInformation + 6) / 8 == (indexInformation + 8) / 8 && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            if (indexInformation + 6 <= 63 && (indexInformation + 6) / 8 == (indexInformation + 8) / 8
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareRedStempLand"
+                && SquareList[indexInformation + 6].GetComponent<Image>().sprite.name != "BattleSquareBlueStempLand")
             {
                 CurIndex.Add(indexInformation + 6);
             }
@@ -258,8 +1435,11 @@ public class BoardManager : MonoBehaviour {
         {
             AudioManager.instance.RookSound();
             CurIndex = new List<int>();
+
             int i = 1;
-            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8) && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
+            while (indexInformation >= i && (indexInformation - i) / 8 == (indexInformation / 8)
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock"
+                && SquareList[indexInformation - i].GetComponent<Image>().sprite.name != "BattleSquareBlock")
             {
                 CurIndex.Add(indexInformation - i);
                 i++;
@@ -368,11 +1548,18 @@ public class BoardManager : MonoBehaviour {
             }
             CurAnimation = Queen;
         }
+        else if (CurPiece.name.Contains("Prince"))
+        {
+            AudioManager.instance.PawnSound();
+
+            CurIndex = new List<int>();
+            CurAnimation = Pawn;
+        }
         else if (CurPiece.name.Contains("King"))
         {
             AudioManager.instance.KingSound();
             CurIndex = new List<int>();
-
+            Debug.Log("king");
             if (FirstTurn.isOn) // 1p first
             {
                 if (curTurn == BLUE_TURN)
@@ -551,7 +1738,7 @@ public class BoardManager : MonoBehaviour {
 
                 for (int j = 0; j < PieceRedCoord.Count; j++)
                 {
-                    if (CurIndex[i] == PieceRedCoord[j])
+                    if (CurIndex[i] == PieceRedCoord[j] || SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareRedStempLand"))
                     {
                         PieceRedCoord.RemoveAt(j);
                         break;
@@ -592,7 +1779,7 @@ public class BoardManager : MonoBehaviour {
 
                 for (int j = 0; j < PieceBlueCoord.Count; j++)
                 {
-                    if (CurIndex[i] == PieceBlueCoord[j])
+                    if (CurIndex[i] == PieceBlueCoord[j] || SquareList[CurIndex[i]].GetComponent<Image>().sprite != Resources.Load<Sprite>("UI/BattleSquareBlueStempLand"))
                     {
                         PieceBlueCoord.RemoveAt(j);
                         break;
@@ -602,7 +1789,7 @@ public class BoardManager : MonoBehaviour {
                 bool stateFlag = false;
                 for (int j = 0; j < PieceRedCoord.Count; j++)
                 {
-                    if (CurIndex[i] == PieceRedCoord[j])
+                    if (CurIndex[i] == PieceRedCoord[j] || SquareList[CurIndex[i]].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempLand"))
                     {
                         stateFlag = true;
                         break;
@@ -641,7 +1828,7 @@ public class BoardManager : MonoBehaviour {
         {
             Debug.Log("blue");
             BlueCalcul(BoardClickable.kingBlueCoord);
-            for (int i = 0; i < BlueCoord.Count; i++)
+            for (int i = 1; i < BlueCoord.Count; i++)
             {
                 SquareList[BlueCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
                 SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
@@ -655,7 +1842,7 @@ public class BoardManager : MonoBehaviour {
         {
             Debug.Log("red");
             RedCalcul(BoardClickable.kingRedCoord);
-            for (int i = 0; i < RedCoord.Count; i++)
+            for (int i = 1; i < RedCoord.Count; i++)
             {
                 SquareList[RedCoord[i]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
                 SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
@@ -674,7 +1861,7 @@ public class BoardManager : MonoBehaviour {
 
         turnCount++;
 
-        if (turnCount >= 3) // 막 턴 되면 킹 선택 가능하게 30
+        if (turnCount == 4) // 막 턴 되면 킹 선택 가능하게 30
         {
             GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
             BlueKingPiece.GetComponent<Image>().raycastTarget = true;
@@ -682,7 +1869,7 @@ public class BoardManager : MonoBehaviour {
             RedKingPiece.GetComponent<Image>().raycastTarget = true;
         }
 
-        if (turnCount >= 32) // 게임 끝
+        if (turnCount == 32) // 게임 끝
         {
             ResultOpener.Invoke("BattleResult", 2);
             //ResultOpener.BattleResult();
@@ -750,7 +1937,8 @@ public class BoardManager : MonoBehaviour {
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempBishop")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempRook")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempKnight")
-             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempPawn")))
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempPawn")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareBlueStempLand")))
         {
             Debug.Log("kingPoint = " + kingPoint);
             BlueCoord.Add(kingPoint);
@@ -783,7 +1971,8 @@ public class BoardManager : MonoBehaviour {
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempBishop")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempRook")
              || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempKnight")
-             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempPawn")))
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempPawn")
+             || SquareList[kingPoint].GetComponent<Image>().sprite == Resources.Load<Sprite>("UI/BattleSquareRedStempLand")))
         {
             Debug.Log("kingPoint = " + kingPoint);
             RedCoord.Add(kingPoint);
@@ -908,16 +2097,6 @@ public class BoardManager : MonoBehaviour {
     private void OnEnable()
     {
         Init();
-
-        //int[] redTile = mapMaker.RedTile.ToArray();
-        //int[] blueTile = mapMaker.BlueTile.ToArray();
-        //int[] blockTile = mapMaker.BlockTile.ToArray();
-        //int[] whiteTile = mapMaker.WhiteTile.ToArray();
-
-        //BasicMap.Add(redTile);
-        //BasicMap.Add(blueTile);
-        //BasicMap.Add(blockTile);
-        //BasicMap.Add(whiteTile);
 
         kingBluePoint = 0;
         kingRedPoint = 0;
@@ -1143,7 +2322,7 @@ public class BoardManager : MonoBehaviour {
         for (int k = 0; k < 64; k++)
         {
             BasicMap.Add(-1);
-            Debug.Log("string = " + SquareList[k].GetComponent<Image>().sprite.ToString());
+            //Debug.Log("string = " + SquareList[k].GetComponent<Image>().sprite.ToString());
             switch (SquareList[k].GetComponent<Image>().sprite.name)
             {
                 case "BattleSquareRed":
@@ -1159,40 +2338,46 @@ public class BoardManager : MonoBehaviour {
                     BasicMap[k] = 3;
                     break;
                 case "BattleSquareRedStempPawn":
-                    BasicMap[k] = 4;
+                    BasicMap[k] = 100;
                     break;
                 case "BattleSquareRedStempKnight":
-                    BasicMap[k] = 5;
+                    BasicMap[k] = 101;
                     break;
                 case "BattleSquareRedStempBishop":
-                    BasicMap[k] = 6;
+                    BasicMap[k] = 102;
                     break;
                 case "BattleSquareRedStempRook":
-                    BasicMap[k] = 7;
+                    BasicMap[k] = 103;
                     break;
                 case "BattleSquareRedStempQueen":
-                    BasicMap[k] = 8;
+                    BasicMap[k] = 104;
+                    break;
+                case "BattleSquareRedStempLand":
+                    BasicMap[k] = 105;
                     break;
                 case "BattleSquareRedStempKing":
-                    BasicMap[k] = 9;
+                    BasicMap[k] = 106;
                     break;
                 case "BattleSquareBlueStempPawn":
-                    BasicMap[k] = 10;
+                    BasicMap[k] = 107;
                     break;
                 case "BattleSquareBlueStempKnight":
-                    BasicMap[k] = 11;
+                    BasicMap[k] = 108;
                     break;
                 case "BattleSquareBlueStempBishop":
-                    BasicMap[k] = 12;
+                    BasicMap[k] = 109;
                     break;
                 case "BattleSquareBlueStempRook":
-                    BasicMap[k] = 13;
+                    BasicMap[k] = 110;
                     break;
                 case "BattleSquareBlueStempQueen":
-                    BasicMap[k] = 14;
+                    BasicMap[k] = 111;
+                    break;
+                case "BattleSquareBlueStempLand":
+                    BasicMap[k] = 112;
                     break;
                 case "BattleSquareBlueStempKing":
-                    BasicMap[k] = 15;
+                    BasicMap[k] = 113;
                     break;
 
                 default:
@@ -1219,40 +2404,46 @@ public class BoardManager : MonoBehaviour {
                 case 3:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
                     break;
-                case 4:
+                case 100:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempPawn");
                     break;
-                case 5:
+                case 101:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempKnight");
                     break;
-                case 6:
+                case 102:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempBishop");
                     break;
-                case 7:
+                case 103:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempRook");
                     break;
-                case 8:
+                case 104:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempQueen");
                     break;
-                case 9:
+                case 105:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempLand");
+                    break;
+                case 106:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStempKing");
                     break;
-                case 10:
+                case 107:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempPawn");
                     break;
-                case 11:
+                case 108:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempKnight");
                     break;
-                case 12:
+                case 109:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempBishop");
                     break;
-                case 13:
+                case 110:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempRook");
                     break;
-                case 14:
+                case 111:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempQueen");
                     break;
-                case 15:
+                case 112:
+                    SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempLand");
+                    break;
+                case 113:
                     SquareList[k].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStempKing");
                     break;
 
@@ -1274,28 +2465,55 @@ public class BoardManager : MonoBehaviour {
         List<int> tempList = new List<int>();
         tempList.AddRange(BasicMap);
 
+        List<int> tempBlue = new List<int>();
+        tempBlue.AddRange(PieceBlueCoord);
+
+        List<int> tempRed = new List<int>();
+        tempRed.AddRange(PieceRedCoord);
+
+
         for (int i = 0; i < 64; i++)
         {
             if(i >= 0 && i < 7) // right
             {
                 BasicMap[i + 1] = tempList[i];
+                MovePiece(i, i + 1);
+
             }
             else if(i % 8 == 0 && i != 0) // up
             {
                 BasicMap[i - 8] = tempList[i];
+                MovePiece(i, i - 8);
             }
             else if(i > 56 && i <= 63) // left
             {
                 BasicMap[i - 1] = tempList[i];
+                MovePiece(i, i - 1);
             }
             else if (i % 8 == 7 && i != 63) // down
             {
                 BasicMap[i + 8] = tempList[i];
+                MovePiece(i, i + 8);
             }
         }
 
         AfterSetMap();
 
+    }
+
+    public void MovePiece(int from, int to)
+    {
+        if (PieceBlueCoord.Contains(from))
+        {
+            PieceBlueCoord.Remove(from);
+            PieceBlueCoord.Add(to);
+        }
+        else if (PieceRedCoord.Contains(from))
+        {
+            Debug.Log("movePi from to ->" + from + ", " + to);
+            PieceRedCoord.Remove(from);
+            PieceRedCoord.Add(to);
+        }
     }
 
     public void UroborosInMap() // 반시계방향
@@ -1317,18 +2535,22 @@ public class BoardManager : MonoBehaviour {
             if (i >= 49 && i < 54) // right
             {
                 BasicMap[i + 1] = tempList[i];
+                MovePiece(i, i + 1);
             }
             else if (i % 8 == 6 && i != 6 && i != 14 && i != 62) // up
             {
                 BasicMap[i - 8] = tempList[i];
+                MovePiece(i, i - 8);
             }
             else if (i > 9 && i <= 14) // left
             {
                 BasicMap[i - 1] = tempList[i];
+                MovePiece(i, i - 1);
             }
             else if (i % 8 == 1 && i != 49 && i != 57 && i != 1) // down
             {
                 BasicMap[i + 8] = tempList[i];
+                MovePiece(i, i + 8);
             }
         }
 
