@@ -27,7 +27,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (boardManager.GetComponent<BoardManager>().CurPiece != null && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Empty") && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Block") && !boardManager.GetComponent<BoardManager>().CR_update)
+        if (boardManager.GetComponent<BoardManager>().CurPiece != null && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Empty") && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Block") && !boardManager.GetComponent<BoardManager>().CR_update && !gameObject.transform.GetComponent<Image>().sprite.name.Contains("Land"))
         {
             Debug.Log("Board onClick!!  -> " + RemoveAlpha(gameObject.name));
             if (boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Image>().sprite.name.Contains("White"))
