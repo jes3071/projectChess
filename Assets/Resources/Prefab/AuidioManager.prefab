@@ -262,11 +262,14 @@ MonoBehaviour:
   ChessPiece_Horse: {fileID: 8300000, guid: a2c0a5cfdea435245aa150b412401790, type: 3}
   ChessPiece_Pawn: {fileID: 8300000, guid: 524f1a6beb20c3541bf0ea8700b8fd1f, type: 3}
   ChessPiece_Rook: {fileID: 8300000, guid: d728b8061cc07d54a9d4bc992dcd486d, type: 3}
+  ChessPiece_Queen: {fileID: 8300000, guid: 9b9730f652745aa48879dd0bf1b17c01, type: 3}
+  ChessPiece_King: {fileID: 8300000, guid: a3845ce0398a769468eb98b68edd3126, type: 3}
   Flash: {fileID: 8300000, guid: 4f038c1e4874cb94e8ffd7cfffed8c7f, type: 3}
   GameResult: {fileID: 8300000, guid: 00e84d5b0c23737468f47c7a8b8cced2, type: 3}
   Menu_Back: {fileID: 8300000, guid: 434a145c3a3cc324882d31e821d0522d, type: 3}
   Menu_Select: {fileID: 8300000, guid: 261de48c55d97e64cbc9fcfdfafd93ad, type: 3}
   Menu_Start: {fileID: 8300000, guid: 633f057941bedd3439da6aecbe342f4f, type: 3}
+  Gimmick: {fileID: 0}
   audioSource: {fileID: 82679976931664138}
 --- !u!224 &224564110669706356
 RectTransform:

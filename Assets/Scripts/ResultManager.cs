@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class ResultManager : MonoBehaviour {
 
     public GameObject BlueNum;
     public GameObject RedNum;
+
+    public GameObject BlueTotal;
+    public GameObject RedTotal;
 
     public GameObject BluePiece;
     public GameObject RedPiece;
@@ -89,6 +93,16 @@ public class ResultManager : MonoBehaviour {
 
             BluePiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointBlue.GetComponent<Text>().text; // bdManager.PieceBlueCoord.Count.ToString();
             RedPiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointRed.GetComponent<Text>().text; // bdManager.PieceRedCoord.Count.ToString();
+
+            int blueTotal = bdManager.BlueCoord.Count + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text);
+            int redTotal = bdManager.RedCoord.Count + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text);
+
+            BlueTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.BlueCoord.Count.ToString() + 
+                " + " + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text) + 
+                " = <B><size=60><color=#0077D7FF>"+ blueTotal + "</color></size></B>";
+            RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
+                " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
+                " = <B><size=60><color=##9E0000FF>" + redTotal + "</color></size></B>";
         }
     }
     public void CanNotPlayText()
@@ -110,6 +124,11 @@ public class ResultManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public int RemoveAlpha(string str)
+    {
+        return int.Parse(Regex.Replace(str, @"\D", ""));
+    }
 
 
 }

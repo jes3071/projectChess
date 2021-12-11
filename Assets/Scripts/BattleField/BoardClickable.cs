@@ -85,7 +85,7 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
                 }
 
             }
-
+            boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Animator>().SetBool("Normal", true);
             //boardManager.GetComponent<BoardManager>().CurPiece = null;
         }
     }

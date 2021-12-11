@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip ChessPiece_Horse;
     public AudioClip ChessPiece_Pawn;
     public AudioClip ChessPiece_Rook;
+    public AudioClip ChessPiece_Queen;
+    public AudioClip ChessPiece_King;
     public AudioClip Flash;
     public AudioClip GameResult;
     public AudioClip Menu_Back;
@@ -54,12 +56,12 @@ public class AudioManager : MonoBehaviour {
 
     public void QueenSound()
     {
-        //audioSource.PlayOneShot();
+        audioSource.PlayOneShot(ChessPiece_Queen);
     }
 
     public void KingSound()
     {
-        //audioSource.PlayOneShot(ChessPiece_Horse);
+        audioSource.PlayOneShot(ChessPiece_King);
     }
 
     public void ResultSound()

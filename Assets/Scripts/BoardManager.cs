@@ -35,8 +35,9 @@ public class BoardManager : MonoBehaviour {
     private int Knight = 3;
     private int Bishop = 4;
     private int Queen = 5;
-    private int King = 6;
-    private int Prince = 7;
+    private int Prince = 6;
+    private int King = 7;
+    
     private int Apearance = 10;
 
     public List<int> PieceBlueCoord;
@@ -82,6 +83,7 @@ public class BoardManager : MonoBehaviour {
         if(isActiveAndEnabled)
         {
             StartCoroutine(timerCoroutine);
+            
         }
     }
 
@@ -103,7 +105,8 @@ public class BoardManager : MonoBehaviour {
 
         float offset = (target - current) / duration;
 
-        if(curTurn == BLUE_TURN)
+
+        if (curTurn == BLUE_TURN)
         {
             while (current > target)
             {
@@ -129,17 +132,22 @@ public class BoardManager : MonoBehaviour {
         }
 
         turnChange = true;
-        if(CurPiece != null)
-        {
-            CurPiece.GetComponent<Image>().raycastTarget = false;
-            CurPiece = null;
-        }
         
-        Invoke("SquareInitialize", 1);
+        SquareInitialize();
 
         turnCount++;
 
         StopTimer();
+
+        if (CurPiece != null)
+        {
+            CurPiece.GetComponent<Animator>().SetBool("Normal", true);
+            CurPiece.GetComponent<Image>().raycastTarget = false;
+            CurPiece = null;
+        }
+
+        //기물 파괴
+        PieceDestroy();
 
         if (curTurn == BLUE_TURN)
         {
@@ -156,17 +164,121 @@ public class BoardManager : MonoBehaviour {
             TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         }
 
+        
+        
         StartTimer();
         CR_update = false;
     }
-    
+
+    public void PieceDestroy()
+    {
+        if(curTurn == BLUE_TURN)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Pawn" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Queen0").gameObject))
+            {
+                return;
+            }
+            if (DestryCheckBlue(GameObject.Find("PlayerStateBoard/PieceList").transform.Find("Prince0").gameObject))
+            {
+                return;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Pawn" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Rook" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Knight" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Bishop" + i.ToString()).gameObject))
+                {
+                    return;
+                }
+            }
+            if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Queen0").gameObject))
+            {
+                return;
+            }
+            if (DestryCheckRed(GameObject.Find("EnemyStateBoard/PieceList").transform.Find("Prince0").gameObject))
+            {
+                return;
+            }
+        }
+    }
+
+    public bool DestryCheckBlue(GameObject obj)
+    {
+        if (!obj.GetComponent<Image>().sprite.name.Contains("Used"))
+        {
+            obj.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(obj.name));
+            return true;
+        }
+        return false;
+    }
+
+    public bool DestryCheckRed(GameObject obj)
+    {
+        if (!obj.GetComponent<Image>().sprite.name.Contains("Used"))
+        {
+            obj.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(obj.name));
+            return true;
+        }
+        return false;
+    }
+
     private void Update()
     {
         
         if (indexInformation != -1 && !CR_update)
         {
             CR_update = true;
-            if(curTurn == BLUE_TURN)
+            if (curTurn == BLUE_TURN)
             {
                 StartCoroutine(UpdateChessBoardBlue());
             }
@@ -174,6 +286,8 @@ public class BoardManager : MonoBehaviour {
             {
                 StartCoroutine(UpdateChessBoardRed());
             }
+            //Invoke("SquareInitialize", 1f);
+            //StartCoroutine(TileInitialize());
             //StartCoroutine(UpdateChessBoard());
         }
         
@@ -598,9 +712,7 @@ public class BoardManager : MonoBehaviour {
                 yield return null;
             }
         }
-
-
-
+        
         turnChange = true;
         CurPiece.GetComponent<Image>().raycastTarget = false;
         CurPiece = null;
@@ -608,13 +720,7 @@ public class BoardManager : MonoBehaviour {
 
         turnCount++;
 
-        if (turnCount == 28) // 막 턴 되면 킹 선택 가능하게 30 4
-        {
-            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
-            BlueKingPiece.GetComponent<Image>().raycastTarget = true;
-            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
-            RedKingPiece.GetComponent<Image>().raycastTarget = true;
-        }
+        KingUnlock();
 
         if (turnCount == 30) // 게임 끝 32
         {
@@ -689,7 +795,6 @@ public class BoardManager : MonoBehaviour {
                 }
             }
         }
-        
 
         turnAnim.SetInteger("AIState", -1);
         curTurn = BLUE_TURN;
@@ -1136,25 +1241,11 @@ public class BoardManager : MonoBehaviour {
         Invoke("SquareInitialize", 1);
 
         turnCount++;
-
-        if (turnCount == 28) // 막 턴 되면 킹 선택 가능하게 30 4
-        {
-            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
-            BlueKingPiece.GetComponent<Image>().raycastTarget = true;
-            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
-            RedKingPiece.GetComponent<Image>().raycastTarget = true;
-        }
-
+        KingUnlock();
+        
         if (turnCount == 30) // 게임 끝
         {
             ResultOpener.Invoke("BattleResult", 2);
-            //ResultOpener.BattleResult();
-            Debug.Log("blue king = " + BlueCoord.Count);
-            Debug.Log("red king = " + RedCoord.Count);
-            //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
-            //Debug.Log("red Piece = " + PieceRedCoord.Count);
-            //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
-            //Debug.Log("red tile = " + mapMaker.RedTile.Count);
         }
 
         StopTimer();
@@ -1223,7 +1314,6 @@ public class BoardManager : MonoBehaviour {
                 }
             }
         }
-        
 
         turnAnim.SetInteger("AIState", 1);
         curTurn = RED_TURN;
@@ -1241,6 +1331,23 @@ public class BoardManager : MonoBehaviour {
             //ResultOpener.Invoke("BattleResult", 2);
             ResultOpener.BattleResult();
         }
+    }
+
+    public void KingUnlock()
+    {
+        if (turnCount == 28)
+        {
+            GameObject BlueKingPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
+            BlueKingPiece.GetComponent<Image>().raycastTarget = true;
+            GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
+            RedKingPiece.GetComponent<Image>().raycastTarget = true;
+            GameObject.Find("UIBattle").GetComponent<Animator>().SetInteger("KingUnlock", 1);
+        }
+    }
+
+    public void KingLock()
+    {
+        GameObject.Find("UIBattle").GetComponent<Animator>().SetInteger("KingUnlock", -1);
     }
 
     public void AreaMapEvent()
@@ -2062,6 +2169,44 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
+    IEnumerator TileInitialize()
+    {
+        for(int i = 0; i < CurIndex.Count; i++)
+        {
+            if (isActiveAndEnabled)
+            {
+                SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", -1);
+                yield return null;
+            }
+        }
+        //for (int i = 0; i < SquareList.Count; i++)
+        //{
+        //    if (isActiveAndEnabled)
+        //    {
+        //        SquareList[i].GetComponent<Animator>().SetInteger("State", -1);
+        //    }
+        //}
+    }
+
+    public void UpdateTileAnim()
+    {
+        if(CurIndex != null)
+        {
+            for (int i = 0; i < CurIndex.Count; i++)
+            {
+                if (isActiveAndEnabled)
+                {
+                    SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", -1);
+                }
+            }
+        }
+        else
+        {
+            SquareInitialize();
+        }
+        
+    }
+
     public void SquareInitialize()
     {
         for(int i = 0; i < SquareList.Count; i++)
@@ -2184,6 +2329,7 @@ public class BoardManager : MonoBehaviour {
         //}
 
         Invoke("StartTimer", 2);
+        KingLock();
 
         PieceReset();
         SetDynamicGrid();
