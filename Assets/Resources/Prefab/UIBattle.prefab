@@ -17714,7 +17714,7 @@ RectTransform:
   m_Children:
   - {fileID: 224606411685805602}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -17805,7 +17805,7 @@ RectTransform:
   m_Children:
   - {fileID: 224296045063819294}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -17950,7 +17950,7 @@ RectTransform:
   m_Children:
   - {fileID: 224273324503590858}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -18337,7 +18337,7 @@ RectTransform:
   m_Children:
   - {fileID: 224770864860524644}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -18669,7 +18669,7 @@ RectTransform:
   m_Children:
   - {fileID: 224530898681764274}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -19393,7 +19393,7 @@ RectTransform:
   m_Children:
   - {fileID: 224350751902982606}
   m_Father: {fileID: 224895778077497330}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -19468,12 +19468,12 @@ RectTransform:
   - {fileID: 224179927479300132}
   - {fileID: 224645680659989514}
   - {fileID: 224176978994131718}
+  - {fileID: 224095052138557970}
+  - {fileID: 224340544606150656}
   - {fileID: 224200013285084146}
   - {fileID: 224838825825733052}
   - {fileID: 224050004185606562}
   - {fileID: 224507770498288510}
-  - {fileID: 224095052138557970}
-  - {fileID: 224340544606150656}
   - {fileID: 224209774926952418}
   - {fileID: 224201797518310502}
   - {fileID: 224466473830026926}
