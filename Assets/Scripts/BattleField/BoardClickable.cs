@@ -86,7 +86,6 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
 
             }
             boardManager.GetComponent<BoardManager>().CurPiece.GetComponent<Animator>().SetBool("Normal", true);
-            //boardManager.GetComponent<BoardManager>().CurPiece = null;
         }
     }
 
@@ -98,7 +97,5 @@ public class BoardClickable : MonoBehaviour , IPointerClickHandler
     public int RemoveAlpha(string str)
     {
         return int.Parse( Regex.Replace(str, @"\D", ""));
-        //Regex.Replace(_body, @"[^0-9]", "");
-
     }
 }

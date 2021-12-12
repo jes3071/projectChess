@@ -116,8 +116,8 @@ public class ResultManager : MonoBehaviour {
             BlueNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.BlueCoord.Count.ToString();
             RedNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.RedCoord.Count.ToString();
 
-            BluePiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointBlue.GetComponent<Text>().text; // bdManager.PieceBlueCoord.Count.ToString();
-            RedPiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointRed.GetComponent<Text>().text; // bdManager.PieceRedCoord.Count.ToString();
+            BluePiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointBlue.GetComponent<Text>().text;
+            RedPiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointRed.GetComponent<Text>().text;
         }
     }
     public void CanNotPlayText()

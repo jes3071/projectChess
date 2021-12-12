@@ -144,7 +144,6 @@ public class BoardManager : MonoBehaviour {
         if (CurPiece != null)
         {
             CurPiece.GetComponent<Animator>().SetBool("Normal", true);
-            //CurPiece.GetComponent<Image>().raycastTarget = false;
             CurPiece = null;
         }
 
@@ -176,8 +175,6 @@ public class BoardManager : MonoBehaviour {
             TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
             TimerTwo.gameObject.GetComponent<Image>().fillAmount = 0f;
         }
-
-        
         
         StartTimer();
         CR_update = false;
@@ -294,14 +291,11 @@ public class BoardManager : MonoBehaviour {
             int randNum = Random.Range(1, mapMaker.BlueTile.Count);
             if (!PieceBlueCoord.Contains(mapMaker.BlueTile[randNum]))
             {
-                Debug.Log("BlueKing = " + mapMaker.BlueTile[randNum]);
                 indexInformation = mapMaker.BlueTile[randNum];
                 BoardClickable.kingBlueCoord = indexInformation;
                 CurPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
                 SquareList[mapMaker.BlueTile[randNum]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(CurPiece.name));
-                //CR_update = false;
                 turnCount--;
-                //StartCoroutine(UpdateChessBoardBlue());
                 break;
             }
         }
@@ -314,14 +308,11 @@ public class BoardManager : MonoBehaviour {
             int randNum = Random.Range(1, mapMaker.RedTile.Count);
             if (!PieceRedCoord.Contains(mapMaker.RedTile[randNum]))
             {
-                Debug.Log("RedKing = " + mapMaker.RedTile[randNum]);
                 indexInformation = mapMaker.RedTile[randNum];
                 BoardClickable.kingRedCoord = indexInformation;
                 CurPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
                 SquareList[mapMaker.RedTile[randNum]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(CurPiece.name));
-                //CR_update = false;
                 turnCount--;
-                //StartCoroutine(UpdateChessBoardRed());
                 break;
             }
         }
@@ -341,9 +332,6 @@ public class BoardManager : MonoBehaviour {
             {
                 StartCoroutine(UpdateChessBoardRed());
             }
-            //Invoke("SquareInitialize", 1f);
-            //StartCoroutine(TileInitialize());
-            //StartCoroutine(UpdateChessBoard());
         }
         
         indexInformation = -1;
@@ -643,7 +631,6 @@ public class BoardManager : MonoBehaviour {
         {
             AudioManager.instance.KingSound();
             CurIndex = new List<int>();
-            Debug.Log("king");
 
             if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
                 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
@@ -773,31 +760,27 @@ public class BoardManager : MonoBehaviour {
         turnChange = true;
         CurPiece.GetComponent<Image>().raycastTarget = false;
         CurPiece = null;
-        Invoke("SquareInitialize", 1);
+        Invoke("UpdateTileAnim", 1);
 
         turnCount++;
-
-        //KingUnlock();
-
+        
         if (turnCount == 30) // 게임 끝 32
         {
             ResultOpener.Invoke("BattleResult", 2);
-            Debug.Log("blue king = " + BlueCoord.Count);
-            Debug.Log("red king = " + RedCoord.Count);
+            StopCoroutine(UpdateChessBoardRed());
         }
-
         
-
         if (mapEventFlag)
         {
             if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
             {
-                if (turnCount == 5)
+                if (turnCount == 5 || turnCount == 15)
                 {
                     turnAnim.SetInteger("MapGimmickState", 2);
                     yield return new WaitForSeconds(2f);
                     turnAnim.SetInteger("MapGimmickState", -1);
-                    for (int i = 0; i < 3; i++)
+                    int randNum = Random.Range(1, 8);
+                    for (int i = 0; i < randNum; i++)
                     {
                         AudioManager.instance.GimmickSound();
                         yield return new WaitForSeconds(0.15f);
@@ -806,12 +789,13 @@ public class BoardManager : MonoBehaviour {
                     
                 }
 
-                if (turnCount == 10)
+                if (turnCount == 10 || turnCount == 20)
                 {
                     turnAnim.SetInteger("MapGimmickState", 2);
                     yield return new WaitForSeconds(2f);
                     turnAnim.SetInteger("MapGimmickState", -1);
-                    for (int i = 0; i < 5; i++)
+                    int randNum = Random.Range(1, 8);
+                    for (int i = 0; i < randNum; i++)
                     {
                         AudioManager.instance.GimmickSound();
                         yield return new WaitForSeconds(0.15f);
@@ -823,7 +807,7 @@ public class BoardManager : MonoBehaviour {
             }
             else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
             {
-                if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+                if (turnCount == 5 || turnCount == 10 || turnCount == 15)
                 {
                     turnAnim.SetInteger("MapGimmickState", 4);
                     yield return new WaitForSeconds(2f);
@@ -833,7 +817,7 @@ public class BoardManager : MonoBehaviour {
             }
             else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
             {
-                if (turnCount == 3 || turnCount == 6)
+                if (turnCount == 5 || turnCount == 15)
                 {
                     turnAnim.SetInteger("MapGimmickState", 5);
                     yield return new WaitForSeconds(2f);
@@ -841,16 +825,16 @@ public class BoardManager : MonoBehaviour {
                     RaidMapEvent();
                 }
             }
-            else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
-            {
-                if (turnCount == 3 || turnCount == 6)
-                {
-                    turnAnim.SetInteger("MapGimmickState", 6);
-                    yield return new WaitForSeconds(2f);
-                    turnAnim.SetInteger("MapGimmickState", -1);
-                    SpaceMapEvent();
-                }
-            }
+            //else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
+            //{
+            //    if (turnCount == 3 || turnCount == 6)
+            //    {
+            //        turnAnim.SetInteger("MapGimmickState", 6);
+            //        yield return new WaitForSeconds(2f);
+            //        turnAnim.SetInteger("MapGimmickState", -1);
+            //        SpaceMapEvent();
+            //    }
+            //}
         }
 
         turnAnim.SetInteger("AIState", -1);
@@ -866,7 +850,6 @@ public class BoardManager : MonoBehaviour {
         if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
         {
             StopTimer();
-            //ResultOpener.Invoke("BattleResult", 2);
             ResultOpener.BattleResult();
         }
     }
@@ -1163,7 +1146,6 @@ public class BoardManager : MonoBehaviour {
         {
             AudioManager.instance.KingSound();
             CurIndex = new List<int>();
-            Debug.Log("king");
 
             if (indexInformation >= 7 && (indexInformation - 7) / 8 == (indexInformation - 8) / 8
                 && SquareList[indexInformation - 7].GetComponent<Image>().sprite.name != "BattleSquareBlock"
@@ -1279,7 +1261,6 @@ public class BoardManager : MonoBehaviour {
         CurPiece.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(CurPiece.name));
         if (CurAnimation == King)
         {
-            Debug.Log("blue");
             BlueCalcul(BoardClickable.kingBlueCoord);
             for (int i = 1; i < BlueCoord.Count; i++)
             {
@@ -1287,7 +1268,6 @@ public class BoardManager : MonoBehaviour {
                 SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                 SquareList[BlueCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
                 yield return null;
-
             }
         }
 
@@ -1296,18 +1276,16 @@ public class BoardManager : MonoBehaviour {
         turnChange = true;
         CurPiece.GetComponent<Image>().raycastTarget = false;
         CurPiece = null;
-        Invoke("SquareInitialize", 1);
+        Invoke("UpdateTileAnim", 1);
 
         turnCount++;
-        //KingUnlock();
         
         if (turnCount == 30) // 게임 끝
         {
             ResultOpener.Invoke("BattleResult", 2);
+            StopCoroutine(UpdateChessBoardBlue());
         }
-
         
-
         if (mapEventFlag)
         {
             if (mapMaker.Map.GetComponent<Text>().text.Equals("우로보로스"))
@@ -1317,7 +1295,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", 2);
                     yield return new WaitForSeconds(2f);
                     turnAnim.SetInteger("MapGimmickState", -1);
-                    for (int i = 0; i < 3; i++)
+                    int randNum = Random.Range(1, 8);
+                    for (int i = 0; i < randNum; i++)
                     {
                         AudioManager.instance.GimmickSound();
                         yield return new WaitForSeconds(0.15f);
@@ -1330,7 +1309,8 @@ public class BoardManager : MonoBehaviour {
                     turnAnim.SetInteger("MapGimmickState", 2);
                     yield return new WaitForSeconds(2f);
                     turnAnim.SetInteger("MapGimmickState", -1);
-                    for (int i = 0; i < 5; i++)
+                    int randNum = Random.Range(1, 8);
+                    for (int i = 0; i < randNum; i++)
                     {
                         AudioManager.instance.GimmickSound();
                         yield return new WaitForSeconds(0.15f);
@@ -1342,7 +1322,7 @@ public class BoardManager : MonoBehaviour {
             }
             else if (mapMaker.Map.GetComponent<Text>().text.Equals("구역"))
             {
-                if (turnCount == 2 || turnCount == 5 || turnCount == 8)
+                if (turnCount == 5 || turnCount == 10 || turnCount == 15)
                 {
                     turnAnim.SetInteger("MapGimmickState", 4);
                     yield return new WaitForSeconds(2f);
@@ -1353,7 +1333,7 @@ public class BoardManager : MonoBehaviour {
             }
             else if (mapMaker.Map.GetComponent<Text>().text.Equals("침입"))
             {
-                if (turnCount == 3 || turnCount == 6)
+                if (turnCount == 5 || turnCount == 15)
                 {
                     turnAnim.SetInteger("MapGimmickState", 5);
                     yield return new WaitForSeconds(2f);
@@ -1361,16 +1341,16 @@ public class BoardManager : MonoBehaviour {
                     RaidMapEvent();
                 }
             }
-            else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
-            {
-                if (turnCount == 3 || turnCount == 6)
-                {
-                    turnAnim.SetInteger("MapGimmickState", 6);
-                    yield return new WaitForSeconds(2f);
-                    turnAnim.SetInteger("MapGimmickState", -1);
-                    SpaceMapEvent();
-                }
-            }
+            //else if (mapMaker.Map.GetComponent<Text>().text.Equals("우주전쟁"))
+            //{
+            //    if (turnCount == 3 || turnCount == 6)
+            //    {
+            //        turnAnim.SetInteger("MapGimmickState", 6);
+            //        yield return new WaitForSeconds(2f);
+            //        turnAnim.SetInteger("MapGimmickState", -1);
+            //        SpaceMapEvent();
+            //    }
+            //}
         }
 
         turnAnim.SetInteger("AIState", 1);
@@ -1386,7 +1366,6 @@ public class BoardManager : MonoBehaviour {
         if (mapMaker.RedTile.Count == 0 || mapMaker.BlueTile.Count == 0 || mapMaker.RedTile.Count == PieceRedCoord.Count || mapMaker.BlueTile.Count == PieceBlueCoord.Count)
         {
             StopTimer();
-            //ResultOpener.Invoke("BattleResult", 2);
             ResultOpener.BattleResult();
         }
     }
@@ -1410,7 +1389,7 @@ public class BoardManager : MonoBehaviour {
 
     public void AreaMapEvent()
     {
-        if(turnCount == 2) // 9
+        if(turnCount == 5) // 9
         {
             // 0 7 56 63
             MakeBlockTile(0);
@@ -1418,7 +1397,7 @@ public class BoardManager : MonoBehaviour {
             MakeBlockTile(56);
             MakeBlockTile(63);
         }
-        else if(turnCount == 5) // 18
+        else if(turnCount == 10) // 18
         {
             // 1 6 8 15 48 55 57 62
             MakeBlockTile(1);
@@ -1430,7 +1409,7 @@ public class BoardManager : MonoBehaviour {
             MakeBlockTile(57);
             MakeBlockTile(62);
         }
-        else if(turnCount == 8) // 27
+        else if(turnCount == 15) // 27
         {
             // 2 5 9 14 16 23 40 47 49 54 58 61
             MakeBlockTile(2);
@@ -1496,7 +1475,7 @@ public class BoardManager : MonoBehaviour {
 
     public void RaidMapEvent()
     {
-        if(turnCount == 3) // 12
+        if(turnCount == 5) // 12
         {
             MakeWhiteTile(4);
             MakeBlockTile(20);
@@ -1506,19 +1485,8 @@ public class BoardManager : MonoBehaviour {
             MakeBlockTile(43);
             MakeWhiteTile(39);
             MakeBlockTile(37);
-            //SquareList[4].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[20].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[24].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[26].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[59].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[43].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[39].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[37].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
         }
-        else if (turnCount == 6) // 24
+        else if (turnCount == 15) // 24
         {
             MakeWhiteTile(12);
             MakeBlockTile(28);
@@ -1528,17 +1496,6 @@ public class BoardManager : MonoBehaviour {
             MakeBlockTile(35);
             MakeWhiteTile(38);
             MakeBlockTile(36);
-            //SquareList[12].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[28].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[25].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[27].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[51].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[35].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
-
-            //SquareList[38].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareWhite");
-            //SquareList[36].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlock");
         }
     }
 
@@ -1992,10 +1949,6 @@ public class BoardManager : MonoBehaviour {
                     SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                     SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
                     yield return null;
-                    //if(mapMaker.BasicMap[CurIndex[i]] != 1)
-                    //{
-                    //    mapMaker.BasicMap[CurIndex[i]] = 1;
-                    //}
                     if (!mapMaker.BlueTile.Contains(CurIndex[i]))
                     {
                         mapMaker.BlueTile.Add(CurIndex[i]);
@@ -2033,10 +1986,6 @@ public class BoardManager : MonoBehaviour {
                     SquareList[CurIndex[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                     SquareList[CurIndex[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
                     yield return null;
-                    //if (mapMaker.BasicMap[CurIndex[i]] != 0)
-                    //{
-                    //    mapMaker.BasicMap[CurIndex[i]] = 0;
-                    //}
                     if (!mapMaker.RedTile.Contains(CurIndex[i]))
                     {
                         mapMaker.RedTile.Add(CurIndex[i]);
@@ -2066,8 +2015,6 @@ public class BoardManager : MonoBehaviour {
                 SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                 SquareList[BlueCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
                 yield return null;
-                //SquareList[BlueCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
-
             }
         }
         else if (curTurn == RED_TURN && CurAnimation == King)
@@ -2080,8 +2027,6 @@ public class BoardManager : MonoBehaviour {
                 SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
                 SquareList[RedCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
                 yield return null;
-                //SquareList[RedCoord[i]].GetComponent<Animator>().SetInteger("State", CurAnimation);
-
             }
         }
 
@@ -2104,13 +2049,6 @@ public class BoardManager : MonoBehaviour {
         if (turnCount == 32) // 게임 끝
         {
             ResultOpener.Invoke("BattleResult", 2);
-            //ResultOpener.BattleResult();
-            Debug.Log("blue king = " + BlueCoord.Count);
-            Debug.Log("red king = " + RedCoord.Count);
-            //Debug.Log("blue Piece = " + PieceBlueCoord.Count);
-            //Debug.Log("red Piece = " + PieceRedCoord.Count);
-            //Debug.Log("blue tile = " + mapMaker.BlueTile.Count);
-            //Debug.Log("red tile = " + mapMaker.RedTile.Count);
         }
 
         StopTimer();
@@ -2237,13 +2175,6 @@ public class BoardManager : MonoBehaviour {
                 yield return null;
             }
         }
-        //for (int i = 0; i < SquareList.Count; i++)
-        //{
-        //    if (isActiveAndEnabled)
-        //    {
-        //        SquareList[i].GetComponent<Animator>().SetInteger("State", -1);
-        //    }
-        //}
     }
 
     public void UpdateTileAnim()
@@ -2330,13 +2261,9 @@ public class BoardManager : MonoBehaviour {
             imageObject.transform.localScale = Vector3.one;
             imageObject.transform.position = transform.position;
             imageObject.name = "child" + (i);
-            //imageObject.GetComponent<Animator>().SetInteger("State", 10);
             imageObject.GetComponent<Animator>().SetInteger("State", 11); // ready to appear state
 
             SquareList.Add(imageObject);
-            
-            
-            //imageObject.
         }
         
         
@@ -2359,9 +2286,6 @@ public class BoardManager : MonoBehaviour {
         BlueKingPiece.GetComponent<Image>().raycastTarget = false;
         GameObject RedKingPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
         RedKingPiece.GetComponent<Image>().raycastTarget = false;
-
-        //SetDynamicGrid();
-        //StartCoroutine("SetTile");
     }
 
     private void OnEnable()
@@ -2378,13 +2302,6 @@ public class BoardManager : MonoBehaviour {
 
         BlueCoord = new List<int>();
         RedCoord = new List<int>();
-        
-        //if (gameObject.transform.childCount > 0)
-        //{
-        //    TileColoring();
-        //    PieceReset();
-        //    Invoke("SquareInitialize", 1);
-        //}
 
         Invoke("StartTimer", 2);
         KingLock();
@@ -2605,7 +2522,6 @@ public class BoardManager : MonoBehaviour {
         for (int k = 0; k < 64; k++)
         {
             BasicMap.Add(-1);
-            //Debug.Log("string = " + SquareList[k].GetComponent<Image>().sprite.ToString());
             switch (SquareList[k].GetComponent<Image>().sprite.name)
             {
                 case "BattleSquareRed":
@@ -2792,16 +2708,11 @@ public class BoardManager : MonoBehaviour {
         {
             tempBlue.Remove(from);
             tempBlue.Add(to);
-            //PieceBlueCoord.Remove(from);
-            //PieceBlueCoord.Add(to);
         }
         else if (PieceRedCoord.Contains(from))
         {
             tempRed.Remove(from);
             tempRed.Add(to);
-            //Debug.Log("movePi from to ->" + from + ", " + to);
-            //PieceRedCoord.Remove(from);
-            //PieceRedCoord.Add(to);
         }
     }
 
