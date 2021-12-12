@@ -102,7 +102,7 @@ public class ResultManager : MonoBehaviour {
                 " = <B><size=60><color=#0077D7FF>"+ blueTotal + "</color></size></B>";
             RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
                 " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
-                " = <B><size=60><color=##9E0000FF>" + redTotal + "</color></size></B>";
+                " = <B><size=60><color=#9E0000FF>" + redTotal + "</color></size></B>";
         }
     }
     public void CanNotPlayText()

@@ -26,7 +26,7 @@ public class BoardManager : MonoBehaviour {
 
     private int RedChange;
     private int BlueChange;
-    private int turnCount;
+    public int turnCount;
 
     public BtnEvent ResultOpener;
 
@@ -142,15 +142,21 @@ public class BoardManager : MonoBehaviour {
         if (CurPiece != null)
         {
             CurPiece.GetComponent<Animator>().SetBool("Normal", true);
-            CurPiece.GetComponent<Image>().raycastTarget = false;
+            //CurPiece.GetComponent<Image>().raycastTarget = false;
             CurPiece = null;
         }
 
         //기물 파괴
         PieceDestroy();
 
+
         if (curTurn == BLUE_TURN)
         {
+            if (turnCount > 28)
+            {
+                BlueKingTimeOver();
+                yield return new WaitForSeconds(2f);
+            }
             turnAnim.SetInteger("AIState", 1);
             curTurn = RED_TURN;
             TimerOne.gameObject.GetComponent<Image>().fillAmount = 0f;
@@ -158,6 +164,11 @@ public class BoardManager : MonoBehaviour {
         }
         else if (curTurn == RED_TURN)
         {
+            if (turnCount > 28)
+            {
+                RedKingTimeOver();
+                yield return new WaitForSeconds(2f);
+            }
             turnAnim.SetInteger("AIState", -1);
             curTurn = BLUE_TURN;
             TimerOne.gameObject.GetComponent<Image>().fillAmount = 1f;
@@ -272,6 +283,46 @@ public class BoardManager : MonoBehaviour {
         return false;
     }
 
+    public void BlueKingTimeOver()
+    {
+        while (true)
+        {
+            int randNum = Random.Range(1, mapMaker.BlueTile.Count);
+            if (!PieceBlueCoord.Contains(mapMaker.BlueTile[randNum]))
+            {
+                Debug.Log("BlueKing = " + mapMaker.BlueTile[randNum]);
+                indexInformation = mapMaker.BlueTile[randNum];
+                BoardClickable.kingBlueCoord = indexInformation;
+                CurPiece = GameObject.Find("PlayerStateBoard/PieceList").transform.Find("King0").gameObject;
+                SquareList[mapMaker.BlueTile[randNum]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareBlueStemp" + RemoveNumber(CurPiece.name));
+                //CR_update = false;
+                turnCount--;
+                //StartCoroutine(UpdateChessBoardBlue());
+                break;
+            }
+        }
+    }
+
+    public void RedKingTimeOver()
+    {
+        while (true)
+        {
+            int randNum = Random.Range(1, mapMaker.RedTile.Count);
+            if (!PieceRedCoord.Contains(mapMaker.RedTile[randNum]))
+            {
+                Debug.Log("RedKing = " + mapMaker.RedTile[randNum]);
+                indexInformation = mapMaker.RedTile[randNum];
+                BoardClickable.kingRedCoord = indexInformation;
+                CurPiece = GameObject.Find("EnemyStateBoard/PieceList").transform.Find("King0").gameObject;
+                SquareList[mapMaker.RedTile[randNum]].GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/BattleSquareRedStemp" + RemoveNumber(CurPiece.name));
+                //CR_update = false;
+                turnCount--;
+                //StartCoroutine(UpdateChessBoardRed());
+                break;
+            }
+        }
+    }
+
     private void Update()
     {
         
@@ -297,6 +348,7 @@ public class BoardManager : MonoBehaviour {
     IEnumerator UpdateChessBoardRed()
     {
         AudioManager.instance.BaseSound();
+        StopTimer();
 
         if (CurPiece.name.Contains("Pawn"))
         {
@@ -729,7 +781,7 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("red king = " + RedCoord.Count);
         }
 
-        StopTimer();
+        
 
         if (mapEventFlag)
         {
@@ -816,6 +868,7 @@ public class BoardManager : MonoBehaviour {
     IEnumerator UpdateChessBoardBlue()
     {
         AudioManager.instance.BaseSound();
+        StopTimer();
 
         if (CurPiece.name.Contains("Pawn"))
         {
@@ -1248,7 +1301,7 @@ public class BoardManager : MonoBehaviour {
             ResultOpener.Invoke("BattleResult", 2);
         }
 
-        StopTimer();
+        
 
         if (mapEventFlag)
         {

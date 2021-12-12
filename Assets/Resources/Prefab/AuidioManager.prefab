@@ -269,7 +269,7 @@ MonoBehaviour:
   Menu_Back: {fileID: 8300000, guid: 434a145c3a3cc324882d31e821d0522d, type: 3}
   Menu_Select: {fileID: 8300000, guid: 261de48c55d97e64cbc9fcfdfafd93ad, type: 3}
   Menu_Start: {fileID: 8300000, guid: 633f057941bedd3439da6aecbe342f4f, type: 3}
-  Gimmick: {fileID: 0}
+  Gimmick: {fileID: 8300000, guid: 46cc0a5136e749d4f9e6cfa9bb8ffa5d, type: 3}
   audioSource: {fileID: 82679976931664138}
 --- !u!224 &224564110669706356
 RectTransform:
