@@ -105,6 +105,8 @@ public class BoardManager : MonoBehaviour {
 
         float offset = (target - current) / duration;
 
+        KingUnlock();
+
 
         if (curTurn == BLUE_TURN)
         {
@@ -155,7 +157,7 @@ public class BoardManager : MonoBehaviour {
             if (turnCount > 28)
             {
                 BlueKingTimeOver();
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
             }
             turnAnim.SetInteger("AIState", 1);
             curTurn = RED_TURN;
@@ -167,7 +169,7 @@ public class BoardManager : MonoBehaviour {
             if (turnCount > 28)
             {
                 RedKingTimeOver();
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
             }
             turnAnim.SetInteger("AIState", -1);
             curTurn = BLUE_TURN;
@@ -268,6 +270,7 @@ public class BoardManager : MonoBehaviour {
         if (!obj.GetComponent<Image>().sprite.name.Contains("Used"))
         {
             obj.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedWhite" + RemoveNumber(obj.name));
+            obj.GetComponent<Image>().raycastTarget = false;
             return true;
         }
         return false;
@@ -278,6 +281,7 @@ public class BoardManager : MonoBehaviour {
         if (!obj.GetComponent<Image>().sprite.name.Contains("Used"))
         {
             obj.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChessPiece/UsedBlack" + RemoveNumber(obj.name));
+            obj.GetComponent<Image>().raycastTarget = false;
             return true;
         }
         return false;
@@ -763,6 +767,7 @@ public class BoardManager : MonoBehaviour {
                 SquareList[RedCoord[i]].transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
                 yield return null;
             }
+            
         }
         
         turnChange = true;
@@ -772,7 +777,7 @@ public class BoardManager : MonoBehaviour {
 
         turnCount++;
 
-        KingUnlock();
+        //KingUnlock();
 
         if (turnCount == 30) // 게임 끝 32
         {
@@ -1294,7 +1299,7 @@ public class BoardManager : MonoBehaviour {
         Invoke("SquareInitialize", 1);
 
         turnCount++;
-        KingUnlock();
+        //KingUnlock();
         
         if (turnCount == 30) // 게임 끝
         {

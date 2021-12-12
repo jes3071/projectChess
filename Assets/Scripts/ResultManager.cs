@@ -53,7 +53,11 @@ public class ResultManager : MonoBehaviour {
         }
         else
         {
-            if (bdManager.BlueCoord.Count > bdManager.RedCoord.Count)
+
+            int blueTotal = bdManager.BlueCoord.Count + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text);
+            int redTotal = bdManager.RedCoord.Count + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text);
+
+            if (blueTotal > redTotal)
             {
                 BlueText.GetComponent<Text>().text = "승리";
                 RedText.GetComponent<Text>().text = "패배";
@@ -63,8 +67,15 @@ public class ResultManager : MonoBehaviour {
 
                 BlueText.GetComponent<Text>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
                 RedText.GetComponent<Text>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
+
+                BlueTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.BlueCoord.Count.ToString() +
+                " + " + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text) +
+                " = <B><size=60><color=#0077D7FF>" + blueTotal + "</color></size></B>";
+                RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
+                    " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
+                    " = <B><size=60><color=#9E0000FF>" + redTotal + "</color></size></B>";
             }
-            else if (bdManager.BlueCoord.Count < bdManager.RedCoord.Count)
+            else if (blueTotal < redTotal)
             {
                 BlueText.GetComponent<Text>().text = "패배";
                 RedText.GetComponent<Text>().text = "승리";
@@ -74,6 +85,13 @@ public class ResultManager : MonoBehaviour {
 
                 BlueText.GetComponent<Text>().color = new Color(158 / 255f, 0 / 255f, 0 / 255f);
                 RedText.GetComponent<Text>().color = new Color(0 / 255f, 119 / 255f, 215 / 255f);
+
+                BlueTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.BlueCoord.Count.ToString() +
+                " + " + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text) +
+                " = <B><size=60><color=#9E0000FF>" + blueTotal + "</color></size></B>";
+                RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
+                    " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
+                    " = <B><size=60><color=#0077D7FF>" + redTotal + "</color></size></B>";
             }
             else
             {
@@ -86,6 +104,13 @@ public class ResultManager : MonoBehaviour {
 
                 BlueText.GetComponent<Text>().color = Color.white;
                 RedText.GetComponent<Text>().color = Color.white;
+
+                BlueTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.BlueCoord.Count.ToString() +
+                " + " + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text) +
+                " = <B><size=60><color=#FFFFFFFF>" + blueTotal + "</color></size></B>";
+                RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
+                    " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
+                    " = <B><size=60><color=#FFFFFFFF>" + redTotal + "</color></size></B>";
             }
 
             BlueNum.GetComponent<Text>().text = "차지한 영토 : " + bdManager.BlueCoord.Count.ToString();
@@ -93,16 +118,6 @@ public class ResultManager : MonoBehaviour {
 
             BluePiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointBlue.GetComponent<Text>().text; // bdManager.PieceBlueCoord.Count.ToString();
             RedPiece.GetComponent<Text>().text = "포획한 기물 : " + ppCounting.GetPiecePointRed.GetComponent<Text>().text; // bdManager.PieceRedCoord.Count.ToString();
-
-            int blueTotal = bdManager.BlueCoord.Count + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text);
-            int redTotal = bdManager.RedCoord.Count + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text);
-
-            BlueTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.BlueCoord.Count.ToString() + 
-                " + " + RemoveAlpha(ppCounting.GetPiecePointBlue.GetComponent<Text>().text) + 
-                " = <B><size=60><color=#0077D7FF>"+ blueTotal + "</color></size></B>";
-            RedTotal.GetComponent<Text>().text = "총 점수 : " + bdManager.RedCoord.Count.ToString() +
-                " + " + RemoveAlpha(ppCounting.GetPiecePointRed.GetComponent<Text>().text) +
-                " = <B><size=60><color=#9E0000FF>" + redTotal + "</color></size></B>";
         }
     }
     public void CanNotPlayText()
