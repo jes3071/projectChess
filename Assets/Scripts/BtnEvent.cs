@@ -11,6 +11,14 @@ public class BtnEvent : MonoBehaviour {
     public GameObject UICredit;
     public GameObject UIPause;
 
+    public GameObject UITutorial;
+    private int MinTutorialNum = 0;
+    private int MaxTutorialNum = 4;
+
+    private int TutorialState = 0;
+
+    public Animator RotateTutorial;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -18,8 +26,8 @@ public class BtnEvent : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -73,6 +81,40 @@ public class BtnEvent : MonoBehaviour {
         AudioManager.instance.BackSound();
         UILobby.SetActive(true);
         UICredit.SetActive(false);
+    }
+
+    public void TutorialButton()
+    {
+        // 로비에서 튜토리얼 버튼 클릭시
+        AudioManager.instance.SelectSound();
+        UITutorial.SetActive(true);
+        RotateTutorial.SetInteger("TutorialState", MinTutorialNum);
+    }
+
+    public void TutorialToLobby()
+    {
+        // 튜토리얼 화면에서 나가기 버튼 클릭시
+        AudioManager.instance.BackSound();
+        UITutorial.SetActive(false);
+    }
+
+    public void TutorialNextButton()
+    {
+        AudioManager.instance.SelectSound();
+        TutorialState++;
+        if (TutorialState > MaxTutorialNum)
+            TutorialState = MinTutorialNum;
+        RotateTutorial.SetInteger("TutorialState", TutorialState);
+    }
+
+    public void TutorialPrevButton()
+    {
+        AudioManager.instance.SelectSound();
+        TutorialState--;
+        if (TutorialState < MinTutorialNum)
+            TutorialState = MaxTutorialNum;
+        RotateTutorial.SetInteger("TutorialState", TutorialState);
+
     }
 
     public void QuitButton()
